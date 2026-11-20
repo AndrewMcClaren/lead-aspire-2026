@@ -10,8 +10,9 @@ problema, se construye una solución con IA de Microsoft y se presenta.
 |---|---|
 | [`docs/LEAD_ASPIRE_Bogota.md`](docs/LEAD_ASPIRE_Bogota.md) | Qué se sabe del evento, plan del día, preguntas al cliente, pitch, roles y **plan día por día hasta el 27** |
 | [`docs/MICROSOFT_PARA_ESTUDIANTES.md`](docs/MICROSOFT_PARA_ESTUDIANTES.md) | Herramientas de Microsoft con correo institucional, límites, cómo probarlas y **lista de chequeo por integrante** |
+| [`docs/ESCENARIOS.md`](docs/ESCENARIOS.md) | **Ocho tipos de cliente probables** y qué demo armar en cada uno, incluidos los casos donde el kit no aplica |
 | [`docs/INFRAESTRUCTURA.md`](docs/INFRAESTRUCTURA.md) | Las capas del kit área por área, cómo mostrarlas en 60 segundos, su relación con OWASP, NIST e ISO, y sus límites |
-| [`plantillas/`](plantillas) | Para el día: entrevista, lienzo del problema, pitch, preguntas del jurado, lista de IA responsable y cómo adaptar el kit |
+| [`plantillas/`](plantillas) | Para el día: entrevista, lienzo del problema, pitch, preguntas del jurado, lista de IA responsable, cómo adaptar el kit y **tres casos de simulacro** |
 | [`kit/`](kit) | La demo lista para adaptar (abajo) |
 | [`respaldo/`](respaldo) | Material de referencia: los datos del DANE (demo de respaldo) y el análisis de los 18 proyectos de DefAcc |
 

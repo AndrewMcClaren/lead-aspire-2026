@@ -61,6 +61,9 @@ sale de sus propios datos, y lo delicado lo aprueba alguien"**.
 | Demo con plan B: video grabado y versión que corre sin internet | La red del evento falla |
 | Mostrar en vivo que la IA dice "no sé" en vez de inventar | Genera más confianza que una respuesta perfecta |
 
+> **Si el caso del cliente no se parece a Nueva York:** `docs/ESCENARIOS.md` dice qué demo armar según el tipo
+> de problema, incluidos los casos donde el kit no aplica.
+
 ## Plan del día (10:00 a 17:00)
 
 | Hora | Fase | Qué hacer | Entregable |
@@ -116,7 +119,7 @@ integrante están en **[MICROSOFT_PARA_ESTUDIANTES.md](MICROSOFT_PARA_ESTUDIANTE
 | **Sáb 22** | En la cuenta con cuota: Azure OpenAI, Speech F0 y Content Safety F0. Correr `python -m kit.verificar --modelo azure:<deployment> --escudo --voz`. Si Azure OpenAI no despliega, pedir cuota y probar otra región o la cuenta de otro integrante. | Las tres pruebas en OK |
 | **Dom 23** | Conectar el **kit de demo** (`kit/`) a Azure: modelo, voz y Prompt Shields. Ensayar el recorrido de 60 segundos de `docs/INFRAESTRUCTURA.md`. Correr `python -m kit.medir --modelo azure:<deployment>` para tener la primera tabla con modelo real. Probar el conector en Power Automate o el MCP en VS Code. Practicar `plantillas/adaptar_el_kit.md` con otros datos (por ejemplo `respaldo/dane`). | La demo corre con Azure, hay una tabla de medición y el kit se adapta a otros datos en 30 minutos |
 | **Lun 24** | Networking de LEAD y Microsoft. Preguntar a quienes ya participaron qué esperan los clientes, qué herramientas se dan ese día y cuánto dura el pitch. | Tres respuestas anotadas |
-| **Mar 25** | **Simulacro completo** de 7 horas con un caso inventado (por ejemplo: "un banco quiere que un agente pague facturas de sus clientes pyme"). Alguien de afuera hace de cliente. Cronometrar cada fase. | Pitch grabado en video |
+| **Mar 25** | **Simulacro completo** de 7 horas con un caso de `plantillas/simulacro.md`. Alguien de afuera hace de cliente con el guion. Cronometrar cada fase. Uno de los ensayos tiene que ser el caso 3, donde el kit no sirve. Repasar `docs/ESCENARIOS.md`. | Pitch grabado en video y la tabla de calificación del simulacro llena |
 | **Mié 26** | Corregir lo que falló en el simulacro. Dejar listas las plantillas de láminas, el guion por criterio y el video de respaldo de la demo. Cargar portátiles y probar el micrófono. | Plantillas en una carpeta compartida |
 | **Jue 27** | Evento | |
 
