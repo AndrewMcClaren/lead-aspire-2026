@@ -1,0 +1,3 @@
+# El kit usa la librería estándar de Python. Solo hace falta esto:
+openai>=1.40     # cliente de Azure OpenAI
+pytest>=8.0      # pruebas

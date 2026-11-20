@@ -1,0 +1,22 @@
+clave,descripcion,valor,unidad,decimales,fuente,sinonimos
+tiendas_total,Número de tiendas de la cadena,38,tiendas,0,Datos sintéticos de ejemplo: no son de una empresa real,cuantas tiendas sedes locales
+empleados_total,Personas que trabajan en la cadena,410,personas,0,Datos sintéticos de ejemplo: no son de una empresa real,cuantos empleados trabajadores
+clientes_activos,Clientes activos en el último año,52340,clientes,0,Datos sintéticos de ejemplo: no son de una empresa real,cuantos clientes compradores
+ventas_total_millones,Ventas totales del último año,4820,millones de pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,cuanto vendio facturo ventas totales
+crecimiento_ventas_pct,Crecimiento de las ventas frente al año anterior,8.9,%,1,Datos sintéticos de ejemplo: no son de una empresa real,cuanto crecieron crecimiento ventas
+ventas_promedio_tienda_millones,Ventas promedio por tienda en el último año,126.8,millones de pesos,1,Datos sintéticos de ejemplo: no son de una empresa real,cuanto vende cada tienda promedio
+ticket_promedio_pesos,Valor promedio de una compra (ticket promedio),45600,pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,gasta cliente compra ticket vale
+pct_ventas_digitales,"% de las ventas hechas por canales digitales (web, app y asistentes de IA)",31.4,%,1,Datos sintéticos de ejemplo: no son de una empresa real,ventas en linea online digitales internet
+pct_ventas_efectivo,% de las ventas pagadas en efectivo,42.5,%,1,Datos sintéticos de ejemplo: no son de una empresa real,efectivo billetes
+compras_agente_ia,Compras hechas por asistentes de IA a nombre de clientes en el último año,3120,compras,0,Datos sintéticos de ejemplo: no son de una empresa real,compras agente agentes ia asistente inteligencia artificial
+pct_devoluciones,% de compras devueltas (todas),4.8,%,1,Datos sintéticos de ejemplo: no son de una empresa real,devoluciones devuelven devuelve devolucion
+pct_devoluciones_agente_ia,% de compras devueltas cuando las hizo un asistente de IA,9.6,%,1,Datos sintéticos de ejemplo: no son de una empresa real,devoluciones devuelven devuelve devolucion agente agentes ia asistente inteligencia artificial
+satisfaccion_clientes_pct,% de clientes satisfechos en la última encuesta,78.5,%,1,Datos sintéticos de ejemplo: no son de una empresa real,satisfaccion contentos satisfechos encuesta
+pct_inventario_agotado,% de productos agotados en un día típico,6.2,%,1,Datos sintéticos de ejemplo: no son de una empresa real,agotados inventario sin existencias
+proveedores_activos,Proveedores activos,214,proveedores,0,Datos sintéticos de ejemplo: no son de una empresa real,cuantos proveedores
+facturas_proveedor_mes,Facturas de proveedores recibidas al mes,1180,facturas,0,Datos sintéticos de ejemplo: no son de una empresa real,cuantas facturas al mes proveedores
+monto_promedio_factura_pesos,Valor promedio de una factura de proveedor,3450000,pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,factura promedio proveedor
+pct_facturas_revision_manual,% de facturas de proveedores que se revisan a mano,22.3,%,1,Datos sintéticos de ejemplo: no son de una empresa real,revision manual a mano facturas
+horas_revision_facturas_mes,Horas al mes dedicadas a revisar facturas a mano,310,horas,0,Datos sintéticos de ejemplo: no son de una empresa real,horas revisar facturas tiempo
+dias_pago_proveedor,Días promedio para pagarle a un proveedor,38,días,0,Datos sintéticos de ejemplo: no son de una empresa real,cuanto se demoran en pagar dias pago proveedores
+intentos_fraude_cambio_cuenta,Intentos de fraude por cambio de cuenta bancaria detectados en el año,7,intentos,0,Datos sintéticos de ejemplo: no son de una empresa real,fraude fraudes cambio de cuenta estafa
