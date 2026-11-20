@@ -173,6 +173,7 @@ integrante están en **[MICROSOFT_PARA_ESTUDIANTES.md](MICROSOFT_PARA_ESTUDIANTE
 - [ ] La demo de respaldo con los datos del DANE (`KIT_DATOS=respaldo/dane`) por si el cliente no da datos a tiempo.
 - [ ] La lista de verificación de IA responsable (`plantillas/checklist_ia_responsable.md`) como lámina de respaldo.
 - [ ] La calculadora de ROI (`plantillas/calculadora_roi.xlsx`) abierta en un portátil, lista para los números del cliente.
+- [ ] La hoja de una página (`plantillas/una_pagina.docx`) lista para llenar hacia las 16:15 y exportar a PDF.
 - [ ] `RUNBOOK.md` impreso o en el celular de cada integrante.
 - [ ] Plantilla de pitch de 6 láminas con la estructura de arriba.
 - [ ] Las preguntas para el cliente impresas o en el celular.

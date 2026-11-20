@@ -14,7 +14,7 @@ problema, se construye una solución con IA de Microsoft y se presenta.
 | [`docs/ESCENARIOS.md`](docs/ESCENARIOS.md) | **Once tipos de cliente probables** y qué demo armar en cada uno, incluidos los casos donde el kit no aplica |
 | [`docs/DESPLIEGUE_AZURE.md`](docs/DESPLIEGUE_AZURE.md) | Cómo poner el kit en Azure con dirección pública para Copilot Studio o Power Automate (no probado) |
 | [`docs/INFRAESTRUCTURA.md`](docs/INFRAESTRUCTURA.md) | Las capas del kit área por área, cómo mostrarlas en 60 segundos, su relación con OWASP, NIST e ISO, y sus límites |
-| [`plantillas/`](plantillas) | Para el día: entrevista, lienzo del problema, pitch, preguntas del jurado, lista de IA responsable, cómo adaptar el kit, **tres casos de simulacro** y un **prompt de auditoría** para que una IA haga de jurado y una **calculadora de ROI** en Excel |
+| [`plantillas/`](plantillas) | Para el día: entrevista, lienzo del problema, pitch, preguntas del jurado, lista de IA responsable, cómo adaptar el kit, **tres casos de simulacro** y un **prompt de auditoría** para que una IA haga de jurado una **calculadora de ROI** en Excel y una **hoja de una página** para el jurado (Word y ejemplo en PDF) |
 | [`kit/`](kit) | La demo lista para adaptar (abajo) |
 | [`respaldo/`](respaldo) | Material de referencia: los datos del DANE (demo de respaldo) y el análisis de los 18 proyectos de DefAcc |
 
