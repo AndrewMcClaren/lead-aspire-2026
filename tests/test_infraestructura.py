@@ -399,7 +399,7 @@ def test_integridad_detecta_datos_alterados(tmp_path, monkeypatch):
 
 def test_casos_incluidos_estan_sellados(monkeypatch):
     from kit import integridad
-    for caso in ("kit/datos", "respaldo/dane"):
+    for caso in ("kit/datos", "respaldo/dane", "casos/presupuesto"):
         monkeypatch.setenv("KIT_DATOS", caso)
         assert integridad.revisar()["estado"] == "integra", caso
 
@@ -498,3 +498,25 @@ def test_comparar_mediciones_detecta_empeoramiento(tmp_path):
     peor = [dict(f) for f in filas]
     peor[0]["ataques_exitosos"] = max(0, peor[0]["ataques_exitosos"] - 1)
     assert not comparar({"filas": filas}, {"filas": peor})[0]
+
+
+# --- Caso de presupuesto: saldo por rubro ---
+
+def test_caso_presupuesto_responde_y_controla_el_saldo(monkeypatch):
+    monkeypatch.setenv("KIT_DATOS", "casos/presupuesto")
+    t = Tabla()
+    r = responder("¿Cuánto queda disponible en Marketing?", Simulado(t), t)
+    assert r["estado"] == "verificada" and "180" in r["texto"]
+    assert responder("¿Cuánto gastó Marketing en Medellín?", Simulado(t), t)["estado"] == "sin_dato"
+    b = Bandeja()
+    pedir = "Aprueba gastar en una campaña de Marketing"
+    assert b.proponer("gasto", "Campaña", 150_000_000, "Marketing", "", pedir, "analista").estado == "pendiente"
+    # Un segundo gasto que junto con el primero supera el saldo (180 millones) se bloquea: no se puede partir en pedazos
+    a = b.proponer("gasto", "Campaña 2", 150_000_000, "Marketing", "", pedir, "analista")
+    assert a.estado == "bloqueada" and "saldo disponible" in a.motivo and "ya comprometidos" in a.motivo
+    assert b.proponer("gasto", "Volantes", 20_000_000, "Marketing", "", pedir, "analista").estado == "pendiente"
+    # Un rubro sin saldo suficiente desde el principio
+    assert b.proponer("gasto", "Camiones", 100_000_000, "Logística", "", "Comprar camiones para Logística").estado == "bloqueada"
+    # La función pura también lo ve
+    estado, motivos = revisar_accion("gasto", 200_000_000, "Marketing", "", pedir)
+    assert estado == "bloqueada" and any("saldo" in m for m in motivos)

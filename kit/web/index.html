@@ -289,6 +289,8 @@ $("#verBitacora").onclick = pintarBitacora;
     <span class="chip">${e.cifras} cifras verificadas</span>${capa("Datos personales ocultos", e.datos_personales)}
     <span class="chip ${e.integridad === "integra" ? "on" : "alerta"}">Datos: ${e.integridad === "integra" ? "sellados" : esc(e.integridad.replace("_", " "))}</span>`;
   pintarSesion(e.sesion);
+  if (e.tipos_accion && e.tipos_accion.length)  // los tipos de acción salen de la política del caso
+    $("#accTipo").innerHTML = e.tipos_accion.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("");
   for (const q of e.sugeridas) {
     const b = document.createElement("button"); b.className = "sec"; b.textContent = q; b.onclick = () => preguntar(q);
     $("#sug").appendChild(b);

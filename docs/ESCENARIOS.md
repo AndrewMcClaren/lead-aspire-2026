@@ -25,6 +25,7 @@ las ~3,5 horas de construcción.
 | Si el problema es… | Demo | Herramientas | ¿Usa el kit? |
 |---|---|---|---|
 | Responder preguntas con datos del cliente (cifras, indicadores) | Asistente con cifras verificadas, con voz | Azure OpenAI, Azure AI Speech | **Sí, tal cual** (`plantillas/adaptar_el_kit.md`) |
+| Presupuesto, gastos o compras con tope (AI Budget Games) | Asistente de presupuesto con cifras verificadas + guardián que no deja pasar un gasto por encima del saldo | Azure OpenAI, Power Automate, Power BI | **Sí, tal cual**: `KIT_DATOS=casos/presupuesto` y `plantillas/budget_games.md` |
 | Una IA que hace cosas (pagar, enviar, cambiar datos) | Asistente + guardián de acciones + aprobación en Teams | Azure OpenAI, Power Automate | **Sí**: guardián, política y datos maestros |
 | Leer documentos largos (manuales, normas, contratos) y responder | Asistente con documentos y citas | Copilot Studio con fuentes de conocimiento, o Azure AI Search + Azure OpenAI | **En parte**: el escudo para documentos externos y la idea de "si no está, no lo digas" |
 | Facturas, formularios o documentos que hay que digitar | Extracción automática + revisión de reglas + aprobación | Azure AI Document Intelligence, Power Automate | **En parte**: el guardián y las reglas de datos maestros |

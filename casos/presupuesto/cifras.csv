@@ -1,0 +1,18 @@
+clave,descripcion,valor,unidad,decimales,fuente,sinonimos
+presupuesto_total_millones,Presupuesto total del año de la empresa (todos los rubros),2400,millones de pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,presupuesto total anual empresa
+ejecutado_total_millones,Presupuesto ejecutado (gastado) en el año hasta la fecha de corte,1820,millones de pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,ejecutado gastado total empresa
+disponible_total_millones,Presupuesto disponible (sin gastar) de toda la empresa,580,millones de pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,disponible queda saldo libre total empresa
+ejecucion_total_pct,Porcentaje del presupuesto total ejecutado,75.8,%,1,Datos sintéticos de ejemplo: no son de una empresa real,porcentaje ejecucion total empresa
+marketing_asignado_millones,Presupuesto asignado a Marketing en el año,600,millones de pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,marketing mercadeo publicidad asignado
+marketing_ejecutado_millones,Gasto ejecutado de Marketing,420,millones de pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,marketing mercadeo publicidad ejecutado gastado
+marketing_disponible_millones,Saldo disponible de Marketing,180,millones de pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,marketing mercadeo publicidad disponible queda saldo libre
+operaciones_asignado_millones,Presupuesto asignado a Operaciones en el año,900,millones de pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,operaciones asignado
+operaciones_ejecutado_millones,Gasto ejecutado de Operaciones,810,millones de pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,operaciones ejecutado gastado
+operaciones_disponible_millones,Saldo disponible de Operaciones,90,millones de pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,operaciones disponible queda saldo libre
+ti_asignado_millones,Presupuesto asignado a Tecnología (TI) en el año,500,millones de pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,ti tecnologia sistemas asignado
+ti_ejecutado_millones,Gasto ejecutado de Tecnología (TI),260,millones de pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,ti tecnologia sistemas ejecutado gastado
+ti_disponible_millones,Saldo disponible de Tecnología (TI),240,millones de pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,ti tecnologia sistemas disponible queda saldo libre
+logistica_asignado_millones,Presupuesto asignado a Logística en el año,400,millones de pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,logistica transporte bodega asignado
+logistica_ejecutado_millones,Gasto ejecutado de Logística,330,millones de pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,logistica transporte bodega ejecutado gastado
+logistica_disponible_millones,Saldo disponible de Logística,70,millones de pesos,0,Datos sintéticos de ejemplo: no son de una empresa real,logistica transporte bodega disponible queda saldo libre
+solicitudes_pendientes,Solicitudes de gasto pendientes de aprobación,14,solicitudes,0,Datos sintéticos de ejemplo: no son de una empresa real,solicitudes pendientes aprobacion

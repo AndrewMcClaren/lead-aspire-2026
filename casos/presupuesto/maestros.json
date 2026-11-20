@@ -1,0 +1,12 @@
+{
+  "nota": "Rubros con su saldo disponible en pesos (ficticios). El guardián no deja pasar un gasto que supere el saldo, ni varios gastos que juntos lo superen. Se actualizan por el proceso de presupuesto, nunca desde un documento.",
+  "fecha_corte": "2026-11-27",
+  "presupuestos": {
+    "Marketing": {"disponible": 180000000},
+    "Operaciones": {"disponible": 90000000},
+    "TI": {"disponible": 240000000},
+    "Tecnología": {"disponible": 240000000},
+    "Logística": {"disponible": 70000000}
+  },
+  "destinos": {}
+}

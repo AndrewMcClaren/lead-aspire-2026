@@ -31,7 +31,7 @@ instrucciones escondidas** y **sin ejecutar solo lo delicado**. Cada área tiene
 | Entrada | Firmas locales en español retiran las oraciones con instrucciones para la IA; luego Prompt Shields y, opcional, un juez LLM con canario. Si un servicio falla, el documento no pasa. |
 | Salida | El modelo cita claves; el código pone cada cifra con su unidad y su fuente. Cifras escritas a mano (en dígitos o palabras) o claves inventadas: "No tengo ese dato verificado". Un canario detecta si intenta revelar sus instrucciones. |
 | Sesión | Al tercer documento con trampa la conversación se detiene: ninguna acción pasa hasta que una persona la revise y la reinicie. |
-| Acciones | Política en archivo (`politica.json`) y datos maestros (`maestros.json`): intención, destino registrado, cuenta, monto pedido, sesión sospechosa, niveles de autonomía y segregación de funciones. |
+| Acciones | Política en archivo (`politica.json`) y datos maestros (`maestros.json`): intención, destino registrado, cuenta, monto pedido, saldo disponible por rubro, sesión sospechosa, niveles de autonomía y segregación de funciones. |
 | Auditoría | Bitácora encadenada por hashes (con firma HMAC opcional) de cada pregunta, acción y decisión. |
 | Integridad | Los datos del caso se sellan con su huella; si alguien cambia una cifra o una cuenta, el servidor y `kit.verificar` avisan. Límite de solicitudes por minuto. |
 | Medición | `kit.medir`: antes y después con el mismo modelo, con intervalos de confianza, latencia, tokens y costo. |
@@ -70,6 +70,7 @@ recorrido, no es inteligencia real y puede escoger mal una cifra.
 | `python -m kit.integridad sellar` | Sella los datos del caso después de cargarlos (`revisar` dice si cambiaron) |
 | `python -m kit.mcp` | Servidor MCP para agentes (ver abajo) |
 | `KIT_DATOS=respaldo/dane python -m kit.servidor` | La demo con otro caso, sin tocar el código |
+| `KIT_DATOS=casos/presupuesto python -m kit.servidor` | El caso de presupuesto por rubros: el guardián bloquea gastos por encima del saldo (para los AI Budget Games) |
 | `python -m pytest -q` | Las pruebas (sin internet; las de Azure simulan el servicio) |
 
 ### Conectarlo a Azure

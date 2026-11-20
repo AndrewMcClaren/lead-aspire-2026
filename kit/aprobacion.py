@@ -10,7 +10,9 @@ resultado solo puede endurecerse (permitida < pendiente < bloqueada):
   3. Destino: ¿está en los datos maestros? Si la cuenta no es la registrada, se bloquea (un cambio de
      cuenta se hace por el proceso formal, nunca porque lo diga un documento). Una cuenta registrada
      hace pocos días pide confirmación.
-  4. Monto: si supera lo que pidió el usuario, se bloquea; si supera el umbral, pide aprobación.
+  4. Monto: si supera lo que pidió el usuario, se bloquea; si supera el umbral, pide aprobación. Si el
+     destino es un rubro con presupuesto (maestros.json, "presupuestos"), el monto más lo ya comprometido en
+     la sesión no puede superar el saldo disponible: así tampoco pasa un gasto partido en pedazos pequeños.
   5. Sesión: si en la conversación se bloqueó o saneó un documento, lo sensible pide aprobación (o se
      bloquea, según la política).
   6. Segregación de funciones: quien pide una acción no puede aprobarla.
@@ -78,7 +80,8 @@ def montos_pedidos(texto: str) -> list[float]:
 
 
 def revisar_accion(tipo: str, monto: float | None = None, destino: str = "", cuenta: str = "", peticion: str = "",
-                   sesion: str = "limpia", politica: dict | None = None, maestros: dict | None = None) -> tuple[str, list[str]]:
+                   sesion: str = "limpia", politica: dict | None = None, maestros: dict | None = None,
+                   comprometido: float = 0) -> tuple[str, list[str]]:
     """Función pura: (estado, motivos). La misma acción con la misma política siempre da lo mismo."""
     pol = politica or cargar_politica()
     maestros = maestros if maestros is not None else cargar_maestros()
@@ -107,14 +110,16 @@ def revisar_accion(tipo: str, monto: float | None = None, destino: str = "", cue
         elif not re.search(patron, _norm_texto(peticion)):
             subir("bloqueada", f"'{tipo}' no corresponde a lo que pidió el usuario")
 
+    presupuestos = {_norm(n): (n, d) for n, d in maestros.get("presupuestos", {}).items()}
+    rubro = presupuestos.get(_norm(destino))
     if tipo in pol["destino_requerido_para"]:
         registros = {_norm(n): d for n, d in maestros.get("destinos", {}).items()}
         registro = registros.get(_norm(destino))
         if not destino:
             subir("pendiente", "La acción no dice a quién va dirigida")
-        elif registro is None:
+        elif registro is None and rubro is None:
             subir("pendiente", f"'{destino}' no está en los datos maestros")
-        else:
+        elif registro is not None:
             registrada = registro.get("cuenta") or registro.get("correo") or ""
             if cuenta and registrada and _norm(cuenta) != _norm(registrada):
                 subir("bloqueada", f"La cuenta no es la registrada para '{destino}': un cambio de cuenta se hace por el "
@@ -123,6 +128,16 @@ def revisar_accion(tipo: str, monto: float | None = None, destino: str = "", cue
             corte = maestros.get("fecha_corte") or date.today().isoformat()
             if desde and (date.fromisoformat(corte) - date.fromisoformat(desde)).days < pol["dias_cuenta_nueva"]:
                 subir("pendiente", f"El destino se registró hace menos de {pol['dias_cuenta_nueva']} días")
+
+    if monto is not None and rubro is not None:
+        nombre, datos_rubro = rubro
+        disponible = float(datos_rubro.get("disponible", 0))
+        libre = disponible - comprometido
+        if monto > libre:
+            fmt = lambda v: f"{v:,.0f}".replace(",", ".")  # noqa: E731
+            detalle = f"; {fmt(comprometido)} ya comprometidos en esta sesión" if comprometido else ""
+            subir("bloqueada", f"El monto ({fmt(monto)}) supera el saldo disponible de '{nombre}' "
+                               f"({fmt(max(0.0, libre))} libres de {fmt(disponible)}{detalle})")
 
     if monto is not None:
         pedidos = montos_pedidos(peticion)
@@ -200,7 +215,10 @@ class Bandeja:
 
     def proponer(self, tipo: str, detalle: str, monto: float | None = None, destino: str = "", cuenta: str = "",
                  peticion: str = "", solicitante: str = "asistente", sesion: str = "limpia") -> Accion:
-        estado, motivos = revisar_accion(tipo, monto, destino, cuenta, peticion, sesion)
+        # Lo ya comprometido con el mismo destino en esta sesión (para el saldo de un rubro con presupuesto)
+        comprometido = sum(a.monto or 0 for a in self.acciones.values()
+                           if _norm(a.destino) == _norm(destino) and a.estado in ("permitida", "pendiente", "aprobada"))
+        estado, motivos = revisar_accion(tipo, monto, destino, cuenta, peticion, sesion, comprometido=comprometido)
         a = Accion(next(self._ids), tipo, detalle, monto, destino, cuenta, peticion, solicitante or "asistente",
                    estado, motivos)
         self.acciones[a.id] = a

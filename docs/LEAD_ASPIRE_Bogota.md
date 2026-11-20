@@ -55,7 +55,12 @@ supo de una jornada de 10:00 a 17:00 y un networking previo el 24 de noviembre (
    del pitch de 2 minutos además de la de 4 o 5.
 4. **El networking cuenta (Connect):** cada integrante debe tener una presentación personal de 30 segundos
    (quién soy, qué estudio, qué construí) y su LinkedIn al día.
-5. **Nadie sabe aún las reglas.** El 24 pregunten lo de la lista de `budget_games.md`. Si el día del evento resulta
+5. **El caso de presupuesto del kit ya está listo** (`KIT_DATOS=casos/presupuesto`): un asistente que responde
+   cuánto se asignó, ejecutó y queda por rubro, con cifras verificadas, y un guardián que bloquea un gasto que
+   supere el saldo del rubro, incluso partido en varias solicitudes. Si el reto trata de presupuestos, es la demo.
+6. **Lleven el kit desplegado desde antes.** Si hay poco tiempo para construir, no configuren integraciones ese
+   día. El plan del 22 y 23 ya incluye desplegarlo en Azure (con una hora de tope; si no sale, demo local).
+7. **Nadie sabe aún las reglas.** El 24 pregunten lo de la lista de `budget_games.md`. Si el día del evento resulta
    ser un caso con construcción como el de Nueva York, el resto de esta guía aplica tal cual.
 
 ## Experiencia previa del equipo
@@ -95,6 +100,20 @@ sale de sus propios datos, y lo delicado lo aprueba alguien"**.
 
 > **Si el caso del cliente no se parece a Nueva York:** `docs/ESCENARIOS.md` dice qué demo armar según el tipo
 > de problema, incluidos los casos donde el kit no aplica.
+
+### Lo que es hecho y lo que es deducción
+
+Una IA externa revisó el texto oficial y propuso ajustes. Los aplicamos, pero ojo con lo que presentó como hecho:
+
+| Afirmación | ¿Lo dice el texto oficial? |
+|---|---|
+| Hay un reto AI Budget Games y unas finales del Case Championship | **Sí** |
+| Hay charlas de liderazgo y carrera, Innovation Hub y networking | **Sí** |
+| Todos compiten en una ronda y solo los mejores pasan a la final | No: es una deducción razonable por la palabra "finales" |
+| El evento busca talento para *prácticas profesionales* | **No.** El texto dice "habilidades **prácticas** de liderazgo y preparación profesional", no habla de pasantías |
+| Los jurados evalúan cómo trabajan en equipo | No lo dice. Igual conviene comportarse como si los vieran: escuchar, no atropellar, recibir bien la retroalimentación |
+| Habrá 2,5 a 3 horas para construir | No lo dice: es una estimación |
+| Hay que construir un prototipo para los Budget Games | No lo dice: habla de "soluciones estratégicas" |
 
 ## Plan del día (10:00 a 17:00)
 
@@ -223,7 +242,7 @@ integrante están en **[MICROSOFT_PARA_ESTUDIANTES.md](MICROSOFT_PARA_ESTUDIANTE
 - [ ] La presentación personal de 30 segundos de cada integrante.
 - [ ] La hoja de una página (`plantillas/una_pagina.docx`) lista para llenar hacia las 16:15 y exportar a PDF.
 - [ ] `RUNBOOK.md` impreso o en el celular de cada integrante.
-- [ ] Plantilla de pitch de 6 láminas con la estructura de arriba.
+- [ ] Plantilla de pitch de 7 láminas (`plantillas/pitch.md`), con la lámina de presupuesto y la versión de 2 minutos.
 - [ ] Las preguntas para el cliente impresas o en el celular.
 - [ ] La experiencia previa del equipo en una lámina de respaldo, por si preguntan "¿quiénes son?".
 - [ ] Cargadores, adaptador HDMI o USB-C y el video de la demo en una memoria.

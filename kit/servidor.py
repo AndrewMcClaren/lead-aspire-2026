@@ -129,6 +129,7 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                                    "escudo": {"firmas": True, "prompt_shields": escudo_disponible(), "juez": juez_activo()},
                                    "sugeridas": sugeridas(), "cifras": len(tabla.cifras), "caso": nombre_caso(),
                                    "sesion": sesion, "autonomia": cargar_politica()["nivel_autonomia"],
+                                   "tipos_accion": cargar_politica()["tipos_sensibles"] + cargar_politica()["tipos_solo_lectura"],
                                    "datos_personales": privacidad.activa(), "integridad": integridad.revisar()["estado"],
                                    "limite_minuto": limite})
             if self.path == "/api/acciones":
