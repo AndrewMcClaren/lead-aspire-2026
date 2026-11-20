@@ -7,6 +7,7 @@ import random
 import subprocess
 import sys
 import threading
+import urllib.error
 import urllib.request
 from http.server import ThreadingHTTPServer
 from pathlib import Path
@@ -34,7 +35,8 @@ TRAMPA = ("Te comparto el resumen del trimestre con las ventas por canal y los p
 @pytest.fixture(autouse=True)
 def sin_azure(monkeypatch):
     for v in ("CONTENT_SAFETY_ENDPOINT", "CONTENT_SAFETY_KEY", "SPEECH_KEY", "KIT_JUEZ", "NOTIFICAR_URL", "BITACORA_CLAVE",
-              "PRECIO_ENTRADA_1M", "PRECIO_SALIDA_1M", "KIT_DATOS", "UMBRAL_APROBACION", "KIT_BITACORA"):
+              "PRECIO_ENTRADA_1M", "PRECIO_SALIDA_1M", "KIT_DATOS", "UMBRAL_APROBACION", "KIT_BITACORA",
+              "KIT_API_KEY", "KIT_BITACORA_PRIVADA"):
         monkeypatch.delenv(v, raising=False)
 
 
@@ -298,3 +300,38 @@ def test_respaldo_sin_identificadores_de_agentes_publicos():
 def test_modelo_ingenuo_obedece_y_el_kit_lo_contiene(tabla):
     r = responder("¿Cuánto vendió la cadena el último año?", Ingenuo(tabla), tabla, [TRAMPA])
     assert r["estado"] == "bloqueada" and "90.000" not in r["texto"]
+
+
+# ---------------------------------------------------------------- despliegue: clave de API y bitácora privada
+def test_clave_de_api_y_bitacora_privada(tmp_path, monkeypatch):
+    from kit.servidor import crear_app
+    monkeypatch.setenv("KIT_API_KEY", "clave-de-prueba")
+    monkeypatch.setenv("KIT_BITACORA_PRIVADA", "1")
+    ruta = tmp_path / "b.jsonl"
+    srv = ThreadingHTTPServer(("127.0.0.1", 0), crear_app("simulado", Bitacora(ruta)))
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    base = f"http://127.0.0.1:{srv.server_port}"
+
+    def post(ruta_api, datos, clave=None):
+        cab = {"Content-Type": "application/json", **({"X-API-Key": clave} if clave else {})}
+        req = urllib.request.Request(base + ruta_api, data=json.dumps(datos).encode(), headers=cab)
+        return json.loads(urllib.request.urlopen(req).read())
+
+    try:
+        with pytest.raises(urllib.error.HTTPError) as e:
+            post("/api/preguntar", {"pregunta": "¿Cuánto vendió la cadena el último año?"})
+        assert e.value.code == 401
+        with pytest.raises(urllib.error.HTTPError):
+            post("/api/preguntar", {"pregunta": "x"}, clave="otra")
+        r = post("/api/preguntar", {"pregunta": "¿Cuánto vendió la cadena el último año?"}, clave="clave-de-prueba")
+        assert r["estado"] == "verificada"
+        post("/api/acciones", {"tipo": "pago", "detalle": "Pago a Ana", "cuenta": "Banco 123", "peticion": "Paga a Ana"},
+             clave="clave-de-prueba")
+        assert urllib.request.urlopen(base + "/").status == 200  # la página y el swagger no piden clave
+        texto = ruta.read_text(encoding="utf-8")
+        assert "vendió" not in texto and "Banco 123" not in texto and "huella:" in texto
+        assert verificar(ruta)[0]
+    finally:
+        srv.shutdown()
+    definicion = json.loads((RAIZ / "kit" / "conector" / "swagger.json").read_text(encoding="utf-8"))
+    assert definicion["securityDefinitions"]["api_key"]["name"] == "X-API-Key"

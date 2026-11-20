@@ -34,7 +34,7 @@ las ~3,5 horas de construcción.
 
 ## Tercero: los casos probables
 
-Los ocho tipos de cliente más probables en un hackatón en Bogotá. Las cifras y problemas son **típicos del
+Los once tipos de cliente más probables en un hackatón en Bogotá. Las cifras y problemas son **típicos del
 sector, no de una empresa real**: el día del evento manda lo que diga el cliente.
 
 ### 1. Banco, cooperativa o fintech
@@ -109,6 +109,36 @@ sector, no de una empresa real**: el día del evento manda lo que diga el client
 - **Demo:** **aquí el kit no es la demo.** Un dashboard en Power BI con segmentos y una propuesta de contenido
   generada con Copilot, con revisión humana antes de publicar y una forma de medir (A/B o antes y después).
 - **Lo que sí se lleva:** mostrar la fuente de cada número y que una persona apruebe lo que se publica.
+
+### 9. Agroindustria y exportación (flores, café, aguacate)
+- **Problemas típicos:** trazabilidad y certificados de pequeños productores que llegan por WhatsApp o en papel;
+  rechazos o demoras en exportación por documentos incompletos.
+- **Preguntas clave:** ¿Cuántos lotes o envíos se rechazan o se demoran al año y cuánto cuesta cada uno? ¿Cómo les
+  llega hoy la información de las fincas? ¿Qué exige el comprador o el país de destino?
+- **Palanca:** gastos (rechazos) o seguridad (cumplimiento).
+- **Demo:** formulario móvil en Power Apps para el inspector en finca, extracción de datos de certificados con AI
+  Builder o Azure AI Document Intelligence, y un tablero en Power BI con alertas por lote. **El kit no es la demo**;
+  del kit se lleva el guardián con reglas (un lote no se aprueba si falta un certificado vigente).
+
+### 10. Telecomunicaciones o servicios públicos (energía, agua, gas)
+- **Problemas típicos:** reclamos por facturas que el usuario no entiende, call centers saturados, clientes que se van.
+- **Preguntas clave:** ¿Cuántos reclamos de facturación tienen al mes y cuánto cuesta atender cada uno? ¿Qué
+  porcentaje termina en un ajuste a favor del usuario? ¿Quién puede aprobar un ajuste?
+- **Palanca:** productividad (atención) e ingresos (retención).
+- **Demo:** **aquí el kit encaja muy bien.** Un asistente que explica por qué subió la factura usando solo los
+  consumos y tarifas verificados del usuario, y que, si detecta un cobro anómalo, propone un ajuste que espera la
+  aprobación de una persona (guardián + Power Automate).
+- **Cuidado:** datos personales y de consumo (Ley 1581 de 2012); en la demo, solo usuarios ficticios.
+
+### 11. Construcción e infraestructura
+- **Problemas típicos:** validación manual de documentos de contratistas (seguridad social, certificados de trabajo
+  en alturas, pólizas) antes de entrar a obra; multas y accidentes si algo vence.
+- **Preguntas clave:** ¿Cuántos contratistas y documentos revisan al mes? ¿Cuánto tarda habilitar a alguien? ¿Qué
+  multas o incidentes han tenido por un documento vencido?
+- **Palanca:** seguridad (cumplimiento) y productividad.
+- **Demo:** flujo en Power Automate que recibe los PDF, extrae fechas y datos (Document Intelligence), el escudo del
+  kit revisa que el documento no traiga instrucciones escondidas, y el guardián habilita el ingreso solo si todo
+  está vigente; si no, va a revisión humana. Una Power App de portería muestra "habilitado / no habilitado".
 
 ## Cuarto: si nada encaja
 

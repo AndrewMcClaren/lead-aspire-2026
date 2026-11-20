@@ -119,6 +119,22 @@ cómo se repartieron.
 
 Nadie trabaja solo en lo suyo todo el día: a las 12:00 y a las 15:30 los cinco revisan juntos la demo y el pitch.
 
+## Arquitectura que le habla a un jurado de Microsoft
+
+El kit en Python es un riesgo si se muestra como el producto y una ventaja si es el **motor de confianza** detrás
+de herramientas de Microsoft:
+
+> **Copilot Studio, Teams o Power Apps** (lo que ve el usuario) → **conector personalizado** → **el kit en Azure**
+> (verifica cifras, documentos y acciones) → **Power Automate** (aprobación humana en Teams).
+
+Para eso hace falta que el kit esté en una dirección pública (`docs/DESPLIEGUE_AZURE.md`) y que dos integrantes
+practiquen antes: un agente simple en Copilot Studio con un documento, un flujo de aprobación en Teams con Power
+Automate y un tablero de tres gráficas en Power BI desde un CSV. Si el caso no necesita el kit, esas tres
+habilidades son la demo.
+
+En el pitch, la parte técnica es una sola lámina; el resto, problema, impacto y demo. Traductor de jerga a lenguaje
+de negocio: `plantillas/preguntas_jurado.md`.
+
 ## Cómo describir la solución en una frase
 
 Sea cual sea el caso, usen este flujo de tres pasos para explicarla (es lo que hacía AlignBuddy y lo que hace el kit):
@@ -142,7 +158,9 @@ integrante están en **[MICROSOFT_PARA_ESTUDIANTES.md](MICROSOFT_PARA_ESTUDIANTE
 |---|---|---|
 | **Jue 20 y vie 21** | Cada integrante activa Azure for Students, Power Apps Developer Plan y GitHub Student Developer Pack, y revisa Copilot Chat. Pedir Copilot Studio a TI de cada universidad. | La tabla de chequeo por integrante está llena |
 | **Sáb 22** | En la cuenta con cuota: Azure OpenAI, Speech F0 y Content Safety F0. Correr `python -m kit.verificar --modelo azure:<deployment> --escudo --voz`. Si Azure OpenAI no despliega, pedir cuota y probar otra región o la cuenta de otro integrante. | Las tres pruebas en OK |
+| **Sáb 22 y dom 23 (prototipado)** | Los dos de prototipo practican en Power Platform: agente en Copilot Studio con un documento, aprobación en Teams con Power Automate, tablero de 3 gráficas en Power BI. Probar el despliegue del kit en Azure (`docs/DESPLIEGUE_AZURE.md`); si en una hora no funciona, quedarse con la demo local. | Las tres prácticas hechas y el kit con dirección pública (o descartado) |
 | **Dom 23** | Conectar el **kit de demo** (`kit/`) a Azure: modelo, voz y Prompt Shields. Ensayar el recorrido de 60 segundos de `docs/INFRAESTRUCTURA.md`. Correr `python -m kit.medir --modelo azure:<deployment>` para tener la primera tabla con modelo real. Probar el conector en Power Automate o el MCP en VS Code. Practicar `plantillas/adaptar_el_kit.md` con otros datos (por ejemplo `respaldo/dane`). | La demo corre con Azure, hay una tabla de medición y el kit se adapta a otros datos en 30 minutos |
+| **Dom 23 (prueba de fuego)** | Alguien que no construyó el kit sigue `RUNBOOK.md` solo, con cronómetro. Lo que no entienda, se corrige en el RUNBOOK. | Lo levanta solo en menos de 20 minutos |
 | **Lun 24** | Networking de LEAD y Microsoft. Preguntar a quienes ya participaron qué esperan los clientes, qué herramientas se dan ese día y cuánto dura el pitch. | Tres respuestas anotadas |
 | **Mar 25** | **Simulacro completo** de 7 horas con un caso de `plantillas/simulacro.md`. Alguien de afuera hace de cliente con el guion. Cronometrar cada fase. Uno de los ensayos tiene que ser el caso 3, donde el kit no sirve. Repasar `docs/ESCENARIOS.md`. | Pitch grabado en video y la tabla de calificación del simulacro llena |
 | **Mié 26** | Corregir lo que falló en el simulacro. Dejar listas las plantillas de láminas, el guion por criterio y el video de respaldo de la demo. Cargar portátiles y probar el micrófono. | Plantillas en una carpeta compartida |
@@ -154,6 +172,8 @@ integrante están en **[MICROSOFT_PARA_ESTUDIANTES.md](MICROSOFT_PARA_ESTUDIANTE
 - [ ] Una versión que corra sin internet (`python -m kit.servidor` en modo simulado, o Ollama) por si falla la red.
 - [ ] La demo de respaldo con los datos del DANE (`KIT_DATOS=respaldo/dane`) por si el cliente no da datos a tiempo.
 - [ ] La lista de verificación de IA responsable (`plantillas/checklist_ia_responsable.md`) como lámina de respaldo.
+- [ ] La calculadora de ROI (`plantillas/calculadora_roi.xlsx`) abierta en un portátil, lista para los números del cliente.
+- [ ] `RUNBOOK.md` impreso o en el celular de cada integrante.
 - [ ] Plantilla de pitch de 6 láminas con la estructura de arriba.
 - [ ] Las preguntas para el cliente impresas o en el celular.
 - [ ] La experiencia previa del equipo en una lámina de respaldo, por si preguntan "¿quiénes son?".

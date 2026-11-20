@@ -7,29 +7,91 @@
   },
   "host": "localhost:8000",
   "basePath": "/",
-  "schemes": ["https", "http"],
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
     "/api/preguntar": {
       "post": {
         "operationId": "Preguntar",
         "summary": "Preguntar con cifras verificadas",
         "description": "Devuelve una respuesta en la que cada cifra sale de la tabla verificada. Si no hay dato, responde 'No tengo ese dato verificado'.",
-        "parameters": [{
-          "name": "body", "in": "body", "required": true,
-          "schema": {"type": "object", "required": ["pregunta"], "properties": {
-            "pregunta": {"type": "string", "description": "La pregunta de la persona", "x-ms-summary": "Pregunta"},
-            "documentos": {"type": "array", "items": {"type": "string"}, "description": "Textos externos opcionales (correos, documentos); pasan por el escudo", "x-ms-summary": "Documentos"}
-          }}
-        }],
-        "responses": {"200": {"description": "Respuesta", "schema": {"type": "object", "properties": {
-          "texto": {"type": "string", "description": "Lo que ve la persona", "x-ms-summary": "Texto"},
-          "estado": {"type": "string", "description": "verificada, sin_dato, bloqueada o error_modelo", "x-ms-summary": "Estado"},
-          "claves": {"type": "array", "items": {"type": "string"}, "x-ms-summary": "Claves de las cifras usadas"},
-          "fuentes": {"type": "array", "items": {"type": "string"}, "x-ms-summary": "Fuentes"},
-          "capas": {"type": "array", "items": {"type": "string"}, "x-ms-summary": "Controles que actuaron"}
-        }}}}
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "pregunta"
+              ],
+              "properties": {
+                "pregunta": {
+                  "type": "string",
+                  "description": "La pregunta de la persona",
+                  "x-ms-summary": "Pregunta"
+                },
+                "documentos": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Textos externos opcionales (correos, documentos); pasan por el escudo",
+                  "x-ms-summary": "Documentos"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "texto": {
+                  "type": "string",
+                  "description": "Lo que ve la persona",
+                  "x-ms-summary": "Texto"
+                },
+                "estado": {
+                  "type": "string",
+                  "description": "verificada, sin_dato, bloqueada o error_modelo",
+                  "x-ms-summary": "Estado"
+                },
+                "claves": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-ms-summary": "Claves de las cifras usadas"
+                },
+                "fuentes": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-ms-summary": "Fuentes"
+                },
+                "capas": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-ms-summary": "Controles que actuaron"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/acciones": {
@@ -37,29 +99,92 @@
         "operationId": "ProponerAccion",
         "summary": "Proponer una acción",
         "description": "El guardián revisa la acción con la política y los datos maestros: la permite, la deja pendiente de aprobación humana o la bloquea.",
-        "parameters": [{
-          "name": "body", "in": "body", "required": true,
-          "schema": {"type": "object", "required": ["tipo", "detalle"], "properties": {
-            "tipo": {"type": "string", "description": "pago, transferencia, enviar_datos, cambiar_cuenta, borrar, consulta...", "x-ms-summary": "Tipo"},
-            "detalle": {"type": "string", "x-ms-summary": "Detalle"},
-            "monto": {"type": "number", "x-ms-summary": "Monto"},
-            "destino": {"type": "string", "description": "A quién va (debe estar en los datos maestros)", "x-ms-summary": "Destino"},
-            "cuenta": {"type": "string", "x-ms-summary": "Cuenta o correo de destino"},
-            "peticion": {"type": "string", "description": "Lo que pidió el usuario, textual", "x-ms-summary": "Petición del usuario"},
-            "solicitante": {"type": "string", "x-ms-summary": "Quién la pide"}
-          }}
-        }],
-        "responses": {"201": {"description": "Decisión del guardián", "schema": {"type": "object", "properties": {
-          "id": {"type": "integer", "x-ms-summary": "Id"},
-          "estado": {"type": "string", "description": "permitida, pendiente o bloqueada", "x-ms-summary": "Estado"},
-          "motivo": {"type": "string", "x-ms-summary": "Motivo"}
-        }}}}
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "tipo",
+                "detalle"
+              ],
+              "properties": {
+                "tipo": {
+                  "type": "string",
+                  "description": "pago, transferencia, enviar_datos, cambiar_cuenta, borrar, consulta...",
+                  "x-ms-summary": "Tipo"
+                },
+                "detalle": {
+                  "type": "string",
+                  "x-ms-summary": "Detalle"
+                },
+                "monto": {
+                  "type": "number",
+                  "x-ms-summary": "Monto"
+                },
+                "destino": {
+                  "type": "string",
+                  "description": "A quién va (debe estar en los datos maestros)",
+                  "x-ms-summary": "Destino"
+                },
+                "cuenta": {
+                  "type": "string",
+                  "x-ms-summary": "Cuenta o correo de destino"
+                },
+                "peticion": {
+                  "type": "string",
+                  "description": "Lo que pidió el usuario, textual",
+                  "x-ms-summary": "Petición del usuario"
+                },
+                "solicitante": {
+                  "type": "string",
+                  "x-ms-summary": "Quién la pide"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Decisión del guardián",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "x-ms-summary": "Id"
+                },
+                "estado": {
+                  "type": "string",
+                  "description": "permitida, pendiente o bloqueada",
+                  "x-ms-summary": "Estado"
+                },
+                "motivo": {
+                  "type": "string",
+                  "x-ms-summary": "Motivo"
+                }
+              }
+            }
+          }
+        }
       },
       "get": {
         "operationId": "ListarAcciones",
         "summary": "Listar acciones",
         "description": "Las acciones propuestas y su estado.",
-        "responses": {"200": {"description": "Acciones", "schema": {"type": "array", "items": {"type": "object"}}}}
+        "responses": {
+          "200": {
+            "description": "Acciones",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            }
+          }
+        }
       }
     },
     "/api/acciones/{id}": {
@@ -68,16 +193,69 @@
         "summary": "Aprobar o rechazar una acción",
         "description": "Solo para acciones pendientes. Quien pidió la acción no puede aprobarla.",
         "parameters": [
-          {"name": "id", "in": "path", "required": true, "type": "integer", "x-ms-summary": "Id"},
-          {"name": "body", "in": "body", "required": true, "schema": {"type": "object", "required": ["aprobar", "aprobador"], "properties": {
-            "aprobar": {"type": "boolean", "x-ms-summary": "Aprobar"},
-            "aprobador": {"type": "string", "x-ms-summary": "Quién aprueba"}
-          }}}
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "x-ms-summary": "Id"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "aprobar",
+                "aprobador"
+              ],
+              "properties": {
+                "aprobar": {
+                  "type": "boolean",
+                  "x-ms-summary": "Aprobar"
+                },
+                "aprobador": {
+                  "type": "string",
+                  "x-ms-summary": "Quién aprueba"
+                }
+              }
+            }
+          }
         ],
-        "responses": {"200": {"description": "Decisión registrada", "schema": {"type": "object", "properties": {
-          "id": {"type": "integer"}, "estado": {"type": "string"}, "decidida_por": {"type": "string"}
-        }}}}
+        "responses": {
+          "200": {
+            "description": "Decisión registrada",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "estado": {
+                  "type": "string"
+                },
+                "decidida_por": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
       }
     }
-  }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-API-Key",
+      "description": "La clave definida en KIT_API_KEY del servidor"
+    }
+  },
+  "security": [
+    {
+      "api_key": []
+    }
+  ]
 }

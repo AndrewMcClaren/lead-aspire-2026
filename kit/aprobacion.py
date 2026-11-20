@@ -29,6 +29,7 @@ import urllib.request
 from dataclasses import asdict, dataclass, field
 from datetime import date, datetime
 
+from .bitacora import proteger
 from .cifras import archivo_del_caso
 
 NIVEL = {"permitida": 0, "pendiente": 1, "bloqueada": 2}
@@ -170,7 +171,8 @@ class Bandeja:
                    estado, motivos)
         self.acciones[a.id] = a
         if self.bitacora:
-            self.bitacora.registrar("accion_propuesta", {k: v for k, v in asdict(a).items() if k != "creada"})
+            datos = {k: v for k, v in asdict(a).items() if k != "creada"}
+            self.bitacora.registrar("accion_propuesta", proteger(datos, ("detalle", "peticion", "cuenta")))
         if estado == "pendiente":
             notificar(a)
         return a

@@ -134,8 +134,17 @@ let estado = {};
 const esc = t => String(t ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const pesos = n => n == null ? "" : "$ " + Number(n).toLocaleString("es-CO");
 
-async function api(ruta, datos) {
-  const r = await fetch(ruta, datos === undefined ? {} : {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(datos)});
+// Si el servidor tiene KIT_API_KEY (por ejemplo, desplegado en Azure), la página pide la clave una vez.
+function clave() { try { return sessionStorage.getItem("kitClave") || ""; } catch (e) { return ""; } }
+async function api(ruta, datos, reintento = true) {
+  const headers = {"X-API-Key": clave()};
+  if (datos !== undefined) headers["Content-Type"] = "application/json";
+  const r = await fetch(ruta, datos === undefined ? {headers} : {method: "POST", headers, body: JSON.stringify(datos)});
+  if (r.status === 401 && reintento) {
+    const nueva = window.prompt("Este servidor pide una clave de API (KIT_API_KEY):") || "";
+    try { sessionStorage.setItem("kitClave", nueva); } catch (e) {}
+    return api(ruta, datos, false);
+  }
   return {ok: r.ok, datos: await r.json()};
 }
 
@@ -178,7 +187,7 @@ async function preguntar(texto) {
 async function hablar(texto) {
   if (estado.voz) {
     try {
-      const r = await fetch("/api/voz", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({texto})});
+      const r = await fetch("/api/voz", {method: "POST", headers: {"Content-Type": "application/json", "X-API-Key": clave()}, body: JSON.stringify({texto})});
       if (r.ok) { new Audio(URL.createObjectURL(await r.blob())).play(); return; }
     } catch (e) {}
   }

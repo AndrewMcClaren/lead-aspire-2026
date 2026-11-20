@@ -21,7 +21,9 @@ Rutas:
 """
 
 import argparse
+import hmac
 import json
+import os
 from dataclasses import asdict
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -29,7 +31,7 @@ from pathlib import Path
 from . import modelos
 from .aprobacion import Bandeja, cargar_politica
 from .asistente import responder
-from .bitacora import Bitacora, huella, verificar
+from .bitacora import Bitacora, huella, proteger, verificar
 from .cifras import RAIZ, Tabla, carpeta_datos
 from .escudo import escudo_disponible, juez_activo, revisar_documentos
 from .voz import texto_a_voz, voz_disponible
@@ -83,7 +85,16 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
         def log_message(self, *a):
             pass
 
+        def _autorizado(self) -> bool:
+            """Con KIT_API_KEY definida, toda ruta /api/ exige el encabezado X-API-Key con esa clave."""
+            clave = os.environ.get("KIT_API_KEY", "")
+            if not clave or not self.path.startswith("/api/"):
+                return True
+            return hmac.compare_digest(self.headers.get("X-API-Key", ""), clave)
+
         def do_GET(self):
+            if not self._autorizado():
+                return self._json({"error": "Falta la clave de API (encabezado X-API-Key)"}, 401)
             if self.path in ("/", "/index.html"):
                 return self._enviar((WEB / "index.html").read_bytes(), "text/html; charset=utf-8")
             if self.path == "/swagger.json":
@@ -105,6 +116,8 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
             return self._json({"error": "no existe"}, 404)
 
         def do_POST(self):
+            if not self._autorizado():
+                return self._json({"error": "Falta la clave de API (encabezado X-API-Key)"}, 401)
             try:
                 datos = self._leer()
             except json.JSONDecodeError:
@@ -118,10 +131,10 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                 if r["sospechosa"] and sesion["estado"] == "limpia":
                     sesion.update(estado="sospechosa", motivos=sesion["motivos"] + ["Documento con instrucciones escondidas"])
                 r["sesion"] = sesion
-                bitacora.registrar("pregunta", {"pregunta": pregunta, "estado": r["estado"], "claves": r.get("claves", []),
-                                                "capas": r.get("capas", []), "problemas": r.get("problemas", []),
-                                                "documentos": [{"huella": huella(d), **inf} for d, inf in zip(docs, r["documentos"])],
-                                                "ms": r.get("ms"), "costo_usd": r.get("costo_usd")})
+                bitacora.registrar("pregunta", proteger({
+                    "pregunta": pregunta, "estado": r["estado"], "claves": r.get("claves", []), "capas": r.get("capas", []),
+                    "problemas": r.get("problemas", []), "ms": r.get("ms"), "costo_usd": r.get("costo_usd"),
+                    "documentos": [{"huella": huella(d), **inf} for d, inf in zip(docs, r["documentos"])]}, ("pregunta",)))
                 return self._json(r)
             if self.path == "/api/voz":
                 if not voz_disponible():
@@ -159,9 +172,12 @@ def main():
     cargar_env()
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--modelo", default="simulado", help="simulado | ingenuo | azure:<deployment> | ollama:<modelo>")
-    p.add_argument("--puerto", type=int, default=8000)
-    p.add_argument("--host", default="127.0.0.1", help="127.0.0.1 = solo este computador")
+    p.add_argument("--puerto", type=int, default=int(os.environ.get("PORT", "8000")), help="por defecto 8000 o la variable PORT")
+    p.add_argument("--host", default=os.environ.get("KIT_HOST", "127.0.0.1"),
+                   help="127.0.0.1 = solo este computador; 0.0.0.0 en un servidor (por ejemplo Azure App Service)")
     a = p.parse_args()
+    if a.host != "127.0.0.1" and not os.environ.get("KIT_API_KEY"):
+        print("Aviso: el servidor queda abierto a la red sin KIT_API_KEY. Definan una clave antes de exponerlo.")
     servidor = ThreadingHTTPServer((a.host, a.puerto), crear_app(a.modelo))
     print(f"Demo lista en http://localhost:{a.puerto}  (caso: {nombre_caso()} · modelo: {a.modelo} · "
           f"voz Azure: {voz_disponible()} · Prompt Shields: {escudo_disponible()} · juez: {juez_activo()})  Ctrl+C para salir.")

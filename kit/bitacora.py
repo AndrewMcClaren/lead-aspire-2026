@@ -45,6 +45,18 @@ def huella(texto: str) -> str:
     return hashlib.sha256((texto or "").encode("utf-8")).hexdigest()[:16]
 
 
+def privada() -> bool:
+    """KIT_BITACORA_PRIVADA=1: la bitácora guarda huellas en vez de textos que pueden traer datos personales."""
+    return os.environ.get("KIT_BITACORA_PRIVADA", "").strip().lower() in ("1", "si", "sí", "true")
+
+
+def proteger(datos: dict, campos: tuple[str, ...]) -> dict:
+    """En modo privado, cambia esos campos por su huella (se puede comprobar un texto, pero no leerlo)."""
+    if not privada():
+        return datos
+    return {k: (f"huella:{huella(str(v))}" if k in campos and v else v) for k, v in datos.items()}
+
+
 class Bitacora:
     def __init__(self, ruta: Path | None = None):
         self.ruta = Path(ruta or ruta_por_defecto())
