@@ -4,10 +4,14 @@
 
 Anoten **textual** lo que diga el cliente: esas frases van en la primera lámina del pitch.
 
+No lleguen con la solución: lleguen con preguntas. La primera es siempre **"¿dónde está perdiendo dinero, tiempo
+o clientes hoy?"**, no "¿qué app quieren?". Cuando tengan una hipótesis, valídenla con una pregunta cerrada y un
+número: "si bajamos las devoluciones de 9 % a 5 %, ¿eso les sirve?".
+
 | # | Pregunta | Respuesta del cliente (textual) | Números que dio |
 |---|---|---|---|
 | 1 | ¿Qué proceso les cuesta más tiempo o dinero hoy? ¿Cuánto, aproximadamente? | | |
-| 2 | ¿Dónde ya usan IA o automatización? ¿Qué les preocupa de dejar que la IA decida? | | |
+| 2 | ¿Dónde ya usan IA o automatización? ¿Qué les preocupa de dejar que la IA decida? ¿Qué freno les impide adoptarla hoy? | | |
 | 3 | ¿Qué sistemas usan hoy (CRM, ERP, Microsoft 365, Dynamics, Power Platform…)? | | |
 | 4 | ¿Cómo sabrían que funcionó? ¿Qué número le mostrarían a su jefe? | | |
 | 5 | ¿Qué no puede pasar nunca? (fraude, datos personales, decisiones sin revisar) | | |

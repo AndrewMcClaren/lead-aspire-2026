@@ -108,6 +108,31 @@ controles: pocos equipos la van a hacer.
 | Riesgo y seguridad | Pregunta qué no puede pasar | Agrega los controles y la sección de límites |
 | Historia (si son 6) | Toma notas textuales del cliente | Hace las láminas y el video de respaldo |
 
+**Reparto sugerido si son 5 (2 + 2 + 1).** Es un consejo, no lo que hizo el equipo ganador: las fuentes no dicen
+cómo se repartieron.
+
+| Grupo | Personas | Roles de la tabla de arriba |
+|---|---|---|
+| Estrategia, negocio y pitch | 2 | Líder del cliente + Riesgo y seguridad (entrevista, ROI, historia, preguntas del jurado) |
+| Prototipo | 2 | Construcción (el kit, Copilot Studio o Power Automate según `docs/ESCENARIOS.md`) |
+| Datos y diseño | 1 | Datos (datos de prueba realistas, medición de antes y después, láminas limpias) |
+
+Nadie trabaja solo en lo suyo todo el día: a las 12:00 y a las 15:30 los cinco revisan juntos la demo y el pitch.
+
+## Cómo describir la solución en una frase
+
+Sea cual sea el caso, usen este flujo de tres pasos para explicarla (es lo que hacía AlignBuddy y lo que hace el kit):
+
+> **Entrada** (el dato, el documento o la solicitud) → **validación** (la IA propone y el código revisa con los
+> datos del cliente) → **acción aprobada** (lo delicado lo confirma una persona).
+
+Y digan que se conecta a lo que el cliente ya tiene, sin reemplazarlo.
+
+## Prompt de auditoría
+
+Para que una IA haga de jurado exigente con cada avance: `plantillas/prompt_auditoria.md`. No peguen datos
+confidenciales del cliente en herramientas personales.
+
 ## Antes del 27 de noviembre
 
 Las herramientas, cómo activarlas con el correo institucional, sus límites y la lista de chequeo por
