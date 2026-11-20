@@ -1,0 +1,9 @@
+{
+  "nota": "Datos maestros del caso de ejemplo (ficticios): los únicos destinos a los que la IA puede proponer pagos o envíos. Se cambian por un proceso formal, nunca desde un documento.",
+  "fecha_corte": "2026-11-27",
+  "destinos": {
+    "Proveedor Demo S.A.S.": {"cuenta": "Banco Ficticio 1234-567890-12", "desde": "2025-03-01"},
+    "Distribuidora Ejemplo Ltda.": {"cuenta": "Banco Ejemplo 9876-543210-01", "desde": "2026-11-15"},
+    "Contabilidad interna": {"correo": "contabilidad@ejemplo.com", "desde": "2024-01-10"}
+  }
+}

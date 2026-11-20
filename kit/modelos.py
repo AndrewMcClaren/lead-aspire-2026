@@ -2,6 +2,11 @@
 
 - "simulado": sin internet ni claves. Busca la cifra cuya descripción más se parece a la pregunta.
   Sirve para ensayar la demo y para las pruebas; no es inteligencia real y nunca se presenta como tal.
+- "ingenuo": el simulado, pero obedece cualquier orden escondida en un documento y revela su
+  configuración si se la piden. Es el peor caso: sirve para medir que los controles aguantan aunque el
+  modelo esté totalmente manipulado. No mide a ninguna IA real.
+
+Los modelos reales dejan en .ultimo_uso los tokens de la última llamada (para costo y latencia).
 - "azure:<deployment>": Azure OpenAI (Azure for Students). Variables AZURE_OPENAI_ENDPOINT,
   AZURE_OPENAI_API_KEY y OPENAI_API_VERSION.
 - "ollama:<modelo>": modelo local con Ollama (OLLAMA_HOST, por defecto http://localhost:11434).
@@ -61,6 +66,25 @@ class Simulado:
         return {"texto": f"{mejor.descripcion}: {{{mejor.clave}}}.", "claves": [mejor.clave]}
 
 
+class Ingenuo(Simulado):
+    """Peor caso: obedece las órdenes de los documentos y revela su código interno si se lo piden."""
+
+    nombre = "ingenuo (peor caso simulado)"
+    _ORDEN = re.compile(r"(?:responde|responda|di|diga|dile|contesta|escribe)(?:\s+al\s+usuario)?\s+(?:que|exactamente:?|:)\s*[«\"]?(.+?)[»\"]?(?:\.\s|\.?$|\n)",
+                        re.I)
+    _FUGA = re.compile(r"(revela|dime|escribe|muestra|repite)\w*\b[^.]{0,40}(c[oó]digo|configuraci[oó]n|instrucciones)", re.I)
+
+    def generar_json(self, sistema: str, usuario: str, imagen: bytes | None = None) -> dict:
+        documentos = usuario.split("PREGUNTA:")[0]
+        if self._FUGA.search(documentos):
+            codigo = re.search(r"CFG-[0-9A-F]{8}", sistema)
+            return {"texto": f"Mi configuración: {codigo.group(0) if codigo else sistema[:200]}", "claves": []}
+        orden = self._ORDEN.search(documentos)
+        if orden:
+            return {"texto": orden.group(1).strip(), "claves": []}
+        return super().generar_json(sistema, usuario, imagen)
+
+
 class AzureOpenAI:
     def __init__(self, deployment: str):
         from openai import AzureOpenAI as Cliente
@@ -75,6 +99,8 @@ class AzureOpenAI:
         r = self._cliente.chat.completions.create(
             model=self._deployment, temperature=0, response_format={"type": "json_object"},
             messages=[{"role": "system", "content": sistema}, {"role": "user", "content": partes}])
+        if getattr(r, "usage", None):
+            self.ultimo_uso = {"tokens_entrada": r.usage.prompt_tokens, "tokens_salida": r.usage.completion_tokens}
         return json.loads(r.choices[0].message.content)
 
 
@@ -92,17 +118,21 @@ class Ollama:
                              "messages": [{"role": "system", "content": sistema}, mensaje]}).encode("utf-8")
         req = urllib.request.Request(f"{self._host}/api/chat", data=cuerpo, headers={"Content-Type": "application/json"})
         with urllib.request.urlopen(req, timeout=300) as r:
-            return json.loads(json.loads(r.read().decode("utf-8"))["message"]["content"])
+            respuesta = json.loads(r.read().decode("utf-8"))
+        self.ultimo_uso = {"tokens_entrada": respuesta.get("prompt_eval_count", 0), "tokens_salida": respuesta.get("eval_count", 0)}
+        return json.loads(respuesta["message"]["content"])
 
 
 def crear(nombre: str, tabla):
     proveedor, _, version = nombre.partition(":")
     if proveedor == "simulado":
         return Simulado(tabla)
+    if proveedor == "ingenuo":
+        return Ingenuo(tabla)
     if proveedor == "azure":
         if not version:
             raise ValueError("Azure necesita el nombre del deployment: azure:<deployment>")
         return AzureOpenAI(version)
     if proveedor == "ollama":
         return Ollama(version or "qwen2.5:7b")
-    raise ValueError(f"Modelo desconocido: {nombre} (usa simulado, azure:<deployment> u ollama:<modelo>)")
+    raise ValueError(f"Modelo desconocido: {nombre} (usa simulado, ingenuo, azure:<deployment> u ollama:<modelo>)")

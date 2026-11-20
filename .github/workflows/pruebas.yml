@@ -16,3 +16,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: python -m pytest -q
       - run: python -m kit.verificar
+      - run: python -m kit.medir
+      - run: python -m kit.medir
+        env:
+          KIT_DATOS: respaldo/dane

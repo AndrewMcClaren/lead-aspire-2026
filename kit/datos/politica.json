@@ -1,0 +1,21 @@
+{
+  "nota": "Política del guardián de acciones. Es código, no un prompt: la IA no la puede cambiar. Ajusten los valores al caso del cliente.",
+  "nivel_autonomia": "confirmar_sensibles",
+  "nota_nivel_autonomia": "solo_lectura: la IA no ejecuta nada | confirmar_sensibles: lo sensible espera aprobación | confirmar_todo: todo espera aprobación",
+  "tipos_sensibles": ["pago", "transferencia", "enviar_datos", "cambiar_cuenta", "borrar"],
+  "tipos_solo_lectura": ["consulta", "resumen", "reporte"],
+  "umbral_aprobacion": 1000000,
+  "tolerancia_monto": 0.05,
+  "intencion": {
+    "pago": "pag|abon|cancel|transfi|consign",
+    "transferencia": "transfi|envi|consign|gir",
+    "enviar_datos": "envi|compart|mand|reenvi",
+    "cambiar_cuenta": "cambi|actualiz|modific",
+    "borrar": "borr|elimin|quit"
+  },
+  "destino_requerido_para": ["pago", "transferencia", "enviar_datos"],
+  "dias_cuenta_nueva": 30,
+  "sesion_sospechosa": "confirmar",
+  "nota_sesion_sospechosa": "Qué hacer con una acción sensible si en la sesión se bloqueó o se saneó un documento: confirmar o bloquear",
+  "segregacion_de_funciones": true
+}

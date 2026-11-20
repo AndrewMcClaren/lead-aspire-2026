@@ -73,7 +73,10 @@ def test_una_clave_inventada_no_sale(tabla):
 def test_numeros_estructurales_permitidos():
     assert cifras_sueltas("La tienda 12 en 2026: {ventas_total_millones}", "¿y la tienda 12?") == []
     assert cifras_sueltas("Con 1-5 personas: {x}", "", ["% de tiendas con 1-5 personas"]) == []
-    assert cifras_sueltas("Vendió 90.000 millones", "") == ["90.000"]
+    assert "90.000" in cifras_sueltas("Vendió 90.000 millones", "")
+    assert cifras_sueltas("Hubo ninguno", "¿Cuántos hubo?") == ["ninguno"]  # cantidades escritas con palabras
+    assert cifras_sueltas("Son dos mil clientes", "") == ["dos", "mil"]
+    assert cifras_sueltas("Una tienda vendió {x} millones de pesos", "", ["Ventas millones de pesos"]) == []
 
 
 def test_documento_con_trampa_no_cambia_la_cifra_aunque_el_modelo_obedezca(tabla):
@@ -164,11 +167,12 @@ def test_voz_ida_y_vuelta(monkeypatch):
 
 
 # ---------------------------------------------------------------- servidor
-def test_servidor_de_punta_a_punta(monkeypatch, tabla):
+def test_servidor_de_punta_a_punta(monkeypatch, tabla, tmp_path):
     con_datos_de_ejemplo(tabla)
     for v in ("SPEECH_KEY", "CONTENT_SAFETY_KEY", "NOTIFICAR_URL"):
         monkeypatch.delenv(v, raising=False)
-    srv = ThreadingHTTPServer(("127.0.0.1", 0), crear_app("simulado"))
+    from kit.bitacora import Bitacora
+    srv = ThreadingHTTPServer(("127.0.0.1", 0), crear_app("simulado", Bitacora(tmp_path / "bitacora.jsonl")))
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     base = f"http://127.0.0.1:{srv.server_port}"
 
@@ -194,10 +198,13 @@ def test_servidor_de_punta_a_punta(monkeypatch, tabla):
 def test_cargar_env_tolera_windows_y_no_pisa(tmp_path, monkeypatch):
     from kit import cargar_env
     env = tmp_path / ".env"
-    env.write_bytes(b'# comentario\r\nKIT_PRUEBA_A="hola"\r\nKIT_PRUEBA_B=\r\nKIT_PRUEBA_C=ya\r\n')
+    env.write_bytes(b'# comentario\r\nKIT_PRUEBA_A="hola # no es comentario"\r\nKIT_PRUEBA_B=   # vacio\r\nKIT_PRUEBA_C=ya\r\nKIT_PRUEBA_D=1   # activo\r\n')
     monkeypatch.delenv("KIT_PRUEBA_A", raising=False)
+    monkeypatch.delenv("KIT_PRUEBA_D", raising=False)
     monkeypatch.setenv("KIT_PRUEBA_C", "antes")
-    assert cargar_env(env) == ["KIT_PRUEBA_A"]
+    assert cargar_env(env) == ["KIT_PRUEBA_A", "KIT_PRUEBA_D"]
     import os
-    assert os.environ["KIT_PRUEBA_A"] == "hola" and os.environ["KIT_PRUEBA_C"] == "antes"
+    assert os.environ["KIT_PRUEBA_A"] == "hola # no es comentario" and os.environ["KIT_PRUEBA_C"] == "antes"
+    assert os.environ["KIT_PRUEBA_D"] == "1"
     monkeypatch.delenv("KIT_PRUEBA_A")
+    monkeypatch.delenv("KIT_PRUEBA_D")

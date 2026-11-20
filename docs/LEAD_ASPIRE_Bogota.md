@@ -69,7 +69,7 @@ sale de sus propios datos, y lo delicado lo aprueba alguien"**.
 | 11:00–11:45 | **Estrategia** | Escoger UNO. Criterios: duele, se puede medir, encaja con lo que el cliente ya usa, se demuestra en 6 horas. | Una frase de problema y una métrica |
 | 11:45–12:00 | Validar | Mostrarle al cliente la frase y la métrica. "¿Si movemos este número, le sirve?" | Visto bueno |
 | 12:00–15:30 | **Construir** | Un flujo pequeño que funcione de punta a punta con datos de ejemplo. Nada de plataformas. | Demo que corre |
-| 15:30–16:15 | Medir | Correr el antes y el después con 10 a 20 casos. Aunque sea poco, es un número. | Una tabla de antes y después |
+| 15:30–16:15 | Medir | Escribir 10 a 20 casos del cliente en `casos.json` y correr `python -m kit.medir --modelo azure:<deployment>`. Aunque sea poco, es un número con su intervalo de confianza. | Una tabla de antes y después |
 | 16:15–17:00 | **Pitch** | Ensayar dos veces con reloj. | Pitch y demo |
 
 ### Preguntas para el cliente
@@ -114,7 +114,7 @@ integrante están en **[MICROSOFT_PARA_ESTUDIANTES.md](MICROSOFT_PARA_ESTUDIANTE
 |---|---|---|
 | **Jue 20 y vie 21** | Cada integrante activa Azure for Students, Power Apps Developer Plan y GitHub Student Developer Pack, y revisa Copilot Chat. Pedir Copilot Studio a TI de cada universidad. | La tabla de chequeo por integrante está llena |
 | **Sáb 22** | En la cuenta con cuota: Azure OpenAI, Speech F0 y Content Safety F0. Correr `python -m kit.verificar --modelo azure:<deployment> --escudo --voz`. Si Azure OpenAI no despliega, pedir cuota y probar otra región o la cuenta de otro integrante. | Las tres pruebas en OK |
-| **Dom 23** | Conectar el **kit de demo** (`kit/`) a Azure: modelo, voz y Prompt Shields. Ensayar el recorrido completo en la página: una pregunta con cifra, una sin dato ("la tienda de Medellín"), el documento con trampa y una aprobación. Practicar `plantillas/adaptar_el_kit.md` con otros datos. | La demo corre con Azure y se adapta a otros datos en 30 minutos |
+| **Dom 23** | Conectar el **kit de demo** (`kit/`) a Azure: modelo, voz y Prompt Shields. Ensayar el recorrido de 60 segundos de `docs/INFRAESTRUCTURA.md`. Correr `python -m kit.medir --modelo azure:<deployment>` para tener la primera tabla con modelo real. Probar el conector en Power Automate o el MCP en VS Code. Practicar `plantillas/adaptar_el_kit.md` con otros datos (por ejemplo `respaldo/dane`). | La demo corre con Azure, hay una tabla de medición y el kit se adapta a otros datos en 30 minutos |
 | **Lun 24** | Networking de LEAD y Microsoft. Preguntar a quienes ya participaron qué esperan los clientes, qué herramientas se dan ese día y cuánto dura el pitch. | Tres respuestas anotadas |
 | **Mar 25** | **Simulacro completo** de 7 horas con un caso inventado (por ejemplo: "un banco quiere que un agente pague facturas de sus clientes pyme"). Alguien de afuera hace de cliente. Cronometrar cada fase. | Pitch grabado en video |
 | **Mié 26** | Corregir lo que falló en el simulacro. Dejar listas las plantillas de láminas, el guion por criterio y el video de respaldo de la demo. Cargar portátiles y probar el micrófono. | Plantillas en una carpeta compartida |
@@ -123,7 +123,9 @@ integrante están en **[MICROSOFT_PARA_ESTUDIANTES.md](MICROSOFT_PARA_ESTUDIANTE
 ### Qué llevar listo
 
 - [ ] El kit de demo funcionando en dos portátiles, con las claves en variables de entorno.
-- [ ] Una versión que corra sin internet (HTML de un solo archivo o Ollama) por si falla la red.
+- [ ] Una versión que corra sin internet (`python -m kit.servidor` en modo simulado, o Ollama) por si falla la red.
+- [ ] La demo de respaldo con los datos del DANE (`KIT_DATOS=respaldo/dane`) por si el cliente no da datos a tiempo.
+- [ ] La lista de verificación de IA responsable (`plantillas/checklist_ia_responsable.md`) como lámina de respaldo.
 - [ ] Plantilla de pitch de 6 láminas con la estructura de arriba.
 - [ ] Las preguntas para el cliente impresas o en el celular.
 - [ ] La experiencia previa del equipo en una lámina de respaldo, por si preguntan "¿quiénes son?".

@@ -27,7 +27,12 @@ def cargar_env(ruta: Path = RAIZ / ".env") -> list[str]:
         if not linea or linea.startswith("#") or "=" not in linea:
             continue
         nombre, valor = (x.strip() for x in linea.split("=", 1))
-        valor = valor.strip('"').strip("'")
+        if valor[:1] in ('"', "'"):
+            valor = valor[1:].split(valor[0], 1)[0]  # entre comillas: se respeta todo, incluido un #
+        elif valor.startswith("#"):
+            valor = ""  # solo hay un comentario: la variable queda vacía
+        else:
+            valor = valor.split(" #", 1)[0].split("\t#", 1)[0].strip()  # comentario al final de la línea
         if nombre and valor and nombre not in os.environ:
             os.environ[nombre] = valor
             cargadas.append(nombre)

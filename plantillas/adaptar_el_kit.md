@@ -32,7 +32,16 @@ Quién es el cliente, qué hace el asistente y qué datos NO tiene (por ejemplo 
 Cuatro preguntas que muestren lo más importante y **una sin dato**, para mostrar en vivo que el asistente
 dice "no tengo ese dato verificado" en vez de inventar.
 
-## 4. Probar (5 minutos)
+## 4. Política, datos maestros y casos (si el caso tiene acciones)
+
+- `kit/datos/politica.json`: qué tipos de acción son sensibles, el umbral de aprobación y el nivel de autonomía.
+- `kit/datos/maestros.json`: los destinos permitidos (proveedores, cuentas, correos). Solo los cambia el equipo.
+- `kit/datos/casos.json`: preguntas con su clave esperada, preguntas sin dato y ataques, para `python -m kit.medir`.
+
+Si prefieren no tocar el ejemplo, creen una carpeta nueva (por ejemplo `casos/cliente/`) con `cifras.csv`,
+`contexto.md` y lo que necesiten, y apúntenla con `KIT_DATOS=casos/cliente`. Lo que falte se toma del ejemplo.
+
+## 5. Probar (5 minutos)
 
 ```bash
 python -m pytest -q

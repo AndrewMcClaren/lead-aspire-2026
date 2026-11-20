@@ -85,6 +85,12 @@ probar otra región o usar la cuenta de otro integrante.
 | Voz (`kit/voz.py` y la página) | Voz y micrófono del navegador | Azure AI Speech (voz colombiana) | `python -m kit.verificar --voz` |
 | Aprobación humana (`kit/aprobacion.py`) | Bandeja en la página | Aviso a Teams con Power Automate (`NOTIFICAR_URL`) | Flujo de prueba en el Developer Plan |
 | Dashboard | HTML de un solo archivo | Power BI Desktop si el cliente usa Power BI | — |
+| Conector (`kit/conector/swagger.json`) | API local | Conector personalizado en Power Automate o herramienta REST en Copilot Studio, con una dirección pública por Dev Tunnels | Importar el archivo y probar la acción "Preguntar" |
+| Servidor MCP (`kit/mcp.py`) | — | GitHub Copilot en VS Code en modo agente usa las cifras verificadas y el guardián como herramientas | `.vscode/mcp.json` (ver el README) |
+
+Dev Tunnels es la herramienta de Microsoft para exponer un puerto local con una dirección `https`. Verifiquen
+los comandos actuales en su documentación antes del evento; la idea es publicar el puerto 8000 del servidor
+del kit y usar esa dirección como host del conector.
 
 Variables de entorno (copien `.env.ejemplo` a `.env` y llénenlo; `.env` está en `.gitignore` y nunca se sube):
 
