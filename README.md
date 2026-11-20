@@ -11,8 +11,9 @@ problema, se construye una solución con IA de Microsoft y se presenta.
 | [`docs/LEAD_ASPIRE_Bogota.md`](docs/LEAD_ASPIRE_Bogota.md) | Qué se sabe del evento, plan del día, preguntas al cliente, pitch, roles y **plan día por día hasta el 27** |
 | [`docs/MICROSOFT_PARA_ESTUDIANTES.md`](docs/MICROSOFT_PARA_ESTUDIANTES.md) | Herramientas de Microsoft con correo institucional, límites, cómo probarlas y **lista de chequeo por integrante** |
 | [`RUNBOOK.md`](RUNBOOK.md) | **Una página para levantar la demo sin ayuda** y qué hacer si algo falla |
-| [`docs/ESCENARIOS.md`](docs/ESCENARIOS.md) | **Once tipos de cliente probables** y qué demo armar en cada uno, incluidos los casos donde el kit no aplica |
+| [`docs/ESCENARIOS.md`](docs/ESCENARIOS.md) | **Doce tipos de cliente probables** y qué demo armar en cada uno, incluidos los casos donde el kit no aplica |
 | [`docs/DESPLIEGUE_AZURE.md`](docs/DESPLIEGUE_AZURE.md) | Cómo poner el kit en Azure con dirección pública para Copilot Studio o Power Automate (no probado) |
+| [`docs/SANS.md`](docs/SANS.md) | La guía de controles críticos de seguridad en IA de SANS **control por control** frente al kit, qué del cuaderno de NotebookLM no citar y cómo usarlo en la entrevista y el pitch |
 | [`docs/INFRAESTRUCTURA.md`](docs/INFRAESTRUCTURA.md) | Las capas del kit área por área, cómo mostrarlas en 60 segundos, su relación con OWASP, NIST e ISO, y sus límites |
 | [`plantillas/`](plantillas) | Para el día: entrevista, lienzo del problema, pitch, preguntas del jurado, lista de IA responsable, cómo adaptar el kit, **tres casos de simulacro** y un **prompt de auditoría** para que una IA haga de jurado una **calculadora de ROI** en Excel y una **hoja de una página** para el jurado (Word y ejemplo en PDF) |
 | [`kit/`](kit) | La demo lista para adaptar (abajo) |
@@ -25,10 +26,12 @@ instrucciones escondidas** y **sin ejecutar solo lo delicado**. Cada área tiene
 
 | Área | Qué hace |
 |---|---|
+| Datos personales | Cédulas, correos, teléfonos, cuentas y tarjetas se cambian por marcadores antes de llamar al modelo; la respuesta vuelve con los datos. El modelo ve el nombre de cada cifra, nunca su valor. |
 | Entrada | Firmas locales en español retiran las oraciones con instrucciones para la IA; luego Prompt Shields y, opcional, un juez LLM con canario. Si un servicio falla, el documento no pasa. |
 | Salida | El modelo cita claves; el código pone cada cifra con su unidad y su fuente. Cifras escritas a mano (en dígitos o palabras) o claves inventadas: "No tengo ese dato verificado". Un canario detecta si intenta revelar sus instrucciones. |
 | Acciones | Política en archivo (`politica.json`) y datos maestros (`maestros.json`): intención, destino registrado, cuenta, monto pedido, sesión sospechosa, niveles de autonomía y segregación de funciones. |
 | Auditoría | Bitácora encadenada por hashes (con firma HMAC opcional) de cada pregunta, acción y decisión. |
+| Integridad | Los datos del caso se sellan con su huella; si alguien cambia una cifra o una cuenta, el servidor y `kit.verificar` avisan. Límite de solicitudes por minuto. |
 | Medición | `kit.medir`: antes y después con el mismo modelo, con intervalos de confianza, latencia, tokens y costo. |
 | Integración | Azure OpenAI, Prompt Shields, Azure Speech, conector para Power Automate y Copilot Studio, servidor MCP para agentes. |
 
@@ -62,6 +65,7 @@ recorrido, no es inteligencia real y puede escoger mal una cifra.
 | `python -m kit.medir` | Antes y después en el peor caso simulado (un modelo que obedece todo) |
 | `python -m kit.medir --modelo azure:<deployment>` | Antes y después con el modelo real: el número del pitch |
 | `python -m kit.bitacora verificar` | Comprueba que nadie alteró la bitácora |
+| `python -m kit.integridad sellar` | Sella los datos del caso después de cargarlos (`revisar` dice si cambiaron) |
 | `python -m kit.mcp` | Servidor MCP para agentes (ver abajo) |
 | `KIT_DATOS=respaldo/dane python -m kit.servidor` | La demo con otro caso, sin tocar el código |
 | `python -m pytest -q` | Las pruebas (sin internet; las de Azure simulan el servicio) |

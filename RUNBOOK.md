@@ -60,11 +60,18 @@ cp -r kit/datos casos_cliente
 Editen en `casos_cliente/`: `cifras.csv` (las cifras del cliente), `contexto.md` (quién es, sin números) y, si hay
 acciones, `politica.json` y `maestros.json`. Guía completa: `plantillas/adaptar_el_kit.md`.
 
+Cuando terminen de editar, sellen los datos (si no, la página muestra "Datos: alterada", porque la copia trae el
+sello del ejemplo):
+
+```bash
+KIT_DATOS=casos_cliente python -m kit.integridad sellar
+```
+
 ```bash
 KIT_DATOS=casos_cliente python -m kit.servidor
 ```
 
-En PowerShell: `$env:KIT_DATOS="casos_cliente"; python -m kit.servidor`.
+En PowerShell: `$env:KIT_DATOS="casos_cliente"; python -m kit.integridad sellar` y luego `python -m kit.servidor`.
 
 ## 6. Conectar Azure (cuando tengan los recursos)
 

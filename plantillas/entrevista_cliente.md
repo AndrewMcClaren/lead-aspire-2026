@@ -17,6 +17,10 @@ número: "si bajamos las devoluciones de 9 % a 5 %, ¿eso les sirve?".
 | 5 | ¿Qué no puede pasar nunca? (fraude, datos personales, decisiones sin revisar) | | |
 | 6 | ¿Quién usaría la solución el lunes siguiente? | | |
 | 7 | ¿Qué datos nos pueden dar hoy, aunque sean de ejemplo? | | |
+| 8 | ¿Sus empleados ya usan ChatGPT u otra IA por su cuenta? ¿Con qué datos? ¿Cómo sabrían hoy qué se le mandó a una IA? | | |
+
+Si la respuesta a la 8 es "sí" o "no sabemos", el riesgo ya existe: la propuesta es darles una alternativa
+aprobada y registrada, no prohibir.
 
 ## Problemas candidatos
 

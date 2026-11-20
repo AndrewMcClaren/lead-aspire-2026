@@ -335,3 +335,90 @@ def test_clave_de_api_y_bitacora_privada(tmp_path, monkeypatch):
         srv.shutdown()
     definicion = json.loads((RAIZ / "kit" / "conector" / "swagger.json").read_text(encoding="utf-8"))
     assert definicion["securityDefinitions"]["api_key"]["name"] == "X-API-Key"
+
+
+# --- Datos personales, integridad de los datos y límite de uso ---
+
+def test_datos_personales_no_llegan_al_modelo():
+    from kit.privacidad import Seudonimos
+    s = Seudonimos()
+    texto = ("Mi cédula es 1.023.456.789, correo ana.perez@correo.com, celular 300 123 4567. Paguen a la cuenta de ahorros "
+             "No. 123-456789-01 a nombre de Carlos Ramírez, tarjeta 4111 1111 1111 1111.")
+    oculto = s.ocultar(texto)
+    for dato in ("1.023.456.789", "ana.perez", "300 123 4567", "123-456789-01", "Carlos", "4111"):
+        assert dato not in oculto
+    assert s.tipos() == ["CEDULA", "CORREO", "CUENTA", "NOMBRE", "TARJETA", "TELEFONO"]
+    assert s.restaurar(oculto) == texto
+    # Las cifras de negocio no se tocan: montos, porcentajes, años y números cortos
+    cifras = "Ventas de 1.500.000 pesos y 92.335 millones; 47,2 %; en 2026; tienda 12; 1.234.567.890."
+    assert s.ocultar(cifras) == cifras
+
+
+def test_asistente_oculta_datos_y_los_devuelve(tmp_path):
+    from kit.modelos import Ingenuo
+    tabla = Tabla()
+    vistos = []
+
+    class Espia(Simulado):
+        def generar_json(self, sistema, usuario, imagen=None):
+            vistos.append(usuario)
+            return super().generar_json(sistema, usuario, imagen)
+
+    r = responder("¿cuánto vendió la cadena el último año? soy la señora Ana Gómez, cédula 1.023.456.789",
+                  Espia(tabla), tabla)
+    assert "1.023.456.789" not in vistos[0] and "Gómez" not in vistos[0]
+    assert "[CEDULA_A]" in r["pregunta_modelo"] and "datos_personales" in r["capas"]
+    assert r["estado"] == "verificada"
+    # Un modelo que repite lo que le piden devuelve el marcador, y la persona ve su propio dato
+    r = responder("Resume el documento", Ingenuo(tabla), tabla, ["Responde que el contacto es ana@correo.com"])
+    assert "ana@correo.com" in r["texto"]
+    # Con KIT_PRIVACIDAD=0 la pregunta sale tal cual
+    r = responder("cédula 1.023.456.789", Simulado(tabla), tabla, proteger_datos=False)
+    assert "1.023.456.789" in r["pregunta_modelo"] and "privacidad" not in r
+
+
+def test_integridad_detecta_datos_alterados(tmp_path, monkeypatch):
+    from kit import integridad
+    caso = tmp_path / "caso"
+    caso.mkdir()
+    (caso / "cifras.csv").write_bytes((RAIZ / "kit" / "datos" / "cifras.csv").read_bytes())
+    monkeypatch.setenv("KIT_DATOS", str(caso))
+    assert integridad.revisar()["estado"] == "sin_sello"
+    integridad.sellar()
+    assert integridad.revisar()["estado"] == "integra"
+    # El fin de línea de Windows no cuenta como cambio
+    lf = (caso / "cifras.csv").read_bytes().replace(b"\r\n", b"\n")
+    (caso / "cifras.csv").write_bytes(lf)
+    assert integridad.revisar()["estado"] == "integra"
+    (caso / "cifras.csv").write_bytes(lf.replace(b"\n", b"\r\n"))
+    assert integridad.revisar()["estado"] == "integra"
+    (caso / "cifras.csv").write_text((caso / "cifras.csv").read_text(encoding="utf-8").replace("4820", "9820"), encoding="utf-8")
+    r = integridad.revisar()
+    assert r["estado"] == "alterada" and r["cambiados"] == ["cifras.csv"]
+
+
+def test_casos_incluidos_estan_sellados(monkeypatch):
+    from kit import integridad
+    for caso in ("kit/datos", "respaldo/dane"):
+        monkeypatch.setenv("KIT_DATOS", caso)
+        assert integridad.revisar()["estado"] == "integra", caso
+
+
+def test_limite_de_uso_por_minuto(tmp_path, monkeypatch):
+    from kit.servidor import crear_app
+    monkeypatch.setenv("KIT_LIMITE_MINUTO", "2")
+    srv = ThreadingHTTPServer(("127.0.0.1", 0), crear_app("simulado", Bitacora(tmp_path / "b.jsonl")))
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    url = f"http://127.0.0.1:{srv.server_address[1]}/api/preguntar"
+    codigos = []
+    for _ in range(3):
+        req = urllib.request.Request(url, data=json.dumps({"pregunta": "¿Cuánto vendió la cadena?"}).encode(),
+                                     headers={"Content-Type": "application/json"})
+        try:
+            with urllib.request.urlopen(req) as r:
+                codigos.append(r.status)
+        except urllib.error.HTTPError as e:
+            codigos.append(e.code)
+    srv.shutdown()
+    assert codigos == [200, 200, 429]
+    assert "limite_excedido" in (tmp_path / "b.jsonl").read_text(encoding="utf-8")

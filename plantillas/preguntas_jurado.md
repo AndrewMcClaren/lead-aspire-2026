@@ -23,12 +23,15 @@ No den semanas ni montos que no salgan de la calculadora con datos del cliente.
 No digan que es "de menos de 200 líneas": el kit completo tiene más de 1.500 y el jurado puede pedir verlo.
 
 **3. "¿Cómo protegen los datos personales (Ley 1581 de 2012) si mandan información a un modelo en la nube?"**
-> "Con Azure OpenAI los datos quedan bajo el contrato empresarial de Microsoft con el cliente; según Microsoft, no
-> se usan para entrenar los modelos. El piloto se configura en una región que cumpla la política del cliente. Nuestra
-> bitácora puede guardar solo huellas, no los textos, y solo enviamos al modelo lo necesario para responder."
+> "La IA nunca ve la cédula ni el correo: antes de llamarla, cambiamos cédulas, correos, teléfonos, cuentas y
+> tarjetas por etiquetas, y la respuesta vuelve con los datos solo para quien preguntó. Tampoco ve los valores de
+> sus cifras, solo sus nombres. Con Azure OpenAI, según Microsoft, los datos no se usan para entrenar los modelos,
+> y el registro guarda la pregunta con etiquetas, no con los datos."
 
-Lo que **no** pueden decir: que el kit "enmascara datos sensibles" (no lo hace) ni que hay una región de Azure
-OpenAI en Colombia (verifiquen antes). Si el caso tiene datos personales, digan qué datos quitarían del flujo.
+Lo que **no** pueden decir: que detecta *todos* los datos personales (no ve nombres sueltos, direcciones ni datos
+de salud escritos en texto libre; para eso está la detección de datos personales de Azure AI Language), ni que
+hay una región de Azure OpenAI en Colombia (verifiquen antes). Muéstrenlo en vivo: una pregunta con una cédula y
+la línea "La IA recibió: …".
 
 **4. "¿Cuál es el retorno y qué pasa si la gente no lo usa?"**
 > "Hoy [el proceso] les cuesta [X horas o pesos] al mes. Con una adopción conservadora de [la mitad de la base],
@@ -52,6 +55,9 @@ escoja la correcta. Por eso cada respuesta muestra su fuente.
 | ¿Y si alguien le esconde instrucciones en un documento? | "Revisamos los documentos antes de que el modelo los lea, y aunque algo pasara, una cifra escrita a mano no sale. Lo mostramos en la demo." |
 | ¿Por qué no basta con escribir mejor el prompt? | "Un prompt se puede saltar; una regla en código no. En nuestra medición, sin controles pasaron [X] de [Y] ataques y con el kit [0]." |
 | ¿Cuánto cuesta cada respuesta? | "[ms] y [USD] por respuesta con el modelo que usamos; lo mide el propio kit." |
+| ¿Siguen algún estándar? | "Nos guiamos por OWASP, NIST y la guía de controles críticos de IA de SANS. Tenemos la tabla control por control, incluidos los que no cubrimos." (`docs/SANS.md`). Nunca "cumplimos". |
+| ¿Y si alguien cambia los datos o las cuentas registradas? | "Los datos quedan sellados: si alguien cambia una cifra o una cuenta, el sistema avisa antes de responder." |
+| ¿Y si alguien abusa de la API o agota el presupuesto? | "Hay un tope de consultas por minuto y cada respuesta muestra su costo." |
 | ¿Qué falta para producción? | "[Conectarlo a sus datos reales, pruebas con usuarios, revisión de seguridad de su TI y medir el piloto]." |
 
 ## Traductor: de jerga técnica a lenguaje de negocio
@@ -70,6 +76,9 @@ En el pitch, usen la columna de la derecha. La de la izquierda es solo para cuan
 | Bitácora encadenada por hashes, HMAC | "Un registro de todo lo que pasó, que nadie puede borrar ni editar sin que se note" |
 | Servidor MCP, conector Swagger | "Se conecta a Copilot y a Power Automate, que ya usan" |
 | Intervalo de Wilson | "Con pocos casos, el resultado está entre X y Y" |
+| Seudonimización, tokenización de PII | "La IA nunca ve la cédula ni el correo: ve una etiqueta" |
+| Envenenamiento de datos, huella SHA-256 | "Un sello que avisa si alguien cambió los datos" |
+| Rate limiting | "Un tope de consultas por minuto para que nadie abuse ni agote el presupuesto" |
 
 Ojo: no digan "lista para la Superintendencia" ni "cumple la norma X". Digan "deja la evidencia que pediría una
 auditoría".

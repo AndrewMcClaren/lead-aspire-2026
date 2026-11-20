@@ -173,6 +173,8 @@ async function preguntar(texto) {
       extra += `<div class="meta"><span class="sello ${d.accion}">${DOCS[d.accion]}</span>${esc((d.motivos || []).join(" · "))}</div>`;
     });
     if (r.problemas && r.problemas.length) extra += `<div class="meta">${esc(r.problemas.join(" · "))}</div>`;
+    if (r.privacidad && r.privacidad.ocultados) extra += `<div class="meta">` +
+      `La IA no vio ${r.privacidad.ocultados} dato(s) personal(es) (${esc(r.privacidad.tipos.join(", ").toLowerCase())}). Recibió: «${esc(r.pregunta_modelo)}»</div>`;
     const medidas = [r.ms != null ? `${r.ms} ms` : "", r.uso && r.uso.tokens_entrada ? `${r.uso.tokens_entrada + r.uso.tokens_salida} tokens` : "",
                      r.costo_usd != null ? `USD ${r.costo_usd}` : ""].filter(Boolean).join(" · ");
     if (medidas) extra += `<div class="meta">${medidas}</div>`;
@@ -275,7 +277,8 @@ $("#verBitacora").onclick = pintarBitacora;
     ${capa("Firmas locales", e.escudo.firmas)}${capa("Prompt Shields", e.escudo.prompt_shields)}${capa("Juez", e.escudo.juez)}
     <span class="chip ${e.voz ? "on" : ""}">Voz: ${e.voz ? "Azure Speech" : "navegador"}</span>
     <span class="chip">Autonomía: ${esc(e.autonomia)}</span><span class="chip" id="chipSesion">Sesión</span>
-    <span class="chip">${e.cifras} cifras verificadas</span>`;
+    <span class="chip">${e.cifras} cifras verificadas</span>${capa("Datos personales ocultos", e.datos_personales)}
+    <span class="chip ${e.integridad === "integra" ? "on" : "alerta"}">Datos: ${e.integridad === "integra" ? "sellados" : esc(e.integridad.replace("_", " "))}</span>`;
   pintarSesion(e.sesion);
   for (const q of e.sugeridas) {
     const b = document.createElement("button"); b.className = "sec"; b.textContent = q; b.onclick = () => preguntar(q);

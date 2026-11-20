@@ -1,6 +1,8 @@
 """El asistente: responde preguntas con cifras verificadas y dice "no sé" cuando no tiene el dato.
 
 Capas, en orden:
+  0. Datos personales: cédulas, correos, teléfonos, cuentas y tarjetas se cambian por marcadores antes de que
+     la pregunta y los documentos salgan del computador (privacidad.py); la respuesta vuelve con los datos.
   1. Entrada: los documentos externos pasan por el escudo (escudo.py): firmas locales que retiran las
      oraciones con instrucciones para la IA, Prompt Shields y, si se activa, un juez LLM.
   2. Contexto: los documentos van delimitados como datos, y el prompt lleva un canario secreto.
@@ -18,6 +20,7 @@ import re
 import secrets
 import time
 
+from . import privacidad
 from .cifras import Tabla, carpeta_datos
 
 NO_SE = "No tengo ese dato verificado."
@@ -107,10 +110,30 @@ def _informes(documentos: list[str], pregunta: str, escudo) -> list[dict]:
 
 
 def responder(pregunta: str, modelo, tabla: Tabla | None = None, documentos: list[str] | None = None,
-              escudo=None) -> dict:
-    """Lo que ve la persona y por qué: texto, estado, claves, problemas, capas, documentos, costo y sesión."""
+              escudo=None, proteger_datos: bool | None = None) -> dict:
+    """Lo que ve la persona y por qué: texto, estado, claves, problemas, capas, documentos, costo y sesión.
+
+    "pregunta_modelo" es la pregunta tal como salió del computador (con marcadores en vez de datos personales);
+    es la que se guarda en la bitácora.
+    """
     tabla = tabla or Tabla()
     documentos = [d for d in documentos or [] if d and d.strip()]
+    proteger_datos = privacidad.activa() if proteger_datos is None else proteger_datos
+    seud = privacidad.Seudonimos() if proteger_datos else None
+    if seud:
+        pregunta, documentos = seud.ocultar(pregunta), [seud.ocultar(d) for d in documentos]
+    r = _responder(pregunta, modelo, tabla, documentos, escudo)
+    r["pregunta_modelo"] = pregunta
+    if seud:
+        r["texto"], tachados = privacidad.tachar(r["texto"]) if r["estado"] == "verificada" else (r["texto"], 0)
+        r["texto"] = seud.restaurar(r["texto"])
+        r["privacidad"] = {"ocultados": len(seud.originales), "tipos": seud.tipos(), "tachados_en_salida": tachados}
+        if seud.originales or tachados:
+            r["capas"] = sorted(set(r["capas"]) | {"datos_personales"})
+    return r
+
+
+def _responder(pregunta: str, modelo, tabla: Tabla, documentos: list[str], escudo) -> dict:
     informes = _informes(documentos, pregunta, escudo) if documentos else []
     para_modelo = [inf["texto"] for inf in informes if inf["accion"] != "bloqueado" and inf["texto"].strip()]
     base = {"bloqueados": [i for i, inf in enumerate(informes) if inf["accion"] == "bloqueado"],

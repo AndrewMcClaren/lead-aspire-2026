@@ -8,7 +8,7 @@ saben que es seguro?".
 |---|---|---|---|
 | **Datos** | | | |
 | 1 | ¿Cada cifra que muestra la IA sale de una fuente del cliente, con la fuente visible? | | `kit/datos/cifras.csv`, sello "Cifra verificada" |
-| 2 | ¿Los datos personales o confidenciales están fuera del repositorio y de la bitácora? | | `.gitignore`, bitácora solo con huellas |
+| 2 | ¿Los datos personales no llegan al modelo ni a la bitácora, y los confidenciales están fuera del repositorio? | | Marcadores de `kit/privacidad.py`, `.gitignore`, bitácora con huellas |
 | 3 | ¿Sabemos qué datos NO tenemos y la IA lo dice? | | Pregunta sin dato en la demo |
 | **Entrada** | | | |
 | 4 | ¿Los documentos externos se revisan antes de que la IA los lea? | | Escudo: firmas, Prompt Shields, juez |
@@ -33,13 +33,37 @@ saben que es seguro?".
 | 18 | ¿Está claro quién usa la solución, quién aprueba y quién mantiene los datos maestros? | | Lienzo del problema |
 | 19 | ¿La persona que aprueba tiene lo necesario para decidir (motivos, fuente, monto, destino)? | | Tarjeta de la acción |
 | 20 | ¿Hay un plan si la IA no está disponible (proceso manual)? | | |
+| **Gobierno** | | | |
+| 21 | ¿Está llena la ficha del sistema (abajo): propósito, usuarios, datos, modelo, responsable y riesgo? | | Ficha + evento `inicio` de la bitácora |
+| 22 | ¿Los datos del caso están sellados y se detecta si alguien los cambia? | | `python -m kit.integridad revisar` |
+| 23 | ¿Hay un tope de uso y un costo visible, para que un abuso no agote el presupuesto? | | `KIT_LIMITE_MINUTO`, costo por respuesta |
+| 24 | ¿Sabemos cómo detener la IA si se porta mal (apagar, revocar la clave, volver al proceso manual)? | | |
+| 25 | ¿Sabemos si los empleados del cliente ya usan IA por su cuenta, y la solución les da una alternativa aprobada? | | Entrevista, pregunta 8 |
 
 ## Compuerta
 
 | Resultado | Cuándo | Qué decir en el pitch |
 |---|---|---|
-| **Go** | Sí en 1, 4, 6, 8, 9, 10, 11 y 13, y al menos 16 de 20 en total | "Listo para un piloto de dos semanas con un área." |
+| **Go** | Sí en 1, 2, 4, 6, 8, 9, 10, 11 y 13, y al menos 20 de 25 en total | "Listo para un piloto de dos semanas con un área." |
 | **Go condicionado** | Sí en 6, 9 y 13, pero falta alguno de los obligatorios | "Listo para piloto si antes resolvemos ___." |
 | **No-go** | No en 6, 9 o 13 | "Todavía no: falta ___ para que la IA no invente ni actúe sola." |
 
 La compuerta es una regla del equipo, no una certificación. Lo que vale es la evidencia de la última columna.
+
+## Ficha del sistema de IA (inventario)
+
+Las guías de SANS, NIST y OWASP empiezan por lo mismo: saber qué IA hay, para qué y quién responde. Llénenla en
+cinco minutos; sirve de lámina de respaldo.
+
+| Campo | Qué poner |
+|---|---|
+| Nombre y propósito | Qué hace, en una frase |
+| Usuarios | Quién lo usa y quién aprueba |
+| Datos que usa | Archivos y sistemas del cliente; versión sellada (`huellas.json`) |
+| Datos personales | Cuáles podrían aparecer y qué pasa con ellos (marcadores, bitácora con huellas) |
+| Modelo | Proveedor, deployment y región |
+| Nivel de autonomía | El de `politica.json`: qué hace solo y qué no |
+| Riesgo | Bajo / medio / alto y por qué |
+| Responsable | La persona del cliente que responde por el sistema |
+| Cómo se detiene | Apagar el servidor, revocar la clave y el proceso manual de respaldo |
+| Cómo se mide | La métrica del piloto y cada cuánto se repite `kit.medir` |

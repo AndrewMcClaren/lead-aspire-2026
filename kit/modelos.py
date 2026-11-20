@@ -35,6 +35,7 @@ def _palabras(texto: str) -> set[str]:
 
 def _nombres_propios(pregunta: str) -> set[str]:
     """Palabras con mayúscula que no están al inicio de la pregunta (por ejemplo, una ciudad)."""
+    pregunta = re.sub(r"\[[A-Z]+_[A-Z]+\]", " ", pregunta)  # los marcadores de datos personales no son nombres
     palabras = re.findall(r"[\wÁÉÍÓÚÑáéíóúñ]+", pregunta)
     return {_sin_tildes(p)[:5] for p in palabras[1:] if p[0].isupper() and p.lower() not in ("ia", "ai")}
 

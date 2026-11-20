@@ -41,7 +41,18 @@ dice "no tengo ese dato verificado" en vez de inventar.
 Si prefieren no tocar el ejemplo, creen una carpeta nueva (por ejemplo `casos/cliente/`) con `cifras.csv`,
 `contexto.md` y lo que necesiten, y apúntenla con `KIT_DATOS=casos/cliente`. Lo que falte se toma del ejemplo.
 
-## 5. Probar (5 minutos)
+## 5. Sellar los datos (1 minuto)
+
+Cuando las cifras, el contexto y los maestros estén listos, séllenlos. Desde ahí, si alguien cambia un archivo, el
+servidor y `kit.verificar` avisan. Si el cambio fue de ustedes, vuelvan a sellar.
+
+```bash
+python -m kit.integridad sellar
+```
+
+Con una carpeta propia: `KIT_DATOS=casos/cliente python -m kit.integridad sellar`.
+
+## 6. Probar (5 minutos)
 
 ```bash
 python -m pytest -q
@@ -54,5 +65,6 @@ importan siguen corriendo: cifras escritas a mano, claves inventadas, documento 
 python -m kit.servidor --modelo azure:<deployment>
 ```
 
-Hagan las cinco preguntas sugeridas, peguen el documento con trampa y propongan un pago. Si todo responde
+Hagan las cinco preguntas sugeridas, una pregunta con una cédula inventada (para mostrar que la IA no la ve),
+peguen el documento con trampa y propongan un pago. Si todo responde
 bien, la demo está lista.

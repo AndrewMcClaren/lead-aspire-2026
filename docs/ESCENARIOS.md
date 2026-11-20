@@ -34,7 +34,7 @@ las ~3,5 horas de construcción.
 
 ## Tercero: los casos probables
 
-Los once tipos de cliente más probables en un hackatón en Bogotá. Las cifras y problemas son **típicos del
+Los doce tipos de cliente más probables en un hackatón en Bogotá. Las cifras y problemas son **típicos del
 sector, no de una empresa real**: el día del evento manda lo que diga el cliente.
 
 ### 1. Banco, cooperativa o fintech
@@ -139,6 +139,24 @@ sector, no de una empresa real**: el día del evento manda lo que diga el client
 - **Demo:** flujo en Power Automate que recibe los PDF, extrae fechas y datos (Document Intelligence), el escudo del
   kit revisa que el documento no traiga instrucciones escondidas, y el guardián habilita el ingreso solo si todo
   está vigente; si no, va a revisión humana. Una Power App de portería muestra "habilitado / no habilitado".
+
+### 12. Área de ciberseguridad (SOC) de un banco, una telco o una entidad pública
+- **Problemas típicos:** demasiadas alertas para pocos analistas, informes de incidentes que toman horas, procedimientos
+  que nadie encuentra en medio de un incidente.
+- **Preguntas clave:** ¿Cuántas alertas reciben al día y cuántas revisa una persona? ¿Cuánto tardan en escribir el
+  informe de un incidente? ¿Qué acciones de contención (aislar un equipo, bloquear una IP) necesitan aprobación?
+- **Palanca:** productividad (minutos por alerta) y seguridad (tiempo de respuesta).
+- **Demo:** un asistente para el analista que resume la alerta, busca el procedimiento interno que aplica y **propone**
+  la contención; una persona la aprueba. **Aquí el kit encaja muy bien, y por una razón que vale decir en voz alta:**
+  en un SOC, el texto que lee la IA (registros, correos sospechosos, nombres de archivos) lo escribe el atacante. El
+  escudo revisa ese texto antes de que la IA lo lea, la capa de datos personales quita IP y correos antes de enviarlo
+  a la nube (es el caso de "anonimizar registros" de las charlas de SANS), el guardián exige aprobación para contener,
+  y las cifras del tablero (alertas por día, tiempo de respuesta) salen verificadas.
+- **Herramientas de Microsoft:** Azure OpenAI y Prompt Shields; Microsoft Sentinel y Defender son lo que el cliente
+  probablemente ya usa, y Security Copilot es el producto de Microsoft para esto. No asuman que tienen acceso a
+  Sentinel o Security Copilot con la cuenta de estudiante: muéstrenlos como "dónde se conectaría", no en vivo.
+- **Cuidado:** nada de herramientas ofensivas ni de datos reales de incidentes. Registros de ejemplo inventados.
+  Ver [`SANS.md`](SANS.md).
 
 ## Cuarto: si nada encaja
 

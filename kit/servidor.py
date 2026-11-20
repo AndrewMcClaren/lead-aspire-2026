@@ -18,17 +18,23 @@ Rutas:
   POST /api/sesion/reiniciar  vuelve la sesión a "limpia"
   GET  /api/bitacora          verificación de la bitácora y sus últimas entradas
   GET  /swagger.json          definición OpenAPI 2.0 para un conector de Power Platform o Copilot Studio
+
+Límite de uso: cada dirección puede hacer KIT_LIMITE_MINUTO solicitudes POST por minuto (60 por defecto);
+la siguiente recibe 429. Frena a un script que intente miles de ataques o que gaste el crédito de Azure.
 """
 
 import argparse
 import hmac
 import json
 import os
+import threading
+import time
+from collections import defaultdict, deque
 from dataclasses import asdict
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-from . import modelos
+from . import integridad, modelos, privacidad
 from .aprobacion import Bandeja, cargar_politica
 from .asistente import responder
 from .bitacora import Bitacora, huella, proteger, verificar
@@ -63,6 +69,23 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
     bitacora = bitacora or Bitacora()
     bandeja = Bandeja(bitacora)
     sesion = {"estado": "limpia", "motivos": []}
+    limite = int(os.environ.get("KIT_LIMITE_MINUTO", "60") or 0)
+    recientes: dict[str, deque] = defaultdict(deque)
+    candado = threading.Lock()
+
+    def permitido(cliente: str) -> bool:
+        """Ventana deslizante de 60 segundos por dirección. KIT_LIMITE_MINUTO=0 lo desactiva."""
+        if limite <= 0:
+            return True
+        ahora = time.monotonic()
+        with candado:
+            cola = recientes[cliente]
+            while cola and ahora - cola[0] > 60:
+                cola.popleft()
+            if len(cola) >= limite:
+                return False
+            cola.append(ahora)
+            return True
 
     def escudo(docs, pregunta):
         return revisar_documentos(docs, pregunta, modelo_juez=None if nombre_modelo.startswith(("simulado", "ingenuo")) else modelo)
@@ -105,7 +128,9 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                 return self._json({"modelo": getattr(modelo, "nombre", nombre_modelo), "voz": voz_disponible(),
                                    "escudo": {"firmas": True, "prompt_shields": escudo_disponible(), "juez": juez_activo()},
                                    "sugeridas": sugeridas(), "cifras": len(tabla.cifras), "caso": nombre_caso(),
-                                   "sesion": sesion, "autonomia": cargar_politica()["nivel_autonomia"]})
+                                   "sesion": sesion, "autonomia": cargar_politica()["nivel_autonomia"],
+                                   "datos_personales": privacidad.activa(), "integridad": integridad.revisar()["estado"],
+                                   "limite_minuto": limite})
             if self.path == "/api/acciones":
                 return self._json(bandeja.lista())
             if self.path == "/api/bitacora":
@@ -118,6 +143,9 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
         def do_POST(self):
             if not self._autorizado():
                 return self._json({"error": "Falta la clave de API (encabezado X-API-Key)"}, 401)
+            if not permitido(self.client_address[0]):
+                bitacora.registrar("limite_excedido", {"ruta": self.path})
+                return self._json({"error": f"Demasiadas solicitudes: máximo {limite} por minuto"}, 429)
             try:
                 datos = self._leer()
             except json.JSONDecodeError:
@@ -132,7 +160,8 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                     sesion.update(estado="sospechosa", motivos=sesion["motivos"] + ["Documento con instrucciones escondidas"])
                 r["sesion"] = sesion
                 bitacora.registrar("pregunta", proteger({
-                    "pregunta": pregunta, "estado": r["estado"], "claves": r.get("claves", []), "capas": r.get("capas", []),
+                    "pregunta": r["pregunta_modelo"], "datos_personales": r.get("privacidad", {}).get("tipos", []),
+                    "estado": r["estado"], "claves": r.get("claves", []), "capas": r.get("capas", []),
                     "problemas": r.get("problemas", []), "ms": r.get("ms"), "costo_usd": r.get("costo_usd"),
                     "documentos": [{"huella": huella(d), **inf} for d, inf in zip(docs, r["documentos"])]}, ("pregunta",)))
                 return self._json(r)
@@ -178,7 +207,15 @@ def main():
     a = p.parse_args()
     if a.host != "127.0.0.1" and not os.environ.get("KIT_API_KEY"):
         print("Aviso: el servidor queda abierto a la red sin KIT_API_KEY. Definan una clave antes de exponerlo.")
-    servidor = ThreadingHTTPServer((a.host, a.puerto), crear_app(a.modelo))
+    revision = integridad.revisar()
+    if revision["estado"] != "integra":
+        print(f"Aviso de integridad de los datos: {integridad.describir(revision)}.")
+    bitacora = Bitacora()
+    # Inventario mínimo del sistema de IA: qué modelo, qué caso, qué capas y qué versión de los datos.
+    bitacora.registrar("inicio", {"modelo": a.modelo, "caso": nombre_caso(), "datos": integridad.huellas(),
+                                  "integridad": revision["estado"], "datos_personales": privacidad.activa(),
+                                  "prompt_shields": escudo_disponible(), "juez": juez_activo()})
+    servidor = ThreadingHTTPServer((a.host, a.puerto), crear_app(a.modelo, bitacora))
     print(f"Demo lista en http://localhost:{a.puerto}  (caso: {nombre_caso()} · modelo: {a.modelo} · "
           f"voz Azure: {voz_disponible()} · Prompt Shields: {escudo_disponible()} · juez: {juez_activo()})  Ctrl+C para salir.")
     try:
