@@ -15,7 +15,7 @@ Rutas:
   GET  /api/acciones          acciones propuestas y su estado
   POST /api/acciones          {"tipo", "detalle", "monto", "destino", "cuenta", "peticion", "solicitante"}
   POST /api/acciones/<id>     {"aprobar": true, "aprobador": "nombre"} -> la decisión de una persona
-  POST /api/sesion/reiniciar  vuelve la sesión a "limpia"
+  POST /api/sesion/reiniciar  {"revisor": "nombre"} -> vuelve la sesión a "limpia" (también una detenida)
   GET  /api/bitacora          verificación de la bitácora y sus últimas entradas
   GET  /swagger.json          definición OpenAPI 2.0 para un conector de Power Platform o Copilot Studio
 
@@ -35,7 +35,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 from . import integridad, modelos, privacidad
-from .aprobacion import Bandeja, cargar_politica
+from .aprobacion import Bandeja, cargar_politica, nueva_sesion, registrar_incidentes
 from .asistente import responder
 from .bitacora import Bitacora, huella, proteger, verificar
 from .cifras import RAIZ, Tabla, carpeta_datos
@@ -68,7 +68,7 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
     modelo = modelos.crear(nombre_modelo, tabla)
     bitacora = bitacora or Bitacora()
     bandeja = Bandeja(bitacora)
-    sesion = {"estado": "limpia", "motivos": []}
+    sesion = nueva_sesion()
     limite = int(os.environ.get("KIT_LIMITE_MINUTO", "60") or 0)
     recientes: dict[str, deque] = defaultdict(deque)
     candado = threading.Lock()
@@ -156,8 +156,8 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                     return self._json({"error": "Falta la pregunta"}, 400)
                 docs = [str(d)[:10_000] for d in datos.get("documentos") or [] if str(d).strip()]
                 r = responder(pregunta, modelo, tabla, docs, escudo)
-                if r["sospechosa"] and sesion["estado"] == "limpia":
-                    sesion.update(estado="sospechosa", motivos=sesion["motivos"] + ["Documento con instrucciones escondidas"])
+                if registrar_incidentes(sesion, len(r["bloqueados"]) + len(r["saneados"])):
+                    bitacora.registrar("sesion_detenida", {"incidentes": sesion["incidentes"]})
                 r["sesion"] = sesion
                 bitacora.registrar("pregunta", proteger({
                     "pregunta": r["pregunta_modelo"], "datos_personales": r.get("privacidad", {}).get("tipos", []),
@@ -188,8 +188,11 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                 except (KeyError, ValueError) as e:
                     return self._json({"error": str(e).strip("'")}, 400)
             if self.path == "/api/sesion/reiniciar":
-                sesion.update(estado="limpia", motivos=[])
-                bitacora.registrar("sesion_reiniciada", {})
+                revisor = str(datos.get("revisor") or "persona")[:60]
+                bitacora.registrar("sesion_reiniciada", {"revisor": revisor, "estado_anterior": sesion["estado"],
+                                                         "incidentes": sesion["incidentes"]})
+                sesion.clear()
+                sesion.update(nueva_sesion())
                 return self._json(sesion)
             return self._json({"error": "no existe"}, 404)
 

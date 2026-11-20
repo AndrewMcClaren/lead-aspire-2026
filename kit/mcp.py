@@ -20,7 +20,7 @@ local (stdio). Para Copilot Studio usen el conector de kit/conector/swagger.json
 import json
 import sys
 
-from .aprobacion import revisar_accion
+from .aprobacion import nueva_sesion, registrar_incidentes, revisar_accion
 from .bitacora import Bitacora
 from .cifras import Tabla
 from .escudo import revisar_documentos
@@ -49,6 +49,7 @@ class ServidorMCP:
     def __init__(self, tabla: Tabla | None = None, bitacora: Bitacora | None = None):
         self.tabla = tabla or Tabla()
         self.bitacora = bitacora
+        self.sesion = nueva_sesion()  # tres documentos con trampa la detienen: ver aprobacion.registrar_incidentes
 
     def _cifra(self, c) -> dict:
         return {"clave": c.clave, "descripcion": c.descripcion, "valor": c.texto(), "fuente": c.fuente}
@@ -66,11 +67,14 @@ class ServidorMCP:
             return self._cifra(c) if c else {"error": "No existe esa clave. No inventes el valor."}
         if nombre == "revisar_documento":
             inf = revisar_documentos([str(args.get("texto", ""))], str(args.get("tarea", "")))[0]
-            return inf
+            if registrar_incidentes(self.sesion, int(inf["accion"] != "pasa")) and self.bitacora:
+                self.bitacora.registrar("sesion_detenida", {"incidentes": self.sesion["incidentes"], "origen": "mcp"})
+            return {**inf, "sesion": self.sesion["estado"]}
         if nombre == "proponer_accion":
             monto = args.get("monto")
             estado, motivos = revisar_accion(str(args.get("tipo", "")), float(monto) if monto is not None else None,
-                                             str(args.get("destino", "")), str(args.get("cuenta", "")), str(args.get("peticion", "")))
+                                             str(args.get("destino", "")), str(args.get("cuenta", "")), str(args.get("peticion", "")),
+                                             self.sesion["estado"])
             if self.bitacora:
                 self.bitacora.registrar("accion_mcp", {**{k: args.get(k) for k in ("tipo", "monto", "destino")}, "estado": estado})
             return {"estado": estado, "motivos": motivos,

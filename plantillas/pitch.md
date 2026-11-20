@@ -27,7 +27,7 @@ no se publicó: pregúntenla al llegar y usen la columna que corresponda.
 
 **Láminas de respaldo (no se presentan; se muestran si preguntan):**
 - Quiénes somos y experiencia previa del equipo.
-- "¿Cómo saben que es seguro?": la tabla resumida de `docs/SANS.md` (14 controles sí, 4 parciales, 2 no aplican),
+- "¿Cómo saben que es seguro?": la tabla resumida de `docs/SANS.md` (16 controles sí, 2 parciales, 2 no aplican),
   con la frase "nos guiamos por OWASP, NIST y SANS", y la ficha del sistema de `checklist_ia_responsable.md`.
 
 **Frase opcional para la lámina 5:** "La seguridad no es el departamento del no: es lo que les permite usar IA en

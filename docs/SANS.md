@@ -42,14 +42,14 @@ falta. **No aplica** = no tiene sentido para esta demo, y por qué.
 | | Controlar el uso de la API (límite de tasa) | Sí | `KIT_LIMITE_MINUTO` (60 por defecto) y costo por respuesta. Falta: alerta automática de picos |
 | **Monitoreo** | Registro del comportamiento, etiquetado | Sí | Bitácora encadenada: cada evento con sus capas, estado y motivos |
 | | Correlacionar lo que pide la persona y lo que hace la IA | Sí | La bitácora une petición, acción propuesta, solicitante y aprobador |
-| | Detectar anomalías y deriva | Parcial | `kit.medir` se puede repetir para ver si el modelo empeoró. No hay monitoreo continuo |
+| | Detectar anomalías y deriva | Sí | Cada `kit.medir` se compara con la medición anterior del mismo modelo y caso, y avisa si algo empeoró y qué archivos cambiaron. Con `--estricto` falla (para correrlo cada semana o en CI). Falta: correrlo solo, de forma programada |
 | **Gobierno** | Inventario del sistema de IA | Parcial | Al arrancar, la bitácora registra modelo, caso, huellas de los datos y capas activas. La ficha completa está en `plantillas/checklist_ia_responsable.md` |
 | | Evaluación de riesgos antes de desplegar | Sí | Lista de IA responsable con compuerta Go / No-go |
 | | Humano en el ciclo para lo de alto riesgo | Sí | Bandeja de aprobaciones y segregación de funciones |
-| | Detener y aislar si se porta mal | Parcial | Una sesión sospechosa endurece las reglas. Detener del todo es manual: apagar el servidor o revocar la clave en Azure |
+| | Detener y aislar si se porta mal | Sí | Parada automática: al tercer documento con trampa (`parada_automatica` en `politica.json`) la sesión queda "detenida" y ninguna acción pasa hasta que una persona la revise y la reinicie, con su nombre en la bitácora. Detener el sistema entero sigue siendo manual |
 | | Políticas de uso y capacitación | No aplica | Es del cliente. La entrevista pregunta si sus empleados ya usan IA por su cuenta |
 
-**Resumen honesto:** de 20 controles, 14 sí, 4 parciales y 2 que no aplican a esta demo. En el pitch digan "nos
+**Resumen honesto:** de 20 controles, 16 sí, 2 parciales y 2 que no aplican a esta demo. En el pitch digan "nos
 guiamos por la guía de controles críticos de SANS", nunca "cumplimos SANS": la guía es un borrador y no certifica.
 
 ## Cómo nos ayuda el 27
@@ -84,3 +84,5 @@ guiamos por la guía de controles críticos de SANS", nunca "cumplimos SANS": la
 | Sello de integridad de los datos del caso | `python -m kit.integridad sellar` / `revisar` | `test_integridad_…`, `test_casos_incluidos_estan_sellados` |
 | Límite de solicitudes por minuto | `KIT_LIMITE_MINUTO` | `test_limite_de_uso_por_minuto` |
 | Inventario al arrancar (modelo, caso, huellas, capas) | evento `inicio` en la bitácora | se ve en `python -m kit.bitacora ver` |
+| Parada automática de la sesión al tercer intento de engaño | `parada_automatica` en `politica.json` (0 la apaga) | `test_parada_automatica_…` (3 pruebas) |
+| Comparación con la medición anterior | `python -m kit.medir` (`--estricto` falla si empeoró) | `test_comparar_mediciones_…` |

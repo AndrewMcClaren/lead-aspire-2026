@@ -17,5 +17,7 @@
   "dias_cuenta_nueva": 30,
   "sesion_sospechosa": "confirmar",
   "nota_sesion_sospechosa": "Qué hacer con una acción sensible si en la sesión se bloqueó o se saneó un documento: confirmar o bloquear",
-  "segregacion_de_funciones": true
+  "segregacion_de_funciones": true,
+  "parada_automatica": 3,
+  "nota_parada_automatica": "Cuántos documentos con trampa (bloqueados o saneados) detienen la sesión: ninguna acción pasa hasta que una persona la revise y la reinicie. 0 = sin parada automática"
 }

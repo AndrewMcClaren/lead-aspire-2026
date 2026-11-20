@@ -57,6 +57,8 @@ escoja la correcta. Por eso cada respuesta muestra su fuente.
 | ¿Cuánto cuesta cada respuesta? | "[ms] y [USD] por respuesta con el modelo que usamos; lo mide el propio kit." |
 | ¿Siguen algún estándar? | "Nos guiamos por OWASP, NIST y la guía de controles críticos de IA de SANS. Tenemos la tabla control por control, incluidos los que no cubrimos." (`docs/SANS.md`). Nunca "cumplimos". |
 | ¿Y si alguien cambia los datos o las cuentas registradas? | "Los datos quedan sellados: si alguien cambia una cifra o una cuenta, el sistema avisa antes de responder." |
+| ¿Y si alguien insiste en engañar a la IA? | "Al tercer intento la conversación se detiene sola: sigue respondiendo, pero no puede hacer nada hasta que una persona la revise." (Muéstrenlo: tres veces el documento con trampa y luego un pago.) |
+| ¿Cómo saben que va a seguir funcionando en seis meses? | "Corremos la misma prueba cada semana y el sistema la compara con la anterior: si algo empeora, nos avisa y dice qué cambió." |
 | ¿Y si alguien abusa de la API o agota el presupuesto? | "Hay un tope de consultas por minuto y cada respuesta muestra su costo." |
 | ¿Qué falta para producción? | "[Conectarlo a sus datos reales, pruebas con usuarios, revisión de seguridad de su TI y medir el piloto]." |
 
@@ -79,6 +81,8 @@ En el pitch, usen la columna de la derecha. La de la izquierda es solo para cuan
 | Seudonimización, tokenización de PII | "La IA nunca ve la cédula ni el correo: ve una etiqueta" |
 | Envenenamiento de datos, huella SHA-256 | "Un sello que avisa si alguien cambió los datos" |
 | Rate limiting | "Un tope de consultas por minuto para que nadie abuse ni agote el presupuesto" |
+| Circuit breaker, cuarentena | "Como la tarjeta que se bloquea al tercer intento con la clave equivocada" |
+| Monitoreo de deriva | "Como el chequeo médico: cada medición se compara con la anterior" |
 
 Ojo: no digan "lista para la Superintendencia" ni "cumple la norma X". Digan "deja la evidencia que pediría una
 auditoría".

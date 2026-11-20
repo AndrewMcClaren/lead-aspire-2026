@@ -422,3 +422,79 @@ def test_limite_de_uso_por_minuto(tmp_path, monkeypatch):
     srv.shutdown()
     assert codigos == [200, 200, 429]
     assert "limite_excedido" in (tmp_path / "b.jsonl").read_text(encoding="utf-8")
+
+
+# --- Parada automática y comparación de mediciones ---
+
+def test_parada_automatica_de_la_sesion():
+    from kit.aprobacion import nueva_sesion, registrar_incidentes
+    pol = {**cargar_politica(), "parada_automatica": 3}
+    s = nueva_sesion()
+    assert not registrar_incidentes(s, 0, pol) and s["estado"] == "limpia"
+    assert not registrar_incidentes(s, 1, pol) and s["estado"] == "sospechosa"
+    assert not registrar_incidentes(s, 1, pol) and s["estado"] == "sospechosa"
+    assert registrar_incidentes(s, 1, pol) and s["estado"] == "detenida"  # al tercer intento
+    assert not registrar_incidentes(s, 1, pol) and s["estado"] == "detenida"  # solo avisa una vez
+    # Detenida: ninguna acción pasa, ni siquiera una consulta
+    for tipo in ("consulta", "pago"):
+        estado, motivos = revisar_accion(tipo, 1000, "Proveedor Demo S.A.S.", "", "Paga a Proveedor Demo", "detenida")
+        assert estado == "bloqueada" and "detenida" in motivos[0]
+    # Con parada_automatica 0 nunca se detiene
+    s = nueva_sesion()
+    registrar_incidentes(s, 10, {**pol, "parada_automatica": 0})
+    assert s["estado"] == "sospechosa"
+
+
+def test_parada_automatica_en_el_servidor_y_reinicio_con_revisor(tmp_path):
+    from kit.servidor import crear_app
+    srv = ThreadingHTTPServer(("127.0.0.1", 0), crear_app("simulado", Bitacora(tmp_path / "b.jsonl")))
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    base = f"http://127.0.0.1:{srv.server_port}"
+
+    def post(ruta, datos):
+        req = urllib.request.Request(base + ruta, data=json.dumps(datos).encode(), headers={"Content-Type": "application/json"})
+        return json.loads(urllib.request.urlopen(req).read())
+
+    try:
+        for esperado in ("sospechosa", "sospechosa", "detenida"):
+            r = post("/api/preguntar", {"pregunta": "¿Cuánto vendió la cadena el último año?", "documentos": [TRAMPA]})
+            assert r["sesion"]["estado"] == esperado
+        assert r["estado"] == "verificada"  # las cifras siguen saliendo
+        a = post("/api/acciones", {"tipo": "consulta", "detalle": "Ver saldo", "peticion": "consulta", "solicitante": "asistente"})
+        assert a["estado"] == "bloqueada" and "detenida" in a["motivo"]
+        assert post("/api/sesion/reiniciar", {"revisor": "Tesorería"})["estado"] == "limpia"
+    finally:
+        srv.shutdown()
+    bitacora = (tmp_path / "b.jsonl").read_text(encoding="utf-8")
+    assert "sesion_detenida" in bitacora and '"revisor": "Tesorería"' in bitacora
+    assert verificar(tmp_path / "b.jsonl")[0]
+
+
+def test_parada_automatica_en_el_servidor_mcp(tabla):
+    mcp = ServidorMCP(tabla)
+    for _ in range(3):
+        r = mcp.llamar("revisar_documento", {"texto": TRAMPA, "tarea": "Resume el correo"})
+    assert r["sesion"] == "detenida"
+    r = mcp.llamar("proponer_accion", {"tipo": "pago", "monto": 1000, "destino": "Proveedor Demo S.A.S.",
+                                       "peticion": "Paga a Proveedor Demo"})
+    assert r["estado"] == "bloqueada"
+
+
+def test_comparar_mediciones_detecta_empeoramiento(tmp_path):
+    from kit.medir import comparar, medir, registrar_en_historial
+    filas = medir("ingenuo")
+    ruta = tmp_path / "historial.jsonl"
+    empeoro, lineas = registrar_en_historial(filas, "ingenuo", ruta)
+    assert not empeoro and "primera" in lineas[0]
+    empeoro, lineas = registrar_en_historial(filas, "ingenuo", ruta)
+    assert not empeoro and all(l.endswith("igual") for l in lineas[1:])
+    # Un ataque más pasa con el kit completo: debe avisar
+    peor = [dict(f) for f in filas]
+    peor[-1]["ataques_exitosos"] += 1
+    empeoro, lineas = comparar({"filas": filas, "datos": {"cifras.csv": "a"}}, {"filas": peor, "datos": {"cifras.csv": "b"}})
+    assert empeoro and any("EMPEORÓ ataques exitosos" in l for l in lineas)
+    assert any("cifras.csv" in l for l in lineas)
+    # Que empeore la configuración sin controles no cuenta como alarma
+    peor = [dict(f) for f in filas]
+    peor[0]["ataques_exitosos"] = max(0, peor[0]["ataques_exitosos"] - 1)
+    assert not comparar({"filas": filas}, {"filas": peor})[0]

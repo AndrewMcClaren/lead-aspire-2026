@@ -1,8 +1,8 @@
 # LEAD ASPIRE 2026 · Bogotá
 
-Preparación y kit de demo del equipo para el hackatón **Microsoft LEAD ASPIRE**, el 27 de noviembre de 2026
-en Microsoft Bogotá. En este formato no hay reto al llegar: se entrevista a un cliente, se escoge un
-problema, se construye una solución con IA de Microsoft y se presenta.
+Preparación y kit de demo del equipo para **LEAD Aspire Day Colombia**, el 27 de noviembre de 2026 en
+Microsoft Bogotá. En Nueva York fue un caso con cliente y construcción; en Bogotá la competencia se anuncia como
+**AI Budget Games** y un **Case Championship**, con reglas aún sin publicar. Preparamos los dos formatos.
 
 ## Qué hay aquí
 
@@ -15,6 +15,7 @@ problema, se construye una solución con IA de Microsoft y se presenta.
 | [`docs/DESPLIEGUE_AZURE.md`](docs/DESPLIEGUE_AZURE.md) | Cómo poner el kit en Azure con dirección pública para Copilot Studio o Power Automate (no probado) |
 | [`docs/SANS.md`](docs/SANS.md) | La guía de controles críticos de seguridad en IA de SANS **control por control** frente al kit, qué del cuaderno de NotebookLM no citar y cómo usarlo en la entrevista y el pitch |
 | [`docs/INFRAESTRUCTURA.md`](docs/INFRAESTRUCTURA.md) | Las capas del kit área por área, cómo mostrarlas en 60 segundos, su relación con OWASP, NIST e ISO, y sus límites |
+| [`plantillas/budget_games.md`](plantillas/budget_games.md) | **AI Budget Games**: hipótesis, método de 5 pasos para repartir un presupuesto, costos de una iniciativa de IA, práctica y preguntas para la organización |
 | [`plantillas/`](plantillas) | Para el día: entrevista, lienzo del problema, pitch, preguntas del jurado, lista de IA responsable, cómo adaptar el kit, **tres casos de simulacro** y un **prompt de auditoría** para que una IA haga de jurado una **calculadora de ROI** en Excel y una **hoja de una página** para el jurado (Word y ejemplo en PDF) |
 | [`kit/`](kit) | La demo lista para adaptar (abajo) |
 | [`respaldo/`](respaldo) | Material de referencia: los datos del DANE (demo de respaldo) y el análisis de los 18 proyectos de DefAcc |
@@ -29,6 +30,7 @@ instrucciones escondidas** y **sin ejecutar solo lo delicado**. Cada área tiene
 | Datos personales | Cédulas, correos, teléfonos, cuentas y tarjetas se cambian por marcadores antes de llamar al modelo; la respuesta vuelve con los datos. El modelo ve el nombre de cada cifra, nunca su valor. |
 | Entrada | Firmas locales en español retiran las oraciones con instrucciones para la IA; luego Prompt Shields y, opcional, un juez LLM con canario. Si un servicio falla, el documento no pasa. |
 | Salida | El modelo cita claves; el código pone cada cifra con su unidad y su fuente. Cifras escritas a mano (en dígitos o palabras) o claves inventadas: "No tengo ese dato verificado". Un canario detecta si intenta revelar sus instrucciones. |
+| Sesión | Al tercer documento con trampa la conversación se detiene: ninguna acción pasa hasta que una persona la revise y la reinicie. |
 | Acciones | Política en archivo (`politica.json`) y datos maestros (`maestros.json`): intención, destino registrado, cuenta, monto pedido, sesión sospechosa, niveles de autonomía y segregación de funciones. |
 | Auditoría | Bitácora encadenada por hashes (con firma HMAC opcional) de cada pregunta, acción y decisión. |
 | Integridad | Los datos del caso se sellan con su huella; si alguien cambia una cifra o una cuenta, el servidor y `kit.verificar` avisan. Límite de solicitudes por minuto. |
@@ -63,7 +65,7 @@ recorrido, no es inteligencia real y puede escoger mal una cifra.
 | `python -m kit.verificar --modelo azure:<deployment> --escudo --voz` | Prueba los servicios reales de Azure (una llamada cada uno) |
 | `python -m kit.servidor --modelo azure:<deployment>` | La demo con el modelo real |
 | `python -m kit.medir` | Antes y después en el peor caso simulado (un modelo que obedece todo) |
-| `python -m kit.medir --modelo azure:<deployment>` | Antes y después con el modelo real: el número del pitch |
+| `python -m kit.medir --modelo azure:<deployment>` | Antes y después con el modelo real: el número del pitch. Se compara solo con la medición anterior y avisa si algo empeoró |
 | `python -m kit.bitacora verificar` | Comprueba que nadie alteró la bitácora |
 | `python -m kit.integridad sellar` | Sella los datos del caso después de cargarlos (`revisar` dice si cambiaron) |
 | `python -m kit.mcp` | Servidor MCP para agentes (ver abajo) |

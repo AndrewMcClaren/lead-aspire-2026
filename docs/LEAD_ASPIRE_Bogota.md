@@ -1,7 +1,11 @@
 # LEAD ASPIRE Bogotá · 27 de noviembre de 2026
 
-Preparación del equipo para el hackatón de Microsoft LEAD en las oficinas de Microsoft Bogotá, a partir
-de lo que se sabe de la edición de Nueva York.
+Preparación del equipo para LEAD Aspire Day Colombia 2026 en Microsoft Bogotá, a partir de la descripción
+oficial de Bogotá y de lo que se sabe de la edición de Nueva York.
+
+> **Importante: Bogotá no se describe igual que Nueva York.** Ver "Nueva York frente a Bogotá" abajo. Preparamos
+> los dos formatos: el caso con construcción (como Nueva York) y una competencia de estrategia y presupuesto (los
+> AI Budget Games).
 
 ## Qué sabemos y de dónde
 
@@ -22,9 +26,37 @@ de lo que se sabe de la edición de Nueva York.
   las que **se implementan fácil o encajan con lo que la empresa ya tiene**.
 - No se publicaron los criterios de evaluación ni la duración del pitch.
 
-**Bogotá (lo que compartió el equipo, sin verificar):** mismo formato, una jornada de 10:00 a 17:00,
-cliente o aliado colombiano o regional, networking previo el 24 de noviembre. Confirmen los detalles
-con la organización.
+**Bogotá, descripción oficial (la que compartió el equipo):** "LEAD Aspire Day | Colombia 2026", una
+*experiencia estudiantil* para aprender, explorar y prepararse profesionalmente, con cuatro pilares: **Connect**
+(red de contactos), **Explore** (ideas y perspectivas), **Compete** ("participa en los **AI Budget Games**,
+colabora en equipo, resuelve retos del mundo real y desarrolla soluciones estratégicas") y **Deliver** (presentar
+y celebrar). Lo destacado: networking, charlas de liderazgo y carrera, reto AI Budget Games, Innovation Hub,
+estrategia de equipo y preparación de pitch, **finales del Case Championship** y premiación. El equipo también
+supo de una jornada de 10:00 a 17:00 y un networking previo el 24 de noviembre (sin verificar).
+
+### Nueva York frente a Bogotá
+
+| | Nueva York (12 de octubre) | Bogotá (27 de noviembre) |
+|---|---|---|
+| Cómo se presenta | Hackatón: "especialista de Microsoft Cloud & AI por un día" | Experiencia estudiantil de liderazgo y preparación profesional |
+| Fases | Discover → Strategize → Build → Pitch | Connect → Explore → Compete → Deliver |
+| La competencia | Un caso de un cliente (Mastercard) resuelto con IA de Microsoft | "AI Budget Games" y finales de un "Case Championship" |
+| ¿Hay que construir? | Sí: se esperaba una solución que funcione | No lo dice: habla de "soluciones estratégicas" |
+| Además | — | Networking, charlas de carrera, Innovation Hub, premiación |
+
+**Lo que eso cambia:**
+
+1. **Probablemente hay menos tiempo para construir**, porque la jornada tiene charlas y networking. El peso puede
+   estar en la estrategia, el presupuesto y el caso de negocio. El kit deja de ser el protagonista y pasa a ser la
+   **prueba de que la estrategia se puede implementar**: 60 segundos de demo o una lámina de respaldo.
+2. **El presupuesto pasa al centro:** costos, retorno, priorización y a qué se renuncia. Lo practicamos en
+   [`plantillas/budget_games.md`](../plantillas/budget_games.md), junto con la calculadora de ROI.
+3. **"Finales" sugiere rondas:** quizás todos presentan corto y solo algunos llegan a la final. Tengan una versión
+   del pitch de 2 minutos además de la de 4 o 5.
+4. **El networking cuenta (Connect):** cada integrante debe tener una presentación personal de 30 segundos
+   (quién soy, qué estudio, qué construí) y su LinkedIn al día.
+5. **Nadie sabe aún las reglas.** El 24 pregunten lo de la lista de `budget_games.md`. Si el día del evento resulta
+   ser un caso con construcción como el de Nueva York, el resto de esta guía aplica tal cual.
 
 ## Experiencia previa del equipo
 
@@ -66,6 +98,9 @@ sale de sus propios datos, y lo delicado lo aprueba alguien"**.
 
 ## Plan del día (10:00 a 17:00)
 
+**Plan A, si es un caso con construcción como el de Nueva York.** Si son los Budget Games o un caso sin
+construcción, usen el plan B que sigue a esta tabla.
+
 | Hora | Fase | Qué hacer | Entregable |
 |---|---|---|---|
 | 10:00–11:00 | **Descubrir** | Entrevista al cliente con las preguntas de abajo. Uno pregunta, uno anota, uno escucha números. | Tres problemas candidatos con su costo |
@@ -74,6 +109,16 @@ sale de sus propios datos, y lo delicado lo aprueba alguien"**.
 | 12:00–15:30 | **Construir** | Un flujo pequeño que funcione de punta a punta con datos de ejemplo. Nada de plataformas. | Demo que corre |
 | 15:30–16:15 | Medir | Escribir 10 a 20 casos del cliente en `casos.json` y correr `python -m kit.medir --modelo azure:<deployment>`. Aunque sea poco, es un número con su intervalo de confianza. | Una tabla de antes y después |
 | 16:15–17:00 | **Pitch** | Ensayar dos veces con reloj. | Pitch y demo |
+
+**Plan B, si es estrategia y presupuesto (AI Budget Games):**
+
+| Momento | Qué hacer |
+|---|---|
+| Al recibir las reglas (5 min) | Leer los criterios en voz alta y anotarlos. Repartir roles: alguien lleva los números (calculadora), alguien la historia y alguien el riesgo |
+| Primeros 20 min | El método de 5 pasos de `budget_games.md`: opciones, valor, cartera, renuncias, métrica |
+| Siguiente bloque | Pitch con la estructura de siempre: el problema y su costo, la cartera elegida, qué se mide a 30 días, riesgos y control humano, siguiente paso |
+| Si hay tiempo y portátil | 60 segundos del kit como prueba de que la opción principal ya funciona (cifras verificadas y aprobación) |
+| Antes de presentar | Ensayar la versión de 2 minutos y la de 4 |
 
 ### Preguntas para el cliente
 
@@ -161,8 +206,9 @@ integrante están en **[MICROSOFT_PARA_ESTUDIANTES.md](MICROSOFT_PARA_ESTUDIANTE
 | **Sáb 22 y dom 23 (prototipado)** | Los dos de prototipo practican en Power Platform: agente en Copilot Studio con un documento, aprobación en Teams con Power Automate, tablero de 3 gráficas en Power BI. Probar el despliegue del kit en Azure (`docs/DESPLIEGUE_AZURE.md`); si en una hora no funciona, quedarse con la demo local. | Las tres prácticas hechas y el kit con dirección pública (o descartado) |
 | **Dom 23** | Conectar el **kit de demo** (`kit/`) a Azure: modelo, voz y Prompt Shields. Ensayar el recorrido de 60 segundos de `docs/INFRAESTRUCTURA.md`. Correr `python -m kit.medir --modelo azure:<deployment>` para tener la primera tabla con modelo real. Probar el conector en Power Automate o el MCP en VS Code. Practicar `plantillas/adaptar_el_kit.md` con otros datos (por ejemplo `respaldo/dane`). | La demo corre con Azure, hay una tabla de medición y el kit se adapta a otros datos en 30 minutos |
 | **Dom 23 (prueba de fuego)** | Alguien que no construyó el kit sigue `RUNBOOK.md` solo, con cronómetro. Lo que no entienda, se corrige en el RUNBOOK. | Lo levanta solo en menos de 20 minutos |
-| **Lun 24** | Networking de LEAD y Microsoft. Preguntar a quienes ya participaron qué esperan los clientes, qué herramientas se dan ese día y cuánto dura el pitch. | Tres respuestas anotadas |
-| **Mar 25** | **Simulacro completo** de 7 horas con un caso de `plantillas/simulacro.md`. Alguien de afuera hace de cliente con el guion. Cronometrar cada fase. Uno de los ensayos tiene que ser el caso 3, donde el kit no sirve. Repasar `docs/ESCENARIOS.md`. | Pitch grabado en video y la tabla de calificación del simulacro llena |
+| **Vie 21 a lun 24** | Llenar la tabla de precios de lista verificados de `plantillas/budget_games.md` y hacer la práctica de la cooperativa (20 minutos). Cada integrante prepara su presentación personal de 30 segundos. | Tabla de precios con enlaces y una cartera defendida en 2 minutos |
+| **Lun 24** | Networking de LEAD y Microsoft. Hacer las 7 preguntas de `plantillas/budget_games.md` (qué son los AI Budget Games, si se construye, si hay cliente, criterios, duración del pitch). | Las respuestas anotadas, y el plan A o el B elegido |
+| **Mar 25** | **Simulacro completo** de 7 horas con un caso de `plantillas/simulacro.md` (o el plan B con la práctica de `budget_games.md` si el 24 confirman que es estrategia y presupuesto). Alguien de afuera hace de cliente con el guion. Cronometrar cada fase. Uno de los ensayos tiene que ser el caso 3, donde el kit no sirve. Repasar `docs/ESCENARIOS.md`. | Pitch grabado en video y la tabla de calificación del simulacro llena |
 | **Mié 26** | Corregir lo que falló en el simulacro. Dejar listas las plantillas de láminas, el guion por criterio y el video de respaldo de la demo. Cargar portátiles y probar el micrófono. | Plantillas en una carpeta compartida |
 | **Jue 27** | Evento | |
 
@@ -173,6 +219,8 @@ integrante están en **[MICROSOFT_PARA_ESTUDIANTES.md](MICROSOFT_PARA_ESTUDIANTE
 - [ ] La demo de respaldo con los datos del DANE (`KIT_DATOS=respaldo/dane`) por si el cliente no da datos a tiempo.
 - [ ] La lista de verificación de IA responsable (`plantillas/checklist_ia_responsable.md`) como lámina de respaldo.
 - [ ] La calculadora de ROI (`plantillas/calculadora_roi.xlsx`) abierta en un portátil, lista para los números del cliente.
+- [ ] `plantillas/budget_games.md` con la tabla de precios de lista llena y verificada.
+- [ ] La presentación personal de 30 segundos de cada integrante.
 - [ ] La hoja de una página (`plantillas/una_pagina.docx`) lista para llenar hacia las 16:15 y exportar a PDF.
 - [ ] `RUNBOOK.md` impreso o en el celular de cada integrante.
 - [ ] Plantilla de pitch de 6 láminas con la estructura de arriba.

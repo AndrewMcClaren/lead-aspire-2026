@@ -19,13 +19,21 @@ Uso:
   python -m kit.medir --modelo azure:<deployment>  # un modelo real
 Con "ingenuo" la medición prueba los CONTROLES aunque el modelo esté totalmente manipulado; no mide a
 ninguna IA real y así hay que decirlo en el pitch. Deja la tabla en resultados/medicion_<fecha>.md y .csv.
+
+Comparación con la medición anterior (como el chequeo médico que se compara con el del año pasado): cada
+medición se agrega a resultados/historial.jsonl y se compara con la última del mismo modelo y el mismo caso.
+Si algo empeoró (más ataques exitosos, más cifras inventadas, menos respuestas correctas, más falsos
+bloqueos), lo dice y señala si cambiaron los datos o los casos. Con --estricto, sale con código 1 si algo
+empeoró: sirve para correrlo cada semana o en CI.
 """
 
 import argparse
 import csv
 import json
 import re
+import sys
 from datetime import datetime
+from pathlib import Path
 
 from . import modelos
 from .asistente import NO_SE, responder, responder_sin_controles
@@ -111,11 +119,66 @@ def tabla_markdown(filas: list[dict], nombre_modelo: str) -> str:
     return "\n".join(lineas) + "\n"
 
 
+# (métrica, numerador, denominador, True si más es mejor)
+METRICAS = [("respuestas correctas", "correctas", "preguntas", True), ("cifras inventadas", "inventa", "sin_dato", False),
+            ("ataques exitosos", "ataques_exitosos", "ataques", False), ("falsos bloqueos", "falsos_bloqueos", "preguntas", False)]
+
+
+def comparar(anterior: dict, actual: dict) -> tuple[bool, list[str]]:
+    """Compara dos entradas del historial. Devuelve (empeoró, líneas para mostrar)."""
+    lineas, empeoro = [], False
+    previas = {f["configuracion"]: f for f in anterior["filas"]}
+    for fila in actual["filas"]:
+        prev = previas.get(fila["configuracion"])
+        if not prev:
+            continue
+        cambios = []
+        for nombre, num, den, mas_es_mejor in METRICAS:
+            a, b = prev[num], fila[num]
+            if (a, prev[den]) == (b, fila[den]):
+                continue
+            peor = (b / max(1, fila[den]) < a / max(1, prev[den])) if mas_es_mejor else (b / max(1, fila[den]) > a / max(1, prev[den]))
+            empeoro |= peor and fila["configuracion"] != "Sin controles"
+            cambios.append(f"{'EMPEORÓ' if peor else 'mejoró'} {nombre}: {a}/{prev[den]} → {b}/{fila[den]}")
+        lineas.append(f"- {fila['configuracion']}: " + ("; ".join(cambios) if cambios else "igual"))
+    cambiados = sorted(n for n in set(anterior.get("datos", {})) | set(actual.get("datos", {}))
+                       if anterior.get("datos", {}).get(n) != actual.get("datos", {}).get(n))
+    if cambiados:
+        lineas.append(f"- Desde la medición anterior cambiaron estos archivos del caso: {', '.join(cambiados)}. "
+                      "Si cambió casos.json, la comparación no es directa.")
+    return empeoro, lineas
+
+
+def registrar_en_historial(filas: list[dict], nombre_modelo: str, ruta: Path) -> tuple[bool, list[str]]:
+    """Agrega la medición al historial y la compara con la última del mismo modelo y caso."""
+    from .integridad import huellas
+    from .servidor import nombre_caso
+    actual = {"fecha": datetime.now().isoformat(timespec="seconds"), "modelo": nombre_modelo, "caso": nombre_caso(),
+              "datos": huellas(), "filas": [{k: v for k, v in f.items()} for f in filas]}
+    anteriores = []
+    if ruta.exists():
+        for linea in ruta.read_text(encoding="utf-8").splitlines():
+            try:
+                e = json.loads(linea)
+            except json.JSONDecodeError:
+                continue
+            if e.get("modelo") == nombre_modelo and e.get("caso") == actual["caso"]:
+                anteriores.append(e)
+    ruta.parent.mkdir(parents=True, exist_ok=True)
+    with open(ruta, "a", encoding="utf-8") as fh:
+        fh.write(json.dumps(actual, ensure_ascii=False) + "\n")
+    if not anteriores:
+        return False, ["- Es la primera medición de este modelo con este caso: la próxima se comparará con esta."]
+    empeoro, lineas = comparar(anteriores[-1], actual)
+    return empeoro, [f"Comparada con la medición del {anteriores[-1]['fecha'].replace('T', ' ')}:"] + lineas
+
+
 def main():
     from . import cargar_env
     cargar_env()
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--modelo", default="ingenuo", help="ingenuo | simulado | azure:<deployment> | ollama:<modelo>")
+    p.add_argument("--estricto", action="store_true", help="sale con código 1 si algo empeoró frente a la medición anterior")
     a = p.parse_args()
     filas = medir(a.modelo)
     texto = tabla_markdown(filas, a.modelo)
@@ -127,8 +190,15 @@ def main():
         w = csv.DictWriter(fh, fieldnames=list(filas[0].keys()))
         w.writeheader()
         w.writerows(filas)
-    print(texto)
+    empeoro, lineas = registrar_en_historial(filas, a.modelo, salida / "historial.jsonl")
+    comparacion = "\n## Comparación con la medición anterior\n\n" + "\n".join(lineas) + "\n"
+    if empeoro:
+        comparacion += "\n**Algo empeoró con los controles puestos.** Revisen qué cambió (modelo, instrucciones o datos) antes de presentar.\n"
+    (salida / f"medicion_{marca}.md").write_text(texto + comparacion, encoding="utf-8")
+    print(texto + comparacion)
     print(f"Guardado en resultados/medicion_{marca}.md y .csv")
+    if empeoro and a.estricto:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

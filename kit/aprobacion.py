@@ -14,6 +14,9 @@ resultado solo puede endurecerse (permitida < pendiente < bloqueada):
   5. Sesión: si en la conversación se bloqueó o saneó un documento, lo sensible pide aprobación (o se
      bloquea, según la política).
   6. Segregación de funciones: quien pide una acción no puede aprobarla.
+  7. Parada automática: si en la conversación llegan varios documentos con trampa (parada_automatica en la
+     política, 3 por defecto), la sesión queda "detenida" y ninguna acción pasa hasta que una persona la
+     revise y la reinicie. Como la tarjeta que se bloquea al tercer intento con la clave equivocada.
 
 Si se define NOTIFICAR_URL, cada acción pendiente se envía como JSON a esa dirección (por ejemplo, el
 disparador HTTP de un flujo de Power Automate que avisa en Teams). Ese flujo se arma en Power Automate y
@@ -37,7 +40,8 @@ POLITICA_POR_DEFECTO = {"nivel_autonomia": "confirmar_sensibles",
                         "tipos_sensibles": ["pago", "transferencia", "enviar_datos", "cambiar_cuenta", "borrar"],
                         "tipos_solo_lectura": ["consulta", "resumen", "reporte"], "umbral_aprobacion": 1_000_000,
                         "tolerancia_monto": 0.05, "intencion": {}, "destino_requerido_para": [],
-                        "dias_cuenta_nueva": 30, "sesion_sospechosa": "confirmar", "segregacion_de_funciones": True}
+                        "dias_cuenta_nueva": 30, "sesion_sospechosa": "confirmar", "segregacion_de_funciones": True,
+                        "parada_automatica": 3}
 
 
 def cargar_politica() -> dict:
@@ -86,6 +90,9 @@ def revisar_accion(tipo: str, monto: float | None = None, destino: str = "", cue
             estado = nuevo
         motivos.append(motivo)
 
+    if sesion == "detenida":
+        subir("bloqueada", "La sesión está detenida por intentos repetidos de engaño: una persona debe revisarla y "
+                           "reiniciarla antes de cualquier acción")
     sensible = tipo in pol["tipos_sensibles"]
     nivel = pol["nivel_autonomia"]
     if nivel == "solo_lectura" and tipo not in pol["tipos_solo_lectura"]:
@@ -124,7 +131,7 @@ def revisar_accion(tipo: str, monto: float | None = None, destino: str = "", cue
         if monto > pol["umbral_aprobacion"]:
             subir("pendiente", f"El monto supera el umbral de {pol['umbral_aprobacion']:,.0f}".replace(",", "."))
 
-    if sensible and sesion == "sospechosa":
+    if sensible and sesion in ("sospechosa", "detenida"):
         subir("bloqueada" if pol["sesion_sospechosa"] == "bloquear" else "pendiente",
               "En esta conversación se detectó un documento con instrucciones escondidas")
     if nivel == "confirmar_todo" or (sensible and nivel == "confirmar_sensibles"):
@@ -136,6 +143,33 @@ def revisar_accion(tipo: str, monto: float | None = None, destino: str = "", cue
 
 def _norm_texto(texto: str) -> str:
     return "".join(c for c in unicodedata.normalize("NFD", (texto or "").lower()) if unicodedata.category(c) != "Mn")
+
+
+def nueva_sesion() -> dict:
+    return {"estado": "limpia", "motivos": [], "incidentes": 0}
+
+
+def registrar_incidentes(sesion: dict, n: int, politica: dict | None = None) -> bool:
+    """Suma n documentos con trampa a la sesión. Devuelve True si con esto la sesión quedó detenida.
+
+    limpia -> sospechosa con el primero; -> detenida al llegar a parada_automatica (0 = nunca se detiene).
+    Una sesión detenida solo vuelve a limpia cuando una persona la reinicia.
+    """
+    if n <= 0:
+        return False
+    tope = int((politica or cargar_politica()).get("parada_automatica") or 0)
+    sesion["incidentes"] = sesion.get("incidentes", 0) + n
+    antes = sesion["estado"]
+    if tope and sesion["incidentes"] >= tope:
+        sesion["estado"] = "detenida"
+    elif antes == "limpia":
+        sesion["estado"] = "sospechosa"
+    if antes == "limpia":
+        sesion["motivos"] = sesion.get("motivos", []) + ["Documento con instrucciones escondidas"]
+    if sesion["estado"] == "detenida" and antes != "detenida":
+        sesion["motivos"] = sesion.get("motivos", []) + [f"{sesion['incidentes']} intentos de engaño: sesión detenida"]
+        return True
+    return False
 
 
 @dataclass
