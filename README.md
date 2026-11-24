@@ -93,8 +93,9 @@ También funciona con un modelo local: `--modelo ollama:qwen2.5:7b`.
 - **Avisos en Teams**: con `NOTIFICAR_URL` cada acción pendiente se envía como JSON a esa dirección (por
   ejemplo, el disparador HTTP de un flujo de Power Automate que publica en Teams).
 
-Las integraciones con servicios de Microsoft no se probaron contra los servicios reales desde este
-repositorio: pruébenlas antes del evento.
+**Probado con Azure real (24 de noviembre de 2026):** Azure OpenAI (gpt-4.1-mini), Prompt Shields y Azure Speech,
+con `kit.verificar` y una primera medición (`docs/INFRAESTRUCTURA.md`, sección Límites). **Sin probar todavía:** el
+aviso a Power Automate, el conector en Copilot Studio y el despliegue en App Service.
 
 ## Reglas del equipo
 

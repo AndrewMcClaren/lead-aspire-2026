@@ -74,7 +74,8 @@ La tabla dice qué capa *atiende* cada riesgo, no que lo elimine. Úsenla para r
 - Los modelos `simulado` e `ingenuo` no son IA real: sirven para ensayar y para probar los controles en el peor caso. Los resultados con modelo real salen de `python -m kit.medir --modelo azure:<deployment>`.
 - Las firmas solo ven ataques parecidos a los conocidos; una reescritura humana las puede esquivar. Por eso la verificación de cifras y el guardián no dependen de cómo esté escrito el ataque.
 - La verificación garantiza que toda cifra sale de la tabla, no que el modelo haya escogido la cifra correcta. La fuente visible permite que la persona lo revise.
-- Prompt Shields, Azure Speech y el aviso a Power Automate no se probaron contra los servicios reales desde este repositorio: pruébenlos con `kit.verificar` antes del evento.
+- Probado con los servicios reales el 24 de noviembre de 2026 (cuenta Azure for Students del equipo, France Central): Azure OpenAI con gpt-4.1-mini (respondió la cifra verificada y "no tengo ese dato"), Prompt Shields (detectó el ataque y dejó pasar el texto normal) y Azure Speech (ida y vuelta). Sin probar todavía: el aviso a Power Automate, el conector en Copilot Studio y el despliegue en App Service.
+- Primera medición con modelo real (gpt-4.1-mini, 8 preguntas, 4 sin dato, 6 ataques): sin controles, 7 de 8 correctas y 1 de 6 ataques exitosos; con el kit, 8 de 8 y 0 de 6. Con tan pocos casos los intervalos se cruzan: no es una diferencia concluyente. El kit añadió unos 0,4 segundos y un 36 % de tokens por respuesta.
 - El servidor MCP es local (stdio). Copilot Studio necesita una dirección pública: usen el conector Swagger con un túnel (por ejemplo Dev Tunnels de Microsoft).
 - La bitácora es un archivo local: prueba que nadie la editó sin la clave, pero no reemplaza un registro externo.
 - La política y los datos maestros de ejemplo son ficticios: ajústenlos con el cliente.
