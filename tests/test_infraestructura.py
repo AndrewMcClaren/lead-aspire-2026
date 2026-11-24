@@ -520,3 +520,25 @@ def test_caso_presupuesto_responde_y_controla_el_saldo(monkeypatch):
     # La función pura también lo ve
     estado, motivos = revisar_accion("gasto", 200_000_000, "Marketing", "", pedir)
     assert estado == "bloqueada" and any("saldo" in m for m in motivos)
+
+
+def test_azure_reintenta_sin_parametros_que_el_modelo_no_acepta():
+    from types import SimpleNamespace
+    from kit.modelos import AzureOpenAI
+    llamadas = []
+
+    class Completions:
+        def create(self, **kw):
+            llamadas.append(sorted(kw))
+            if "temperature" in kw:
+                raise ValueError("Unsupported value: 'temperature' does not support 0 with this model")
+            contenido = 'Aquí va: ```json\n{"texto": "{ventas_total_millones}", "claves": ["ventas_total_millones"]}\n```'
+            return SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=contenido))],
+                                   usage=SimpleNamespace(prompt_tokens=10, completion_tokens=5))
+
+    m = object.__new__(AzureOpenAI)
+    m._deployment = "demo"
+    m._cliente = SimpleNamespace(chat=SimpleNamespace(completions=Completions()))
+    assert m.generar_json("s", "u")["claves"] == ["ventas_total_millones"]
+    assert m.generar_json("s", "u")["texto"] == "{ventas_total_millones}"
+    assert len(llamadas) == 3 and "temperature" not in llamadas[-1]  # recuerda que no lo acepta

@@ -86,6 +86,17 @@ class Ingenuo(Simulado):
         return super().generar_json(sistema, usuario, imagen)
 
 
+def _json_de(texto: str) -> dict:
+    """El JSON de la respuesta, aunque el modelo lo envuelva en texto o en un bloque ```json."""
+    try:
+        return json.loads(texto)
+    except json.JSONDecodeError:
+        inicio, fin = texto.find("{"), texto.rfind("}")
+        if inicio == -1 or fin <= inicio:
+            raise
+        return json.loads(texto[inicio:fin + 1])
+
+
 class AzureOpenAI:
     def __init__(self, deployment: str):
         from openai import AzureOpenAI as Cliente
@@ -97,12 +108,27 @@ class AzureOpenAI:
         partes = [{"type": "text", "text": usuario}]
         if imagen is not None:
             partes.append({"type": "image_url", "image_url": {"url": "data:image/png;base64," + base64.b64encode(imagen).decode()}})
-        r = self._cliente.chat.completions.create(
-            model=self._deployment, temperature=0, response_format={"type": "json_object"},
-            messages=[{"role": "system", "content": sistema}, {"role": "user", "content": partes}])
+        mensajes = [{"role": "system", "content": sistema}, {"role": "user", "content": partes}]
+        # Algunos modelos (los de razonamiento) rechazan temperature o response_format: se reintenta sin ellos
+        # y se recuerda para las siguientes llamadas.
+        extras = getattr(self, "_extras", None)
+        if extras is None:
+            extras = {"temperature": 0, "response_format": {"type": "json_object"}}
+        while True:
+            try:
+                r = self._cliente.chat.completions.create(model=self._deployment, messages=mensajes, **extras)
+                break
+            except Exception as e:  # noqa: BLE001
+                texto = str(e).lower()
+                quitar = [k for k in extras if k in texto or k.replace("_", " ") in texto]
+                if not quitar or "unsupported" not in texto and "not support" not in texto and "invalid" not in texto:
+                    raise
+                for k in quitar:
+                    extras.pop(k)
+        self._extras = extras
         if getattr(r, "usage", None):
             self.ultimo_uso = {"tokens_entrada": r.usage.prompt_tokens, "tokens_salida": r.usage.completion_tokens}
-        return json.loads(r.choices[0].message.content)
+        return _json_de(r.choices[0].message.content or "")
 
 
 class Ollama:

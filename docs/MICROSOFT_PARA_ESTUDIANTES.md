@@ -73,6 +73,12 @@ repite mucho):
 - Los modelos de Anthropic en Foundry no se pueden desplegar con suscripciones de estudiante, de prueba o
   solo con créditos.
 
+**Lo que vimos con la cuenta del equipo (24 de noviembre de 2026):** las regiones permitidas eran norwayeast,
+francecentral, northcentralus, belgiumcentral y denmarkeast; creamos todo en **France Central** (grupo de recursos
+`lead-aspire`). El catálogo de Foundry ya muestra modelos más nuevos que los de esta guía: escojan uno de chat,
+pequeño y barato. El kit funciona también con modelos de razonamiento: si el modelo rechaza `temperature` o el
+formato JSON, el kit reintenta sin ellos.
+
 **Por eso hay que probarlo ya, no el 27.** Si el despliegue falla, todavía hay días para pedir cuota,
 probar otra región o usar la cuenta de otro integrante.
 
