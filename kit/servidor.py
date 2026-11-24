@@ -19,6 +19,12 @@ Rutas:
   GET  /api/bitacora          verificación de la bitácora y sus últimas entradas
   GET  /swagger.json          definición OpenAPI 2.0 para un conector de Power Platform o Copilot Studio
 
+Defensas de la API (probadas con python -m seguridad.pentest):
+  - Toda solicitud POST debe ser JSON (Content-Type: application/json) y, si el navegador manda Origin, ser del
+    mismo sitio: así una página maliciosa abierta en otra pestaña no puede aprobar acciones (CSRF).
+  - Cuerpo máximo de 64 KB, tipos validados (documentos es una lista de máximo 5 textos; monto, un número >= 0).
+  - Cabeceras de seguridad: CSP, sin iframes de otros sitios (clickjacking), nosniff y sin caché en la API.
+
 Límite de uso: cada dirección puede hacer KIT_LIMITE_MINUTO solicitudes POST por minuto (60 por defecto);
 la siguiente recibe 429. Frena a un script que intente miles de ataques o que gaste el crédito de Azure.
 """
@@ -33,6 +39,7 @@ from collections import defaultdict, deque
 from dataclasses import asdict
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.parse import urlparse
 
 from . import integridad, modelos, privacidad
 from .aprobacion import Bandeja, cargar_politica, nueva_sesion, registrar_incidentes
@@ -43,6 +50,15 @@ from .escudo import escudo_disponible, juez_activo, revisar_documentos
 from .voz import texto_a_voz, voz_disponible
 
 KIT = Path(__file__).resolve().parent
+MAX_CUERPO = 64 * 1024
+CABECERAS_SEGURIDAD = {
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; "
+                               "img-src 'self' data:; media-src 'self' blob:; connect-src 'self'; frame-ancestors 'none'; "
+                               "base-uri 'none'; form-action 'self'",
+}
 WEB = KIT / "web"
 # Cámbialas por las del caso del cliente (o pon un sugeridas.json en la carpeta del caso).
 # Deja siempre una sin dato: mostrar que dice "no sé" genera confianza.
@@ -91,9 +107,14 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
         return revisar_documentos(docs, pregunta, modelo_juez=None if nombre_modelo.startswith(("simulado", "ingenuo")) else modelo)
 
     class Manejador(BaseHTTPRequestHandler):
+        timeout = 30  # cierra conexiones que no envían nada (ataque slowloris)
         def _enviar(self, cuerpo: bytes, tipo: str, codigo: int = 200):
             self.send_response(codigo)
             self.send_header("Content-Type", tipo)
+            for k, v in CABECERAS_SEGURIDAD.items():
+                self.send_header(k, v)
+            if self.path.startswith("/api/"):
+                self.send_header("Cache-Control", "no-store")
             self.send_header("Content-Length", str(len(cuerpo)))
             self.end_headers()
             self.wfile.write(cuerpo)
@@ -103,7 +124,24 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
 
         def _leer(self) -> dict:
             n = int(self.headers.get("Content-Length") or 0)
-            return json.loads(self.rfile.read(n) or b"{}") if n else {}
+            if n > MAX_CUERPO:
+                raise ValueError("cuerpo demasiado grande")
+            datos = json.loads(self.rfile.read(n) or b"{}") if n else {}
+            if not isinstance(datos, dict):
+                raise ValueError("el cuerpo debe ser un objeto JSON")
+            return datos
+
+        def _rechazo_de_origen(self) -> str | None:
+            """CSRF: exige JSON (un formulario de otro sitio no puede mandarlo sin permiso del navegador) y, si hay
+            Origin, que sea este mismo servidor."""
+            if self.headers.get("Content-Type", "").split(";")[0].strip().lower() != "application/json":
+                return "Las solicitudes deben ser JSON (Content-Type: application/json)"
+            origen = self.headers.get("Origin")
+            if origen and origen != "null" and urlparse(origen).netloc != self.headers.get("Host", ""):
+                return "Origen no permitido"
+            if origen == "null":
+                return "Origen no permitido"
+            return None
 
         def log_message(self, *a):
             pass
@@ -144,6 +182,9 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
         def do_POST(self):
             if not self._autorizado():
                 return self._json({"error": "Falta la clave de API (encabezado X-API-Key)"}, 401)
+            rechazo = self._rechazo_de_origen()
+            if rechazo:
+                return self._json({"error": rechazo}, 415 if "JSON" in rechazo else 403)
             if not permitido(self.client_address[0]):
                 bitacora.registrar("limite_excedido", {"ruta": self.path})
                 return self._json({"error": f"Demasiadas solicitudes: máximo {limite} por minuto"}, 429)
@@ -151,11 +192,16 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                 datos = self._leer()
             except json.JSONDecodeError:
                 return self._json({"error": "JSON inválido"}, 400)
+            except ValueError as e:
+                return self._json({"error": str(e)}, 413 if "grande" in str(e) else 400)
             if self.path == "/api/preguntar":
                 pregunta = str(datos.get("pregunta", "")).strip()[:500]
                 if not pregunta:
                     return self._json({"error": "Falta la pregunta"}, 400)
-                docs = [str(d)[:10_000] for d in datos.get("documentos") or [] if str(d).strip()]
+                documentos = datos.get("documentos") or []
+                if not isinstance(documentos, list) or len(documentos) > 5:
+                    return self._json({"error": "documentos debe ser una lista de máximo 5 textos"}, 400)
+                docs = [str(d)[:10_000] for d in documentos if str(d).strip()]
                 r = responder(pregunta, modelo, tabla, docs, escudo)
                 if registrar_incidentes(sesion, len(r["bloqueados"]) + len(r["saneados"])):
                     bitacora.registrar("sesion_detenida", {"incidentes": sesion["incidentes"]})
@@ -173,7 +219,10 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
             if self.path == "/api/acciones":
                 monto = datos.get("monto")
                 try:
-                    monto = float(str(monto).replace(".", "").replace(",", ".")) if monto not in (None, "") else None
+                    if isinstance(monto, (int, float)) and not isinstance(monto, bool):
+                        monto = float(monto)
+                    else:
+                        monto = float(str(monto).replace(".", "").replace(",", ".")) if monto not in (None, "") else None
                 except ValueError:
                     return self._json({"error": "El monto no es un número"}, 400)
                 a = bandeja.proponer(str(datos.get("tipo", "otra")), str(datos.get("detalle", ""))[:300], monto,
@@ -183,7 +232,9 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                 return self._json({**asdict(a), "motivo": a.motivo}, 201)
             if self.path.startswith("/api/acciones/"):
                 try:
-                    a = bandeja.decidir(int(self.path.rsplit("/", 1)[1]), bool(datos.get("aprobar")),
+                    if not isinstance(datos.get("aprobar"), bool):
+                        return self._json({"error": "aprobar debe ser true o false"}, 400)
+                    a = bandeja.decidir(int(self.path.rsplit("/", 1)[1]), datos["aprobar"],
                                         str(datos.get("aprobador", "persona"))[:60])
                     return self._json({"id": a.id, "estado": a.estado, "decidida_por": a.decidida_por})
                 except (KeyError, ValueError) as e:

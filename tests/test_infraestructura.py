@@ -542,3 +542,28 @@ def test_azure_reintenta_sin_parametros_que_el_modelo_no_acepta():
     assert m.generar_json("s", "u")["claves"] == ["ventas_total_millones"]
     assert m.generar_json("s", "u")["texto"] == "{ventas_total_millones}"
     assert len(llamadas) == 3 and "temperature" not in llamadas[-1]  # recuerda que no lo acepta
+
+
+# --- Prueba de penetración (seguridad/pentest.py): ningún frente puede quedar VULNERABLE ---
+
+def test_pentest_sin_vulnerables(tmp_path, monkeypatch):
+    from seguridad import pentest
+    monkeypatch.setenv("KIT_BITACORA", str(tmp_path / "b.jsonl"))
+    pentest.resultados.clear()
+    pentest.frente_a()
+    pentest.frente_b()
+    pentest.frente_c()
+    pentest.frente_d(tmp_path)
+    pentest.frente_e(tmp_path)
+    pentest.frente_f()
+    vulnerables = [r for r in pentest.resultados if r[2] == "VULNERABLE"]
+    assert not vulnerables, vulnerables
+    assert len(pentest.resultados) > 80
+
+
+def test_respuesta_sin_cifras_no_lleva_sello_de_cifra_verificada(tabla):
+    class General(Simulado):
+        def generar_json(self, sistema, usuario, imagen=None):
+            return {"texto": "Tengo datos de tiendas, ventas y proveedores de la cadena.", "claves": []}
+    r = responder("Hola, ¿qué cifras tienes?", General(tabla), tabla)
+    assert r["estado"] == "general"

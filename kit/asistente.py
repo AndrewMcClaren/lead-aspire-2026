@@ -90,6 +90,16 @@ def cifras_sueltas(texto_modelo: str, pregunta: str, descripciones: list[str] = 
     return digitos + palabras
 
 
+# Enlaces y dominios: un asistente de cifras no tiene por qué mandar a nadie a una página. Un modelo secuestrado
+# sí lo haría ("ingrese su clave en …"), así que un enlace en la respuesta la bloquea.
+_ENLACE = re.compile(r"(https?://|www\.)\S+|\b[a-z0-9-]+(\.[a-z0-9-]+)*\.(com|co|net|org|io|app|example|xyz|info|biz|link|site"
+                     r"|online|gov|edu|me|ly|top|shop|club)(/\S*)?\b", re.I)
+
+
+def enlaces(texto: str) -> list[str]:
+    return [m.group(0) for m in _ENLACE.finditer(texto)]
+
+
 def costo_usd(uso: dict | None) -> float | None:
     """Costo estimado con PRECIO_ENTRADA_1M y PRECIO_SALIDA_1M (USD por millón de tokens, del portal de Azure)."""
     entrada, salida = os.environ.get("PRECIO_ENTRADA_1M"), os.environ.get("PRECIO_SALIDA_1M")
@@ -125,7 +135,7 @@ def responder(pregunta: str, modelo, tabla: Tabla | None = None, documentos: lis
     r = _responder(pregunta, modelo, tabla, documentos, escudo)
     r["pregunta_modelo"] = pregunta
     if seud:
-        r["texto"], tachados = privacidad.tachar(r["texto"]) if r["estado"] == "verificada" else (r["texto"], 0)
+        r["texto"], tachados = privacidad.tachar(r["texto"]) if r["estado"] in ("verificada", "general") else (r["texto"], 0)
         r["texto"] = seud.restaurar(r["texto"])
         r["privacidad"] = {"ocultados": len(seud.originales), "tipos": seud.tipos(), "tachados_en_salida": tachados}
         if seud.originales or tachados:
@@ -165,10 +175,14 @@ def _responder(pregunta: str, modelo, tabla: Tabla, documentos: list[str], escud
     descripciones = [f"{tabla.cifras[c].descripcion} {tabla.cifras[c].unidad}" for c in usadas]
     sin_canario = re.sub(re.escape(CANARIO), "", texto_modelo, flags=re.I)
     problemas += [f"El modelo escribió la cifra {n} sin clave" for n in cifras_sueltas(sin_canario, pregunta, descripciones)]
+    problemas += [f"El modelo escribió un enlace ({e[:40]}): no viene de los datos verificados" for e in enlaces(sin_canario)]
     if problemas:
         return {**base, **medidas, "texto": NO_SE, "estado": "bloqueada", "claves": usadas, "problemas": problemas,
                 "texto_modelo": texto_modelo, "capas": sorted(set(capas + ["verificacion"]))}
-    estado = "sin_dato" if not usadas and NO_SE.lower().rstrip(".") in texto.lower() else "verificada"
+    if usadas:
+        estado = "verificada"
+    else:  # sin cifras: o dice que no tiene el dato, o es una respuesta general (sin sello de cifra verificada)
+        estado = "sin_dato" if NO_SE.lower().rstrip(".") in texto.lower() else "general"
     if usadas:
         capas.append("cifras_verificadas")
     return {**base, **medidas, "texto": texto, "estado": estado, "claves": usadas, "problemas": [],

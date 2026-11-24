@@ -61,7 +61,10 @@ def cargar_maestros() -> dict:
 
 
 def _norm(texto: str) -> str:
-    t = "".join(c for c in unicodedata.normalize("NFD", (texto or "").lower()) if unicodedata.category(c) != "Mn")
+    """Para comparar nombres: sin tildes, mayúsculas, espacios, signos ni letras de otros alfabetos que se ven
+    iguales ("аsistente" con una a cirílica es "asistente"). Así nadie se aprueba a sí mismo con un truco de escritura."""
+    from .firmas import normalizar
+    t = "".join(c for c in unicodedata.normalize("NFD", normalizar(texto or "")) if unicodedata.category(c) != "Mn")
     return re.sub(r"[^a-z0-9@]", "", t)
 
 
@@ -93,6 +96,8 @@ def revisar_accion(tipo: str, monto: float | None = None, destino: str = "", cue
             estado = nuevo
         motivos.append(motivo)
 
+    if monto is not None and not (0 <= monto < 1e15):  # negativo, infinito, NaN o absurdo
+        subir("bloqueada", "El monto no es válido")
     if sesion == "detenida":
         subir("bloqueada", "La sesión está detenida por intentos repetidos de engaño: una persona debe revisarla y "
                            "reiniciarla antes de cualquier acción")
@@ -231,6 +236,8 @@ class Bandeja:
 
     def decidir(self, id_: int, aprobar: bool, aprobador: str = "persona") -> Accion:
         a = self.acciones[id_]
+        if not _norm(aprobador):
+            raise ValueError("Falta el nombre de quien aprueba")
         if a.estado != "pendiente":
             raise ValueError(f"La acción {id_} está {a.estado}: solo se deciden las pendientes")
         pol = cargar_politica()

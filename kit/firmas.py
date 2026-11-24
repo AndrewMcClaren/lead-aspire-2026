@@ -92,6 +92,11 @@ FIRMAS: tuple[Firma, ...] = (
                   r"( nada| esto| el cambio)? (al|a su|a tu|a los|a la)? ?(usuario|cliente|jefe|contador|contadora|duen\w*|nadie|persona)"
                   r"|sin (avisar|informar|notificar|que se entere)\w* (al|a la|a su|a tu)? ?(usuario|cliente|jefe|contador|nadie)"
                   r"|(do not|don't) (tell|inform|notify|mention)\w* (the )?(user|client|anyone)|without (telling|notifying) (the )?(user|client))"),
+    # v3 (prueba de penetración del 24 de noviembre): etiquetas y formatos propios del kit dentro de un documento.
+    _firma("F15", "Etiquetas falsas de documento o de rol (intenta salirse del documento)",
+           r"(<\s*/?\s*documento\s*>|\b(sistema|system|developer|desarrollador)\s*:\s*(nueva|new|regla|rule|instruc|orden|ahora|now))"),
+    _firma("F16", "Imita el formato de respuesta del asistente",
+           r"[\"“]\s*(texto|claves)\s*[\"”]\s*:"),
 )
 
 _INVISIBLES = re.compile("[\u200b-\u200f\u202a-\u202e\u2060-\u2064\u2066-\u2069\ufeff\u00ad]")

@@ -13,6 +13,7 @@ Microsoft Bogotá. En Nueva York fue un caso con cliente y construcción; en Bog
 | [`RUNBOOK.md`](RUNBOOK.md) | **Una página para levantar la demo sin ayuda** y qué hacer si algo falla |
 | [`docs/ESCENARIOS.md`](docs/ESCENARIOS.md) | **Doce tipos de cliente probables** y qué demo armar en cada uno, incluidos los casos donde el kit no aplica |
 | [`docs/DESPLIEGUE_AZURE.md`](docs/DESPLIEGUE_AZURE.md) | Cómo poner el kit en Azure con dirección pública para Copilot Studio o Power Automate (no probado) |
+| [`docs/SEGURIDAD.md`](docs/SEGURIDAD.md) | **Prueba de penetración** (98 pruebas en 7 frentes), qué se corrigió, cifrado, red y **cumplimiento normativo en Colombia** |
 | [`docs/SANS.md`](docs/SANS.md) | La guía de controles críticos de seguridad en IA de SANS **control por control** frente al kit, qué del cuaderno de NotebookLM no citar y cómo usarlo en la entrevista y el pitch |
 | [`docs/INFRAESTRUCTURA.md`](docs/INFRAESTRUCTURA.md) | Las capas del kit área por área, cómo mostrarlas en 60 segundos, su relación con OWASP, NIST e ISO, y sus límites |
 | [`plantillas/budget_games.md`](plantillas/budget_games.md) | **AI Budget Games**: hipótesis, método de 5 pasos para repartir un presupuesto, costos de una iniciativa de IA, práctica y preguntas para la organización |
@@ -67,6 +68,7 @@ recorrido, no es inteligencia real y puede escoger mal una cifra.
 | `python -m kit.medir` | Antes y después en el peor caso simulado (un modelo que obedece todo) |
 | `python -m kit.medir --modelo azure:<deployment>` | Antes y después con el modelo real: el número del pitch. Se compara solo con la medición anterior y avisa si algo empeoró |
 | `python -m kit.bitacora verificar` | Comprueba que nadie alteró la bitácora |
+| `python -m seguridad.pentest` | Intenta romper el kit por todos los frentes (`--modelo azure:demo` agrega ataques contra el modelo real) |
 | `python -m kit.integridad sellar` | Sella los datos del caso después de cargarlos (`revisar` dice si cambiaron) |
 | `python -m kit.mcp` | Servidor MCP para agentes (ver abajo) |
 | `KIT_DATOS=respaldo/dane python -m kit.servidor` | La demo con otro caso, sin tocar el código |

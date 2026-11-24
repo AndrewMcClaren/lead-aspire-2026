@@ -97,6 +97,9 @@ def verificar(ruta: Path | None = None) -> tuple[bool, int, str]:
             return False, n, f"falta o sobra una entrada antes de la línea {i} (esperaba {n + 1}, hay {e.get('n')})"
         if e.get("previo") != previo:
             return False, n, f"la entrada {e['n']} no encadena con la anterior"
+        if _clave() is not None and not e.get("firmada"):
+            return False, n, (f"la entrada {e['n']} no está firmada y hay BITACORA_CLAVE: alguien pudo quitar la firma. "
+                              "Si activaron la clave a mitad de camino, empiecen una bitácora nueva (KIT_BITACORA)")
         if e.get("firmada") and _clave() is None:
             return False, n, f"la entrada {e['n']} está firmada: define BITACORA_CLAVE para verificarla"
         if e.get("sello") != _sello(e, _clave() if e.get("firmada") else None):
