@@ -1,0 +1,13 @@
+{
+  "name": "Café · LEAD ASPIRE",
+  "dataColors": ["#6F4A2F", "#B9824E", "#4F7A4A", "#D9B48E", "#8C6A4F", "#A86B14", "#A4442F", "#C9B79C"],
+  "background": "#FBF8F2",
+  "foreground": "#2B1E16",
+  "tableAccent": "#6F4A2F",
+  "good": "#4F7A4A",
+  "neutral": "#A86B14",
+  "bad": "#A4442F",
+  "maximum": "#6F4A2F",
+  "center": "#D9B48E",
+  "minimum": "#F2EADD"
+}

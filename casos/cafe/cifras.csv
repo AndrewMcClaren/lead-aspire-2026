@@ -1,7 +1,7 @@
 clave,descripcion,valor,unidad,decimales,fuente,sinonimos
 exportaciones_sacos_anio,Café verde exportado en el último año (sacos de 60 kg),1250000,sacos de 60 kg,0,Datos sintéticos de ejemplo: no son de una empresa real,cuanto exporto exportaciones sacos volumen exportado
 exportaciones_valor_musd,Valor de las exportaciones del último año,520,millones de dólares,0,Datos sintéticos de ejemplo: no son de una empresa real,valor exportaciones dolares ventas facturacion
-pct_cafes_especiales,Porcentaje del volumen exportado que es café especial (80 puntos SCA o más),18,%,0,Datos sintéticos de ejemplo: no son de una empresa real,especiales especialidad porcentaje
+pct_cafes_especiales,Porcentaje del volumen exportado vendido como café especial con prima (85 puntos SCA o más),21,%,0,Datos sintéticos de ejemplo: no son de una empresa real,especiales especialidad porcentaje
 puntaje_sca_promedio,Puntaje de taza promedio (escala SCA),83.5,puntos,1,Datos sintéticos de ejemplo: no son de una empresa real,puntaje taza calidad sca catacion
 compradores_activos,Compradores internacionales activos,140,compradores,0,Datos sintéticos de ejemplo: no son de una empresa real,compradores clientes importadores cuantos
 paises_destino,Países a los que se exporta,38,países,0,Datos sintéticos de ejemplo: no son de una empresa real,paises destino mercados

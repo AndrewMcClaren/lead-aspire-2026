@@ -1,0 +1,45 @@
+// Medidas del tablero de la exportadora de café. En Power BI: Inicio → Nueva medida, y pegar UNA por vez.
+// Las tablas se llaman como los CSV: lotes, embarques, reclamos, productores, presupuesto.
+
+Sacos = SUM ( lotes[sacos_60kg] )
+
+Lotes = COUNTROWS ( lotes )
+
+% lotes con geolocalización =
+DIVIDE ( CALCULATE ( [Lotes], lotes[geolocalizado] = "Sí" ), [Lotes] )
+
+Lotes a Europa sin geolocalización =
+CALCULATE ( [Lotes], lotes[destino_mercado] = "Unión Europea", lotes[geolocalizado] = "No" )
+
+Sacos en riesgo para Europa =
+CALCULATE ( [Sacos], lotes[destino_mercado] = "Unión Europea", lotes[geolocalizado] = "No" )
+
+% volumen a Europa =
+DIVIDE ( CALCULATE ( [Sacos], lotes[destino_mercado] = "Unión Europea" ), [Sacos] )
+
+% café especial (volumen) =
+DIVIDE ( CALCULATE ( [Sacos], lotes[especial_prima] = "Sí" ), [Sacos] )
+
+Puntaje SCA promedio = AVERAGE ( lotes[puntaje_sca] )
+
+Lotes rechazados = CALCULATE ( [Lotes], lotes[estado] = "Rechazado por calidad" )
+
+Reclamos = COUNTROWS ( reclamos )
+
+Costo reclamos (USD) = SUM ( reclamos[costo_usd] )
+
+Costo por reclamo (USD) = DIVIDE ( [Costo reclamos (USD)], [Reclamos] )
+
+Días promedio de documentos = AVERAGE ( embarques[dias_documentos] )
+
+Contenedores = SUM ( embarques[contenedores] )
+
+Embarques con retraso = CALCULATE ( COUNTROWS ( embarques ), embarques[retraso_dias] > 0 )
+
+Presupuesto asignado (M USD) = SUM ( presupuesto[asignado_musd] )
+
+Presupuesto ejecutado (M USD) = SUM ( presupuesto[ejecutado_musd] )
+
+Saldo disponible (M USD) = [Presupuesto asignado (M USD)] - [Presupuesto ejecutado (M USD)]
+
+% ejecución del presupuesto = DIVIDE ( [Presupuesto ejecutado (M USD)], [Presupuesto asignado (M USD)] )

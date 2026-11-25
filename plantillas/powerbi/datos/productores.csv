@@ -1,0 +1,601 @@
+productor_id,region,cooperativa,hectareas,certificacion,geolocalizado
+P0001,Huila,Cooperativa Cafetera Ejemplo,10.7,Fairtrade,No
+P0002,Cauca,Productores Independientes,9.6,Ninguna,No
+P0003,Nariño,Productores Independientes,9.3,Rainforest Alliance,No
+P0004,Antioquia,Cooperativa Cafetera Ejemplo,2.2,Fairtrade,No
+P0005,Tolima,Productores Independientes,8.5,Ninguna,No
+P0006,Antioquia,Cooperativa La Montaña (ficticia),9.9,Orgánico,Sí
+P0007,Tolima,Cooperativa Cafetera Ejemplo,9.0,Ninguna,Sí
+P0008,Tolima,Cooperativa La Montaña (ficticia),6.0,Fairtrade,Sí
+P0009,Nariño,Cooperativa La Montaña (ficticia),1.3,Rainforest Alliance,Sí
+P0010,Antioquia,Productores Independientes,2.0,Fairtrade,No
+P0011,Cauca,Cooperativa Cafetera Ejemplo,5.7,Fairtrade,Sí
+P0012,Caldas,Productores Independientes,5.4,Ninguna,No
+P0013,Caldas,Productores Independientes,6.6,Fairtrade,Sí
+P0014,Cauca,Asociación Productores del Sur (ficticia),10.0,Orgánico,Sí
+P0015,Tolima,Cooperativa Cafetera Ejemplo,8.9,Ninguna,Sí
+P0016,Huila,Asociación Productores del Sur (ficticia),10.3,Ninguna,No
+P0017,Nariño,Productores Independientes,8.9,Orgánico,Sí
+P0018,Santander,Cooperativa La Montaña (ficticia),7.2,Rainforest Alliance,Sí
+P0019,Antioquia,Productores Independientes,9.9,Ninguna,Sí
+P0020,Huila,Cooperativa La Montaña (ficticia),1.1,Ninguna,Sí
+P0021,Santander,Productores Independientes,9.8,Orgánico,No
+P0022,Antioquia,Asociación Productores del Sur (ficticia),3.9,Ninguna,Sí
+P0023,Tolima,Productores Independientes,9.9,Rainforest Alliance,Sí
+P0024,Santander,Cooperativa La Montaña (ficticia),4.5,Orgánico,No
+P0025,Huila,Cooperativa La Montaña (ficticia),6.0,Orgánico,Sí
+P0026,Santander,Productores Independientes,11.3,Rainforest Alliance,Sí
+P0027,Santander,Cooperativa La Montaña (ficticia),2.1,Rainforest Alliance,Sí
+P0028,Tolima,Productores Independientes,11.1,Ninguna,Sí
+P0029,Tolima,Cooperativa Cafetera Ejemplo,7.7,Ninguna,Sí
+P0030,Huila,Cooperativa Cafetera Ejemplo,9.3,Orgánico,Sí
+P0031,Cauca,Cooperativa La Montaña (ficticia),2.7,Ninguna,Sí
+P0032,Cauca,Productores Independientes,8.6,Orgánico,Sí
+P0033,Cauca,Productores Independientes,7.5,Orgánico,Sí
+P0034,Caldas,Cooperativa La Montaña (ficticia),1.9,Rainforest Alliance,No
+P0035,Santander,Cooperativa La Montaña (ficticia),6.6,Ninguna,Sí
+P0036,Huila,Asociación Productores del Sur (ficticia),5.1,Orgánico,Sí
+P0037,Antioquia,Cooperativa Cafetera Ejemplo,1.6,Ninguna,Sí
+P0038,Antioquia,Cooperativa Cafetera Ejemplo,1.3,Ninguna,Sí
+P0039,Nariño,Productores Independientes,4.6,Ninguna,No
+P0040,Santander,Asociación Productores del Sur (ficticia),2.7,Ninguna,Sí
+P0041,Tolima,Cooperativa La Montaña (ficticia),6.0,Ninguna,No
+P0042,Nariño,Productores Independientes,1.4,Rainforest Alliance,Sí
+P0043,Huila,Cooperativa Cafetera Ejemplo,6.0,Fairtrade,Sí
+P0044,Huila,Cooperativa Cafetera Ejemplo,2.4,Ninguna,Sí
+P0045,Caldas,Asociación Productores del Sur (ficticia),2.8,Fairtrade,No
+P0046,Antioquia,Productores Independientes,6.9,Fairtrade,Sí
+P0047,Antioquia,Asociación Productores del Sur (ficticia),4.8,Ninguna,Sí
+P0048,Tolima,Productores Independientes,4.2,Ninguna,Sí
+P0049,Tolima,Productores Independientes,2.3,Fairtrade,Sí
+P0050,Caldas,Cooperativa Cafetera Ejemplo,10.3,Ninguna,Sí
+P0051,Santander,Productores Independientes,8.1,Ninguna,Sí
+P0052,Caldas,Asociación Productores del Sur (ficticia),11.6,Ninguna,Sí
+P0053,Huila,Asociación Productores del Sur (ficticia),2.2,Rainforest Alliance,No
+P0054,Cauca,Asociación Productores del Sur (ficticia),7.3,Rainforest Alliance,Sí
+P0055,Nariño,Asociación Productores del Sur (ficticia),2.1,Ninguna,No
+P0056,Santander,Asociación Productores del Sur (ficticia),2.2,Ninguna,Sí
+P0057,Antioquia,Asociación Productores del Sur (ficticia),8.1,Ninguna,Sí
+P0058,Antioquia,Cooperativa Cafetera Ejemplo,4.2,Ninguna,Sí
+P0059,Antioquia,Cooperativa Cafetera Ejemplo,1.2,Fairtrade,Sí
+P0060,Santander,Cooperativa La Montaña (ficticia),5.6,Ninguna,No
+P0061,Huila,Cooperativa Cafetera Ejemplo,4.4,Ninguna,Sí
+P0062,Cauca,Cooperativa La Montaña (ficticia),4.5,Ninguna,Sí
+P0063,Cauca,Cooperativa Cafetera Ejemplo,11.2,Ninguna,Sí
+P0064,Huila,Productores Independientes,5.7,Rainforest Alliance,No
+P0065,Huila,Cooperativa La Montaña (ficticia),10.5,Rainforest Alliance,Sí
+P0066,Santander,Productores Independientes,4.2,Fairtrade,Sí
+P0067,Huila,Productores Independientes,10.7,Ninguna,No
+P0068,Antioquia,Cooperativa Cafetera Ejemplo,4.3,Ninguna,Sí
+P0069,Cauca,Cooperativa Cafetera Ejemplo,7.0,Ninguna,Sí
+P0070,Cauca,Cooperativa Cafetera Ejemplo,2.8,Ninguna,Sí
+P0071,Huila,Cooperativa La Montaña (ficticia),7.6,Orgánico,Sí
+P0072,Antioquia,Productores Independientes,7.4,Ninguna,Sí
+P0073,Antioquia,Asociación Productores del Sur (ficticia),9.5,Rainforest Alliance,Sí
+P0074,Nariño,Asociación Productores del Sur (ficticia),7.0,Rainforest Alliance,No
+P0075,Santander,Productores Independientes,10.8,Fairtrade,Sí
+P0076,Antioquia,Cooperativa Cafetera Ejemplo,4.0,Ninguna,Sí
+P0077,Antioquia,Cooperativa La Montaña (ficticia),2.5,Rainforest Alliance,No
+P0078,Huila,Asociación Productores del Sur (ficticia),7.1,Rainforest Alliance,Sí
+P0079,Santander,Cooperativa La Montaña (ficticia),4.7,Ninguna,Sí
+P0080,Nariño,Cooperativa Cafetera Ejemplo,8.2,Ninguna,Sí
+P0081,Santander,Productores Independientes,1.6,Ninguna,No
+P0082,Tolima,Asociación Productores del Sur (ficticia),11.2,Orgánico,Sí
+P0083,Antioquia,Cooperativa La Montaña (ficticia),11.5,Ninguna,Sí
+P0084,Caldas,Cooperativa La Montaña (ficticia),10.5,Ninguna,Sí
+P0085,Tolima,Productores Independientes,7.0,Ninguna,Sí
+P0086,Caldas,Cooperativa La Montaña (ficticia),3.1,Rainforest Alliance,No
+P0087,Huila,Cooperativa Cafetera Ejemplo,11.5,Fairtrade,Sí
+P0088,Caldas,Productores Independientes,9.7,Rainforest Alliance,Sí
+P0089,Huila,Cooperativa La Montaña (ficticia),7.0,Ninguna,Sí
+P0090,Nariño,Cooperativa Cafetera Ejemplo,12.0,Ninguna,Sí
+P0091,Huila,Cooperativa La Montaña (ficticia),7.3,Orgánico,Sí
+P0092,Antioquia,Asociación Productores del Sur (ficticia),11.6,Ninguna,No
+P0093,Huila,Productores Independientes,4.7,Ninguna,Sí
+P0094,Huila,Asociación Productores del Sur (ficticia),2.8,Ninguna,Sí
+P0095,Cauca,Cooperativa La Montaña (ficticia),2.5,Ninguna,Sí
+P0096,Santander,Cooperativa Cafetera Ejemplo,10.3,Rainforest Alliance,Sí
+P0097,Santander,Cooperativa La Montaña (ficticia),9.9,Orgánico,Sí
+P0098,Santander,Asociación Productores del Sur (ficticia),8.9,Ninguna,No
+P0099,Antioquia,Asociación Productores del Sur (ficticia),2.8,Fairtrade,Sí
+P0100,Tolima,Cooperativa Cafetera Ejemplo,10.3,Ninguna,No
+P0101,Antioquia,Asociación Productores del Sur (ficticia),7.6,Ninguna,Sí
+P0102,Huila,Cooperativa La Montaña (ficticia),6.3,Fairtrade,Sí
+P0103,Nariño,Productores Independientes,3.9,Ninguna,Sí
+P0104,Huila,Productores Independientes,11.0,Ninguna,Sí
+P0105,Tolima,Cooperativa La Montaña (ficticia),8.5,Ninguna,Sí
+P0106,Cauca,Cooperativa Cafetera Ejemplo,1.8,Orgánico,Sí
+P0107,Caldas,Cooperativa La Montaña (ficticia),3.9,Rainforest Alliance,Sí
+P0108,Huila,Productores Independientes,6.6,Ninguna,No
+P0109,Santander,Productores Independientes,5.4,Ninguna,Sí
+P0110,Caldas,Asociación Productores del Sur (ficticia),10.5,Orgánico,No
+P0111,Nariño,Cooperativa La Montaña (ficticia),5.5,Fairtrade,No
+P0112,Antioquia,Asociación Productores del Sur (ficticia),5.9,Rainforest Alliance,No
+P0113,Nariño,Productores Independientes,3.9,Fairtrade,No
+P0114,Antioquia,Productores Independientes,3.9,Ninguna,Sí
+P0115,Antioquia,Cooperativa La Montaña (ficticia),11.7,Rainforest Alliance,No
+P0116,Huila,Cooperativa La Montaña (ficticia),7.3,Rainforest Alliance,No
+P0117,Antioquia,Cooperativa La Montaña (ficticia),8.4,Ninguna,Sí
+P0118,Nariño,Productores Independientes,11.0,Fairtrade,Sí
+P0119,Santander,Asociación Productores del Sur (ficticia),5.7,Rainforest Alliance,Sí
+P0120,Huila,Productores Independientes,9.0,Ninguna,Sí
+P0121,Cauca,Cooperativa La Montaña (ficticia),2.4,Rainforest Alliance,Sí
+P0122,Cauca,Productores Independientes,10.4,Ninguna,No
+P0123,Huila,Asociación Productores del Sur (ficticia),8.0,Rainforest Alliance,No
+P0124,Santander,Cooperativa La Montaña (ficticia),1.2,Ninguna,No
+P0125,Tolima,Cooperativa La Montaña (ficticia),7.9,Ninguna,Sí
+P0126,Cauca,Asociación Productores del Sur (ficticia),6.9,Ninguna,Sí
+P0127,Huila,Cooperativa La Montaña (ficticia),11.7,Orgánico,Sí
+P0128,Huila,Asociación Productores del Sur (ficticia),8.8,Ninguna,Sí
+P0129,Tolima,Asociación Productores del Sur (ficticia),2.2,Ninguna,Sí
+P0130,Tolima,Asociación Productores del Sur (ficticia),7.1,Ninguna,No
+P0131,Antioquia,Productores Independientes,8.2,Ninguna,Sí
+P0132,Antioquia,Productores Independientes,3.8,Fairtrade,Sí
+P0133,Caldas,Cooperativa Cafetera Ejemplo,8.1,Ninguna,No
+P0134,Tolima,Cooperativa La Montaña (ficticia),3.8,Fairtrade,Sí
+P0135,Huila,Cooperativa La Montaña (ficticia),6.6,Rainforest Alliance,Sí
+P0136,Antioquia,Cooperativa Cafetera Ejemplo,10.0,Fairtrade,No
+P0137,Nariño,Cooperativa La Montaña (ficticia),11.8,Rainforest Alliance,Sí
+P0138,Caldas,Cooperativa La Montaña (ficticia),6.4,Rainforest Alliance,Sí
+P0139,Antioquia,Cooperativa Cafetera Ejemplo,11.9,Fairtrade,Sí
+P0140,Huila,Cooperativa La Montaña (ficticia),11.6,Orgánico,Sí
+P0141,Tolima,Productores Independientes,7.9,Orgánico,Sí
+P0142,Santander,Cooperativa Cafetera Ejemplo,6.1,Ninguna,Sí
+P0143,Tolima,Asociación Productores del Sur (ficticia),6.7,Fairtrade,Sí
+P0144,Antioquia,Productores Independientes,2.5,Rainforest Alliance,No
+P0145,Caldas,Cooperativa La Montaña (ficticia),12.0,Ninguna,No
+P0146,Cauca,Asociación Productores del Sur (ficticia),2.7,Rainforest Alliance,Sí
+P0147,Santander,Asociación Productores del Sur (ficticia),2.4,Fairtrade,Sí
+P0148,Cauca,Cooperativa Cafetera Ejemplo,9.8,Fairtrade,Sí
+P0149,Antioquia,Cooperativa La Montaña (ficticia),11.4,Ninguna,No
+P0150,Antioquia,Cooperativa La Montaña (ficticia),2.4,Ninguna,No
+P0151,Nariño,Asociación Productores del Sur (ficticia),8.5,Ninguna,Sí
+P0152,Cauca,Cooperativa Cafetera Ejemplo,4.3,Ninguna,Sí
+P0153,Santander,Cooperativa Cafetera Ejemplo,6.1,Rainforest Alliance,Sí
+P0154,Huila,Cooperativa La Montaña (ficticia),2.6,Ninguna,Sí
+P0155,Tolima,Cooperativa Cafetera Ejemplo,2.0,Rainforest Alliance,Sí
+P0156,Nariño,Cooperativa La Montaña (ficticia),4.6,Ninguna,No
+P0157,Tolima,Cooperativa Cafetera Ejemplo,5.7,Ninguna,Sí
+P0158,Caldas,Asociación Productores del Sur (ficticia),3.7,Rainforest Alliance,Sí
+P0159,Tolima,Cooperativa La Montaña (ficticia),2.7,Orgánico,Sí
+P0160,Tolima,Productores Independientes,6.1,Ninguna,Sí
+P0161,Huila,Cooperativa La Montaña (ficticia),7.9,Ninguna,Sí
+P0162,Santander,Productores Independientes,2.0,Fairtrade,Sí
+P0163,Nariño,Cooperativa Cafetera Ejemplo,9.3,Ninguna,Sí
+P0164,Nariño,Asociación Productores del Sur (ficticia),2.3,Ninguna,Sí
+P0165,Tolima,Productores Independientes,1.3,Orgánico,Sí
+P0166,Cauca,Cooperativa La Montaña (ficticia),4.2,Ninguna,Sí
+P0167,Huila,Productores Independientes,10.8,Fairtrade,Sí
+P0168,Tolima,Asociación Productores del Sur (ficticia),2.2,Ninguna,Sí
+P0169,Antioquia,Cooperativa La Montaña (ficticia),6.0,Rainforest Alliance,Sí
+P0170,Cauca,Cooperativa La Montaña (ficticia),9.3,Orgánico,Sí
+P0171,Huila,Productores Independientes,4.8,Fairtrade,Sí
+P0172,Tolima,Cooperativa Cafetera Ejemplo,9.9,Ninguna,Sí
+P0173,Huila,Cooperativa Cafetera Ejemplo,1.8,Orgánico,Sí
+P0174,Cauca,Productores Independientes,9.8,Fairtrade,Sí
+P0175,Santander,Productores Independientes,6.9,Ninguna,No
+P0176,Antioquia,Cooperativa Cafetera Ejemplo,2.2,Ninguna,Sí
+P0177,Tolima,Cooperativa La Montaña (ficticia),1.2,Ninguna,No
+P0178,Santander,Cooperativa Cafetera Ejemplo,9.1,Fairtrade,Sí
+P0179,Antioquia,Asociación Productores del Sur (ficticia),4.4,Ninguna,Sí
+P0180,Antioquia,Productores Independientes,8.6,Ninguna,Sí
+P0181,Tolima,Cooperativa La Montaña (ficticia),5.6,Ninguna,Sí
+P0182,Cauca,Productores Independientes,3.1,Ninguna,Sí
+P0183,Tolima,Productores Independientes,6.3,Ninguna,No
+P0184,Santander,Productores Independientes,9.0,Ninguna,No
+P0185,Caldas,Cooperativa La Montaña (ficticia),3.7,Ninguna,Sí
+P0186,Antioquia,Productores Independientes,10.5,Rainforest Alliance,Sí
+P0187,Antioquia,Asociación Productores del Sur (ficticia),11.5,Ninguna,Sí
+P0188,Antioquia,Asociación Productores del Sur (ficticia),7.5,Rainforest Alliance,Sí
+P0189,Tolima,Cooperativa Cafetera Ejemplo,9.8,Fairtrade,No
+P0190,Tolima,Cooperativa Cafetera Ejemplo,3.7,Ninguna,No
+P0191,Nariño,Asociación Productores del Sur (ficticia),6.8,Orgánico,Sí
+P0192,Huila,Asociación Productores del Sur (ficticia),11.3,Ninguna,Sí
+P0193,Nariño,Cooperativa Cafetera Ejemplo,10.9,Ninguna,Sí
+P0194,Huila,Productores Independientes,10.2,Ninguna,No
+P0195,Santander,Asociación Productores del Sur (ficticia),8.2,Orgánico,Sí
+P0196,Huila,Cooperativa Cafetera Ejemplo,2.9,Ninguna,Sí
+P0197,Huila,Cooperativa La Montaña (ficticia),7.8,Ninguna,Sí
+P0198,Santander,Cooperativa Cafetera Ejemplo,10.7,Rainforest Alliance,Sí
+P0199,Huila,Asociación Productores del Sur (ficticia),6.4,Ninguna,No
+P0200,Antioquia,Productores Independientes,6.1,Ninguna,Sí
+P0201,Huila,Productores Independientes,7.1,Ninguna,Sí
+P0202,Cauca,Asociación Productores del Sur (ficticia),3.6,Rainforest Alliance,Sí
+P0203,Tolima,Cooperativa La Montaña (ficticia),5.4,Orgánico,No
+P0204,Cauca,Productores Independientes,2.0,Ninguna,Sí
+P0205,Nariño,Asociación Productores del Sur (ficticia),11.8,Rainforest Alliance,No
+P0206,Tolima,Asociación Productores del Sur (ficticia),10.1,Ninguna,Sí
+P0207,Nariño,Cooperativa La Montaña (ficticia),2.9,Rainforest Alliance,No
+P0208,Huila,Productores Independientes,2.0,Rainforest Alliance,Sí
+P0209,Cauca,Cooperativa La Montaña (ficticia),6.6,Ninguna,No
+P0210,Nariño,Cooperativa Cafetera Ejemplo,8.2,Ninguna,Sí
+P0211,Antioquia,Asociación Productores del Sur (ficticia),11.4,Rainforest Alliance,No
+P0212,Cauca,Asociación Productores del Sur (ficticia),4.4,Ninguna,No
+P0213,Santander,Cooperativa La Montaña (ficticia),11.1,Ninguna,No
+P0214,Tolima,Cooperativa Cafetera Ejemplo,3.7,Ninguna,Sí
+P0215,Santander,Productores Independientes,2.2,Ninguna,No
+P0216,Cauca,Cooperativa La Montaña (ficticia),2.6,Orgánico,Sí
+P0217,Huila,Cooperativa La Montaña (ficticia),11.4,Ninguna,Sí
+P0218,Cauca,Productores Independientes,7.5,Ninguna,Sí
+P0219,Caldas,Productores Independientes,9.9,Fairtrade,No
+P0220,Santander,Productores Independientes,9.5,Rainforest Alliance,Sí
+P0221,Caldas,Cooperativa La Montaña (ficticia),5.9,Rainforest Alliance,Sí
+P0222,Tolima,Cooperativa La Montaña (ficticia),10.0,Ninguna,Sí
+P0223,Cauca,Asociación Productores del Sur (ficticia),3.3,Rainforest Alliance,Sí
+P0224,Nariño,Productores Independientes,3.5,Rainforest Alliance,Sí
+P0225,Antioquia,Cooperativa Cafetera Ejemplo,3.5,Ninguna,Sí
+P0226,Antioquia,Productores Independientes,3.3,Ninguna,Sí
+P0227,Santander,Productores Independientes,8.6,Ninguna,Sí
+P0228,Santander,Asociación Productores del Sur (ficticia),2.9,Ninguna,Sí
+P0229,Nariño,Asociación Productores del Sur (ficticia),4.3,Fairtrade,Sí
+P0230,Nariño,Asociación Productores del Sur (ficticia),5.9,Ninguna,No
+P0231,Tolima,Cooperativa Cafetera Ejemplo,7.7,Rainforest Alliance,Sí
+P0232,Caldas,Cooperativa La Montaña (ficticia),7.2,Fairtrade,Sí
+P0233,Antioquia,Cooperativa La Montaña (ficticia),9.8,Fairtrade,Sí
+P0234,Cauca,Cooperativa La Montaña (ficticia),10.1,Ninguna,No
+P0235,Antioquia,Asociación Productores del Sur (ficticia),1.1,Ninguna,Sí
+P0236,Antioquia,Cooperativa La Montaña (ficticia),10.4,Fairtrade,No
+P0237,Cauca,Productores Independientes,4.9,Rainforest Alliance,No
+P0238,Caldas,Cooperativa Cafetera Ejemplo,3.6,Ninguna,No
+P0239,Cauca,Productores Independientes,12.0,Ninguna,Sí
+P0240,Tolima,Cooperativa La Montaña (ficticia),1.3,Ninguna,No
+P0241,Huila,Asociación Productores del Sur (ficticia),5.4,Ninguna,Sí
+P0242,Antioquia,Cooperativa Cafetera Ejemplo,5.6,Ninguna,Sí
+P0243,Santander,Cooperativa Cafetera Ejemplo,10.8,Fairtrade,No
+P0244,Cauca,Productores Independientes,7.9,Ninguna,Sí
+P0245,Huila,Asociación Productores del Sur (ficticia),10.6,Rainforest Alliance,Sí
+P0246,Tolima,Asociación Productores del Sur (ficticia),2.4,Ninguna,No
+P0247,Huila,Productores Independientes,11.5,Orgánico,No
+P0248,Santander,Productores Independientes,9.3,Ninguna,Sí
+P0249,Huila,Productores Independientes,5.7,Orgánico,Sí
+P0250,Tolima,Cooperativa Cafetera Ejemplo,5.9,Ninguna,Sí
+P0251,Huila,Cooperativa Cafetera Ejemplo,5.5,Ninguna,Sí
+P0252,Huila,Asociación Productores del Sur (ficticia),5.7,Ninguna,Sí
+P0253,Huila,Asociación Productores del Sur (ficticia),7.6,Fairtrade,Sí
+P0254,Antioquia,Productores Independientes,9.6,Rainforest Alliance,Sí
+P0255,Antioquia,Cooperativa Cafetera Ejemplo,5.5,Rainforest Alliance,Sí
+P0256,Cauca,Cooperativa La Montaña (ficticia),4.5,Fairtrade,Sí
+P0257,Caldas,Cooperativa La Montaña (ficticia),3.6,Fairtrade,No
+P0258,Tolima,Productores Independientes,3.8,Rainforest Alliance,No
+P0259,Antioquia,Productores Independientes,4.2,Rainforest Alliance,Sí
+P0260,Caldas,Asociación Productores del Sur (ficticia),8.8,Fairtrade,Sí
+P0261,Cauca,Asociación Productores del Sur (ficticia),4.9,Ninguna,No
+P0262,Santander,Cooperativa La Montaña (ficticia),2.2,Rainforest Alliance,Sí
+P0263,Huila,Asociación Productores del Sur (ficticia),7.6,Ninguna,Sí
+P0264,Antioquia,Cooperativa Cafetera Ejemplo,8.3,Ninguna,Sí
+P0265,Tolima,Productores Independientes,7.7,Rainforest Alliance,Sí
+P0266,Santander,Productores Independientes,9.3,Ninguna,No
+P0267,Antioquia,Productores Independientes,4.9,Fairtrade,No
+P0268,Antioquia,Cooperativa La Montaña (ficticia),9.7,Fairtrade,No
+P0269,Huila,Productores Independientes,6.1,Rainforest Alliance,No
+P0270,Caldas,Cooperativa La Montaña (ficticia),6.9,Ninguna,No
+P0271,Huila,Cooperativa La Montaña (ficticia),5.7,Ninguna,Sí
+P0272,Santander,Cooperativa La Montaña (ficticia),1.0,Ninguna,No
+P0273,Huila,Asociación Productores del Sur (ficticia),1.5,Ninguna,Sí
+P0274,Caldas,Productores Independientes,2.1,Rainforest Alliance,Sí
+P0275,Tolima,Cooperativa Cafetera Ejemplo,4.2,Ninguna,Sí
+P0276,Tolima,Cooperativa Cafetera Ejemplo,8.6,Ninguna,Sí
+P0277,Huila,Cooperativa Cafetera Ejemplo,12.0,Fairtrade,Sí
+P0278,Nariño,Cooperativa Cafetera Ejemplo,2.5,Orgánico,Sí
+P0279,Cauca,Cooperativa Cafetera Ejemplo,9.3,Fairtrade,Sí
+P0280,Tolima,Cooperativa La Montaña (ficticia),7.1,Fairtrade,No
+P0281,Tolima,Cooperativa Cafetera Ejemplo,5.6,Ninguna,Sí
+P0282,Cauca,Asociación Productores del Sur (ficticia),7.7,Rainforest Alliance,No
+P0283,Huila,Productores Independientes,10.0,Ninguna,Sí
+P0284,Cauca,Cooperativa Cafetera Ejemplo,4.2,Fairtrade,Sí
+P0285,Caldas,Productores Independientes,3.1,Orgánico,No
+P0286,Tolima,Asociación Productores del Sur (ficticia),3.3,Ninguna,Sí
+P0287,Caldas,Cooperativa La Montaña (ficticia),1.3,Ninguna,No
+P0288,Tolima,Cooperativa Cafetera Ejemplo,5.0,Orgánico,No
+P0289,Caldas,Cooperativa Cafetera Ejemplo,5.0,Rainforest Alliance,Sí
+P0290,Antioquia,Asociación Productores del Sur (ficticia),3.1,Ninguna,Sí
+P0291,Antioquia,Cooperativa Cafetera Ejemplo,10.1,Ninguna,Sí
+P0292,Antioquia,Cooperativa La Montaña (ficticia),9.7,Fairtrade,No
+P0293,Huila,Asociación Productores del Sur (ficticia),7.1,Rainforest Alliance,Sí
+P0294,Antioquia,Productores Independientes,5.0,Ninguna,Sí
+P0295,Huila,Cooperativa La Montaña (ficticia),6.2,Orgánico,No
+P0296,Cauca,Cooperativa La Montaña (ficticia),9.8,Fairtrade,Sí
+P0297,Huila,Cooperativa La Montaña (ficticia),10.3,Ninguna,Sí
+P0298,Antioquia,Cooperativa Cafetera Ejemplo,11.1,Ninguna,No
+P0299,Tolima,Cooperativa Cafetera Ejemplo,3.3,Ninguna,Sí
+P0300,Santander,Productores Independientes,1.8,Ninguna,No
+P0301,Antioquia,Cooperativa Cafetera Ejemplo,11.2,Ninguna,Sí
+P0302,Tolima,Asociación Productores del Sur (ficticia),8.2,Orgánico,No
+P0303,Huila,Cooperativa La Montaña (ficticia),3.2,Rainforest Alliance,No
+P0304,Antioquia,Cooperativa La Montaña (ficticia),6.5,Ninguna,No
+P0305,Tolima,Cooperativa La Montaña (ficticia),6.9,Rainforest Alliance,Sí
+P0306,Huila,Productores Independientes,11.3,Ninguna,No
+P0307,Tolima,Cooperativa La Montaña (ficticia),10.6,Ninguna,Sí
+P0308,Santander,Cooperativa La Montaña (ficticia),9.8,Ninguna,Sí
+P0309,Nariño,Cooperativa Cafetera Ejemplo,5.8,Orgánico,Sí
+P0310,Huila,Cooperativa Cafetera Ejemplo,6.2,Fairtrade,No
+P0311,Tolima,Cooperativa Cafetera Ejemplo,8.9,Rainforest Alliance,Sí
+P0312,Antioquia,Cooperativa Cafetera Ejemplo,3.9,Ninguna,Sí
+P0313,Antioquia,Asociación Productores del Sur (ficticia),4.1,Ninguna,Sí
+P0314,Santander,Cooperativa Cafetera Ejemplo,2.3,Rainforest Alliance,Sí
+P0315,Tolima,Cooperativa La Montaña (ficticia),2.9,Orgánico,Sí
+P0316,Santander,Asociación Productores del Sur (ficticia),10.0,Rainforest Alliance,Sí
+P0317,Antioquia,Cooperativa La Montaña (ficticia),9.3,Ninguna,Sí
+P0318,Caldas,Productores Independientes,3.2,Ninguna,No
+P0319,Caldas,Asociación Productores del Sur (ficticia),7.7,Rainforest Alliance,Sí
+P0320,Cauca,Productores Independientes,3.9,Ninguna,Sí
+P0321,Nariño,Cooperativa La Montaña (ficticia),7.0,Fairtrade,Sí
+P0322,Nariño,Asociación Productores del Sur (ficticia),1.9,Ninguna,Sí
+P0323,Nariño,Asociación Productores del Sur (ficticia),11.2,Rainforest Alliance,Sí
+P0324,Tolima,Productores Independientes,1.5,Ninguna,No
+P0325,Santander,Cooperativa La Montaña (ficticia),8.6,Rainforest Alliance,Sí
+P0326,Antioquia,Productores Independientes,4.7,Fairtrade,No
+P0327,Nariño,Productores Independientes,9.2,Ninguna,No
+P0328,Huila,Cooperativa La Montaña (ficticia),2.3,Ninguna,No
+P0329,Caldas,Asociación Productores del Sur (ficticia),11.4,Fairtrade,No
+P0330,Santander,Asociación Productores del Sur (ficticia),3.9,Rainforest Alliance,No
+P0331,Huila,Cooperativa La Montaña (ficticia),11.0,Rainforest Alliance,Sí
+P0332,Antioquia,Productores Independientes,4.1,Orgánico,Sí
+P0333,Nariño,Cooperativa Cafetera Ejemplo,9.4,Ninguna,Sí
+P0334,Caldas,Productores Independientes,1.1,Ninguna,No
+P0335,Huila,Cooperativa La Montaña (ficticia),5.4,Rainforest Alliance,Sí
+P0336,Huila,Cooperativa Cafetera Ejemplo,1.8,Fairtrade,Sí
+P0337,Santander,Cooperativa Cafetera Ejemplo,7.9,Rainforest Alliance,No
+P0338,Huila,Productores Independientes,1.6,Ninguna,No
+P0339,Santander,Productores Independientes,9.4,Ninguna,Sí
+P0340,Caldas,Asociación Productores del Sur (ficticia),6.4,Orgánico,Sí
+P0341,Huila,Productores Independientes,1.4,Ninguna,Sí
+P0342,Tolima,Productores Independientes,5.9,Ninguna,Sí
+P0343,Nariño,Productores Independientes,11.6,Ninguna,Sí
+P0344,Huila,Cooperativa Cafetera Ejemplo,4.4,Ninguna,Sí
+P0345,Huila,Cooperativa Cafetera Ejemplo,3.0,Ninguna,Sí
+P0346,Antioquia,Cooperativa Cafetera Ejemplo,1.5,Ninguna,Sí
+P0347,Cauca,Cooperativa Cafetera Ejemplo,11.4,Ninguna,Sí
+P0348,Antioquia,Productores Independientes,11.6,Fairtrade,No
+P0349,Tolima,Cooperativa La Montaña (ficticia),11.0,Ninguna,Sí
+P0350,Cauca,Cooperativa Cafetera Ejemplo,1.9,Orgánico,No
+P0351,Tolima,Cooperativa Cafetera Ejemplo,6.6,Ninguna,No
+P0352,Huila,Productores Independientes,6.2,Fairtrade,Sí
+P0353,Caldas,Asociación Productores del Sur (ficticia),7.4,Rainforest Alliance,Sí
+P0354,Huila,Cooperativa Cafetera Ejemplo,9.1,Fairtrade,Sí
+P0355,Huila,Cooperativa Cafetera Ejemplo,10.2,Orgánico,Sí
+P0356,Nariño,Cooperativa Cafetera Ejemplo,6.6,Ninguna,Sí
+P0357,Cauca,Cooperativa Cafetera Ejemplo,2.5,Rainforest Alliance,Sí
+P0358,Caldas,Cooperativa Cafetera Ejemplo,11.1,Orgánico,No
+P0359,Santander,Productores Independientes,6.2,Ninguna,Sí
+P0360,Antioquia,Cooperativa La Montaña (ficticia),1.6,Ninguna,Sí
+P0361,Santander,Cooperativa La Montaña (ficticia),2.1,Ninguna,Sí
+P0362,Caldas,Asociación Productores del Sur (ficticia),11.9,Fairtrade,Sí
+P0363,Cauca,Asociación Productores del Sur (ficticia),3.8,Rainforest Alliance,No
+P0364,Huila,Cooperativa Cafetera Ejemplo,6.0,Orgánico,Sí
+P0365,Nariño,Asociación Productores del Sur (ficticia),5.1,Ninguna,No
+P0366,Santander,Productores Independientes,5.4,Ninguna,Sí
+P0367,Caldas,Cooperativa Cafetera Ejemplo,11.9,Fairtrade,Sí
+P0368,Caldas,Asociación Productores del Sur (ficticia),1.2,Rainforest Alliance,Sí
+P0369,Nariño,Asociación Productores del Sur (ficticia),8.7,Ninguna,No
+P0370,Cauca,Cooperativa Cafetera Ejemplo,9.2,Ninguna,No
+P0371,Huila,Asociación Productores del Sur (ficticia),11.4,Rainforest Alliance,Sí
+P0372,Huila,Cooperativa La Montaña (ficticia),1.5,Ninguna,Sí
+P0373,Santander,Cooperativa Cafetera Ejemplo,7.0,Ninguna,Sí
+P0374,Nariño,Productores Independientes,1.1,Ninguna,Sí
+P0375,Huila,Cooperativa Cafetera Ejemplo,10.0,Ninguna,Sí
+P0376,Nariño,Asociación Productores del Sur (ficticia),4.8,Ninguna,No
+P0377,Cauca,Productores Independientes,9.0,Ninguna,Sí
+P0378,Cauca,Asociación Productores del Sur (ficticia),11.1,Ninguna,Sí
+P0379,Huila,Asociación Productores del Sur (ficticia),2.1,Fairtrade,No
+P0380,Tolima,Cooperativa Cafetera Ejemplo,2.9,Ninguna,Sí
+P0381,Santander,Productores Independientes,1.7,Ninguna,Sí
+P0382,Huila,Asociación Productores del Sur (ficticia),7.0,Orgánico,Sí
+P0383,Nariño,Productores Independientes,7.6,Ninguna,No
+P0384,Antioquia,Asociación Productores del Sur (ficticia),6.4,Fairtrade,Sí
+P0385,Caldas,Cooperativa La Montaña (ficticia),1.4,Ninguna,Sí
+P0386,Santander,Cooperativa La Montaña (ficticia),2.3,Rainforest Alliance,Sí
+P0387,Santander,Cooperativa Cafetera Ejemplo,5.8,Fairtrade,Sí
+P0388,Nariño,Cooperativa Cafetera Ejemplo,9.0,Orgánico,No
+P0389,Nariño,Cooperativa Cafetera Ejemplo,11.6,Ninguna,No
+P0390,Nariño,Cooperativa La Montaña (ficticia),3.5,Rainforest Alliance,Sí
+P0391,Huila,Cooperativa La Montaña (ficticia),7.1,Ninguna,Sí
+P0392,Caldas,Productores Independientes,11.8,Ninguna,Sí
+P0393,Huila,Cooperativa La Montaña (ficticia),3.4,Ninguna,No
+P0394,Huila,Cooperativa Cafetera Ejemplo,2.6,Ninguna,Sí
+P0395,Huila,Cooperativa La Montaña (ficticia),10.3,Ninguna,No
+P0396,Santander,Cooperativa Cafetera Ejemplo,1.9,Ninguna,Sí
+P0397,Huila,Cooperativa La Montaña (ficticia),10.0,Fairtrade,No
+P0398,Santander,Cooperativa La Montaña (ficticia),2.3,Ninguna,No
+P0399,Tolima,Asociación Productores del Sur (ficticia),11.9,Ninguna,Sí
+P0400,Cauca,Asociación Productores del Sur (ficticia),5.1,Ninguna,No
+P0401,Huila,Asociación Productores del Sur (ficticia),3.0,Orgánico,Sí
+P0402,Nariño,Productores Independientes,3.3,Fairtrade,Sí
+P0403,Santander,Productores Independientes,6.3,Ninguna,Sí
+P0404,Nariño,Cooperativa La Montaña (ficticia),4.4,Ninguna,No
+P0405,Caldas,Cooperativa La Montaña (ficticia),4.2,Ninguna,Sí
+P0406,Huila,Productores Independientes,5.7,Fairtrade,Sí
+P0407,Huila,Asociación Productores del Sur (ficticia),7.8,Fairtrade,Sí
+P0408,Cauca,Productores Independientes,4.4,Rainforest Alliance,Sí
+P0409,Tolima,Productores Independientes,1.4,Fairtrade,Sí
+P0410,Santander,Productores Independientes,2.0,Rainforest Alliance,Sí
+P0411,Antioquia,Cooperativa Cafetera Ejemplo,8.3,Ninguna,Sí
+P0412,Antioquia,Productores Independientes,5.0,Ninguna,No
+P0413,Cauca,Cooperativa Cafetera Ejemplo,4.7,Ninguna,Sí
+P0414,Antioquia,Asociación Productores del Sur (ficticia),6.6,Orgánico,No
+P0415,Caldas,Asociación Productores del Sur (ficticia),5.3,Fairtrade,No
+P0416,Tolima,Cooperativa Cafetera Ejemplo,7.9,Orgánico,Sí
+P0417,Tolima,Cooperativa La Montaña (ficticia),4.1,Fairtrade,No
+P0418,Antioquia,Cooperativa Cafetera Ejemplo,10.7,Ninguna,Sí
+P0419,Huila,Productores Independientes,6.9,Fairtrade,Sí
+P0420,Santander,Productores Independientes,5.3,Rainforest Alliance,Sí
+P0421,Huila,Cooperativa La Montaña (ficticia),5.3,Rainforest Alliance,No
+P0422,Antioquia,Cooperativa Cafetera Ejemplo,5.5,Ninguna,Sí
+P0423,Huila,Asociación Productores del Sur (ficticia),1.5,Orgánico,Sí
+P0424,Antioquia,Productores Independientes,2.9,Ninguna,Sí
+P0425,Cauca,Productores Independientes,5.5,Ninguna,No
+P0426,Nariño,Productores Independientes,2.0,Ninguna,Sí
+P0427,Nariño,Productores Independientes,5.5,Ninguna,Sí
+P0428,Huila,Asociación Productores del Sur (ficticia),2.8,Ninguna,Sí
+P0429,Tolima,Cooperativa Cafetera Ejemplo,7.9,Fairtrade,Sí
+P0430,Santander,Asociación Productores del Sur (ficticia),11.9,Ninguna,Sí
+P0431,Antioquia,Productores Independientes,6.7,Ninguna,Sí
+P0432,Antioquia,Asociación Productores del Sur (ficticia),4.0,Ninguna,Sí
+P0433,Huila,Productores Independientes,9.5,Ninguna,Sí
+P0434,Santander,Productores Independientes,4.0,Ninguna,Sí
+P0435,Huila,Productores Independientes,8.7,Orgánico,No
+P0436,Tolima,Asociación Productores del Sur (ficticia),1.9,Ninguna,No
+P0437,Antioquia,Asociación Productores del Sur (ficticia),10.4,Fairtrade,No
+P0438,Antioquia,Productores Independientes,8.1,Rainforest Alliance,Sí
+P0439,Cauca,Productores Independientes,2.5,Ninguna,No
+P0440,Huila,Cooperativa Cafetera Ejemplo,9.8,Ninguna,Sí
+P0441,Huila,Productores Independientes,8.8,Ninguna,Sí
+P0442,Santander,Asociación Productores del Sur (ficticia),11.7,Ninguna,No
+P0443,Caldas,Asociación Productores del Sur (ficticia),6.8,Orgánico,No
+P0444,Huila,Cooperativa La Montaña (ficticia),9.2,Ninguna,Sí
+P0445,Antioquia,Cooperativa Cafetera Ejemplo,10.8,Rainforest Alliance,Sí
+P0446,Cauca,Cooperativa La Montaña (ficticia),2.6,Ninguna,Sí
+P0447,Tolima,Asociación Productores del Sur (ficticia),4.7,Orgánico,Sí
+P0448,Tolima,Asociación Productores del Sur (ficticia),6.2,Ninguna,No
+P0449,Tolima,Cooperativa La Montaña (ficticia),4.6,Ninguna,Sí
+P0450,Caldas,Productores Independientes,10.8,Ninguna,Sí
+P0451,Huila,Cooperativa Cafetera Ejemplo,1.9,Ninguna,Sí
+P0452,Santander,Cooperativa La Montaña (ficticia),5.5,Fairtrade,Sí
+P0453,Cauca,Cooperativa La Montaña (ficticia),10.2,Ninguna,No
+P0454,Antioquia,Cooperativa Cafetera Ejemplo,1.3,Rainforest Alliance,Sí
+P0455,Nariño,Cooperativa La Montaña (ficticia),2.3,Ninguna,No
+P0456,Huila,Cooperativa Cafetera Ejemplo,2.2,Fairtrade,Sí
+P0457,Huila,Cooperativa La Montaña (ficticia),5.7,Ninguna,Sí
+P0458,Nariño,Asociación Productores del Sur (ficticia),10.9,Ninguna,Sí
+P0459,Santander,Cooperativa La Montaña (ficticia),10.1,Fairtrade,Sí
+P0460,Santander,Productores Independientes,1.7,Orgánico,Sí
+P0461,Huila,Cooperativa Cafetera Ejemplo,7.3,Orgánico,Sí
+P0462,Caldas,Cooperativa La Montaña (ficticia),11.3,Ninguna,Sí
+P0463,Huila,Cooperativa Cafetera Ejemplo,11.9,Orgánico,No
+P0464,Antioquia,Asociación Productores del Sur (ficticia),7.8,Rainforest Alliance,No
+P0465,Nariño,Cooperativa Cafetera Ejemplo,8.4,Ninguna,No
+P0466,Cauca,Cooperativa Cafetera Ejemplo,10.4,Rainforest Alliance,Sí
+P0467,Caldas,Cooperativa Cafetera Ejemplo,7.1,Ninguna,Sí
+P0468,Caldas,Cooperativa Cafetera Ejemplo,4.1,Rainforest Alliance,Sí
+P0469,Antioquia,Cooperativa Cafetera Ejemplo,9.7,Ninguna,No
+P0470,Tolima,Asociación Productores del Sur (ficticia),3.4,Ninguna,No
+P0471,Cauca,Productores Independientes,7.2,Fairtrade,Sí
+P0472,Huila,Cooperativa La Montaña (ficticia),10.8,Ninguna,Sí
+P0473,Antioquia,Cooperativa La Montaña (ficticia),3.9,Rainforest Alliance,Sí
+P0474,Huila,Cooperativa La Montaña (ficticia),11.8,Ninguna,Sí
+P0475,Nariño,Cooperativa La Montaña (ficticia),5.0,Fairtrade,Sí
+P0476,Santander,Asociación Productores del Sur (ficticia),9.3,Ninguna,Sí
+P0477,Antioquia,Productores Independientes,1.8,Ninguna,Sí
+P0478,Santander,Asociación Productores del Sur (ficticia),3.9,Rainforest Alliance,Sí
+P0479,Antioquia,Asociación Productores del Sur (ficticia),5.1,Fairtrade,Sí
+P0480,Huila,Cooperativa La Montaña (ficticia),2.7,Rainforest Alliance,Sí
+P0481,Cauca,Cooperativa Cafetera Ejemplo,8.1,Rainforest Alliance,Sí
+P0482,Antioquia,Productores Independientes,7.7,Orgánico,Sí
+P0483,Santander,Asociación Productores del Sur (ficticia),8.6,Ninguna,Sí
+P0484,Tolima,Productores Independientes,5.2,Rainforest Alliance,Sí
+P0485,Caldas,Productores Independientes,8.2,Ninguna,Sí
+P0486,Huila,Cooperativa La Montaña (ficticia),1.8,Ninguna,Sí
+P0487,Huila,Asociación Productores del Sur (ficticia),8.2,Rainforest Alliance,No
+P0488,Huila,Productores Independientes,7.8,Ninguna,No
+P0489,Santander,Cooperativa Cafetera Ejemplo,11.7,Ninguna,Sí
+P0490,Cauca,Cooperativa La Montaña (ficticia),11.5,Rainforest Alliance,Sí
+P0491,Santander,Cooperativa Cafetera Ejemplo,6.6,Rainforest Alliance,Sí
+P0492,Santander,Cooperativa La Montaña (ficticia),5.2,Ninguna,Sí
+P0493,Santander,Asociación Productores del Sur (ficticia),11.6,Ninguna,Sí
+P0494,Antioquia,Cooperativa La Montaña (ficticia),1.9,Fairtrade,Sí
+P0495,Santander,Cooperativa Cafetera Ejemplo,3.0,Fairtrade,Sí
+P0496,Cauca,Asociación Productores del Sur (ficticia),8.4,Ninguna,Sí
+P0497,Cauca,Asociación Productores del Sur (ficticia),8.4,Fairtrade,Sí
+P0498,Tolima,Productores Independientes,6.9,Fairtrade,Sí
+P0499,Antioquia,Productores Independientes,6.6,Rainforest Alliance,Sí
+P0500,Cauca,Productores Independientes,9.5,Ninguna,Sí
+P0501,Cauca,Cooperativa La Montaña (ficticia),4.5,Ninguna,Sí
+P0502,Tolima,Cooperativa La Montaña (ficticia),5.0,Fairtrade,No
+P0503,Cauca,Asociación Productores del Sur (ficticia),11.0,Rainforest Alliance,Sí
+P0504,Cauca,Productores Independientes,6.4,Ninguna,No
+P0505,Nariño,Cooperativa La Montaña (ficticia),3.1,Ninguna,Sí
+P0506,Huila,Cooperativa La Montaña (ficticia),10.7,Ninguna,Sí
+P0507,Tolima,Cooperativa La Montaña (ficticia),6.7,Orgánico,Sí
+P0508,Tolima,Cooperativa La Montaña (ficticia),1.5,Ninguna,Sí
+P0509,Huila,Cooperativa Cafetera Ejemplo,5.9,Fairtrade,Sí
+P0510,Cauca,Asociación Productores del Sur (ficticia),9.4,Ninguna,Sí
+P0511,Huila,Cooperativa Cafetera Ejemplo,6.2,Ninguna,Sí
+P0512,Tolima,Cooperativa La Montaña (ficticia),8.6,Ninguna,Sí
+P0513,Cauca,Cooperativa Cafetera Ejemplo,2.2,Orgánico,Sí
+P0514,Antioquia,Asociación Productores del Sur (ficticia),11.1,Ninguna,Sí
+P0515,Nariño,Asociación Productores del Sur (ficticia),2.5,Ninguna,Sí
+P0516,Tolima,Cooperativa La Montaña (ficticia),4.5,Ninguna,No
+P0517,Nariño,Asociación Productores del Sur (ficticia),4.5,Ninguna,Sí
+P0518,Antioquia,Asociación Productores del Sur (ficticia),6.5,Ninguna,No
+P0519,Huila,Productores Independientes,6.3,Fairtrade,Sí
+P0520,Nariño,Cooperativa La Montaña (ficticia),6.3,Ninguna,Sí
+P0521,Tolima,Asociación Productores del Sur (ficticia),3.5,Ninguna,No
+P0522,Nariño,Cooperativa La Montaña (ficticia),2.5,Orgánico,Sí
+P0523,Nariño,Productores Independientes,6.3,Ninguna,Sí
+P0524,Nariño,Cooperativa La Montaña (ficticia),3.8,Fairtrade,No
+P0525,Huila,Asociación Productores del Sur (ficticia),10.1,Rainforest Alliance,Sí
+P0526,Tolima,Asociación Productores del Sur (ficticia),6.7,Ninguna,No
+P0527,Santander,Asociación Productores del Sur (ficticia),10.1,Orgánico,Sí
+P0528,Caldas,Asociación Productores del Sur (ficticia),4.7,Ninguna,Sí
+P0529,Caldas,Asociación Productores del Sur (ficticia),11.1,Ninguna,Sí
+P0530,Antioquia,Cooperativa La Montaña (ficticia),9.8,Ninguna,No
+P0531,Nariño,Cooperativa La Montaña (ficticia),1.8,Fairtrade,Sí
+P0532,Santander,Productores Independientes,5.3,Fairtrade,Sí
+P0533,Tolima,Asociación Productores del Sur (ficticia),5.0,Orgánico,Sí
+P0534,Huila,Cooperativa La Montaña (ficticia),8.0,Ninguna,Sí
+P0535,Santander,Cooperativa Cafetera Ejemplo,10.0,Rainforest Alliance,Sí
+P0536,Santander,Productores Independientes,3.0,Orgánico,Sí
+P0537,Cauca,Cooperativa La Montaña (ficticia),7.0,Ninguna,Sí
+P0538,Santander,Cooperativa Cafetera Ejemplo,2.9,Fairtrade,Sí
+P0539,Huila,Cooperativa La Montaña (ficticia),2.6,Fairtrade,Sí
+P0540,Antioquia,Cooperativa La Montaña (ficticia),5.7,Ninguna,No
+P0541,Huila,Asociación Productores del Sur (ficticia),1.6,Orgánico,No
+P0542,Cauca,Productores Independientes,1.8,Fairtrade,Sí
+P0543,Antioquia,Cooperativa La Montaña (ficticia),11.6,Ninguna,Sí
+P0544,Huila,Asociación Productores del Sur (ficticia),3.3,Ninguna,No
+P0545,Tolima,Asociación Productores del Sur (ficticia),1.5,Fairtrade,No
+P0546,Huila,Cooperativa La Montaña (ficticia),3.8,Fairtrade,Sí
+P0547,Tolima,Asociación Productores del Sur (ficticia),3.4,Ninguna,No
+P0548,Antioquia,Cooperativa Cafetera Ejemplo,9.7,Ninguna,No
+P0549,Caldas,Cooperativa Cafetera Ejemplo,8.6,Ninguna,Sí
+P0550,Cauca,Asociación Productores del Sur (ficticia),9.9,Ninguna,No
+P0551,Antioquia,Cooperativa La Montaña (ficticia),4.4,Fairtrade,Sí
+P0552,Caldas,Cooperativa La Montaña (ficticia),6.5,Ninguna,Sí
+P0553,Antioquia,Cooperativa La Montaña (ficticia),10.9,Fairtrade,No
+P0554,Caldas,Asociación Productores del Sur (ficticia),9.1,Fairtrade,No
+P0555,Cauca,Cooperativa Cafetera Ejemplo,6.1,Fairtrade,No
+P0556,Huila,Productores Independientes,2.0,Ninguna,Sí
+P0557,Cauca,Asociación Productores del Sur (ficticia),1.1,Ninguna,Sí
+P0558,Antioquia,Productores Independientes,6.6,Ninguna,Sí
+P0559,Tolima,Productores Independientes,1.6,Rainforest Alliance,Sí
+P0560,Huila,Asociación Productores del Sur (ficticia),9.5,Fairtrade,Sí
+P0561,Tolima,Cooperativa Cafetera Ejemplo,2.6,Ninguna,No
+P0562,Caldas,Asociación Productores del Sur (ficticia),9.8,Ninguna,Sí
+P0563,Nariño,Productores Independientes,1.4,Rainforest Alliance,Sí
+P0564,Huila,Cooperativa Cafetera Ejemplo,7.3,Ninguna,Sí
+P0565,Santander,Productores Independientes,6.1,Ninguna,Sí
+P0566,Antioquia,Cooperativa La Montaña (ficticia),4.6,Ninguna,Sí
+P0567,Santander,Productores Independientes,8.0,Fairtrade,No
+P0568,Antioquia,Cooperativa Cafetera Ejemplo,1.5,Rainforest Alliance,Sí
+P0569,Huila,Asociación Productores del Sur (ficticia),5.5,Ninguna,No
+P0570,Nariño,Asociación Productores del Sur (ficticia),4.7,Orgánico,Sí
+P0571,Santander,Asociación Productores del Sur (ficticia),10.8,Ninguna,Sí
+P0572,Cauca,Productores Independientes,5.4,Rainforest Alliance,Sí
+P0573,Antioquia,Asociación Productores del Sur (ficticia),11.5,Ninguna,Sí
+P0574,Cauca,Cooperativa Cafetera Ejemplo,6.8,Ninguna,Sí
+P0575,Antioquia,Asociación Productores del Sur (ficticia),6.7,Fairtrade,Sí
+P0576,Cauca,Cooperativa Cafetera Ejemplo,11.7,Ninguna,No
+P0577,Huila,Cooperativa Cafetera Ejemplo,3.5,Ninguna,No
+P0578,Antioquia,Cooperativa Cafetera Ejemplo,11.3,Fairtrade,Sí
+P0579,Huila,Productores Independientes,7.6,Fairtrade,No
+P0580,Santander,Cooperativa La Montaña (ficticia),11.0,Orgánico,Sí
+P0581,Cauca,Asociación Productores del Sur (ficticia),6.5,Ninguna,No
+P0582,Cauca,Cooperativa Cafetera Ejemplo,6.1,Ninguna,No
+P0583,Tolima,Cooperativa Cafetera Ejemplo,3.1,Ninguna,Sí
+P0584,Huila,Productores Independientes,4.5,Rainforest Alliance,Sí
+P0585,Tolima,Productores Independientes,1.5,Ninguna,Sí
+P0586,Cauca,Productores Independientes,4.7,Rainforest Alliance,Sí
+P0587,Antioquia,Cooperativa La Montaña (ficticia),11.9,Ninguna,Sí
+P0588,Cauca,Asociación Productores del Sur (ficticia),8.0,Ninguna,Sí
+P0589,Nariño,Asociación Productores del Sur (ficticia),5.6,Rainforest Alliance,Sí
+P0590,Nariño,Asociación Productores del Sur (ficticia),1.2,Fairtrade,No
+P0591,Antioquia,Productores Independientes,2.0,Orgánico,Sí
+P0592,Huila,Asociación Productores del Sur (ficticia),3.3,Ninguna,Sí
+P0593,Huila,Cooperativa Cafetera Ejemplo,4.5,Ninguna,No
+P0594,Nariño,Cooperativa La Montaña (ficticia),7.3,Ninguna,Sí
+P0595,Huila,Productores Independientes,8.3,Ninguna,No
+P0596,Tolima,Cooperativa La Montaña (ficticia),3.9,Orgánico,Sí
+P0597,Huila,Cooperativa Cafetera Ejemplo,6.0,Ninguna,Sí
+P0598,Tolima,Cooperativa Cafetera Ejemplo,9.8,Fairtrade,No
+P0599,Santander,Asociación Productores del Sur (ficticia),5.1,Rainforest Alliance,Sí
+P0600,Nariño,Productores Independientes,4.6,Ninguna,Sí

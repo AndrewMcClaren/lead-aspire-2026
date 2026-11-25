@@ -17,6 +17,9 @@ Microsoft Bogotá. En Nueva York fue un caso con cliente y construcción; en Bog
 | [`docs/SEGURIDAD.md`](docs/SEGURIDAD.md) | **Prueba de penetración** (98 pruebas en 7 frentes), qué se corrigió, cifrado, red y **cumplimiento normativo en Colombia** |
 | [`docs/SANS.md`](docs/SANS.md) | La guía de controles críticos de seguridad en IA de SANS **control por control** frente al kit, qué del cuaderno de NotebookLM no citar y cómo usarlo en la entrevista y el pitch |
 | [`docs/INFRAESTRUCTURA.md`](docs/INFRAESTRUCTURA.md) | Las capas del kit área por área, cómo mostrarlas en 60 segundos, su relación con OWASP, NIST e ISO, y sus límites |
+| [`plantillas/entrevista_ejecutiva_cafe.md`](plantillas/entrevista_ejecutiva_cafe.md) | **Guía de entrevista ejecutiva para la cafetera**: mapa de punta a punta, 12 preguntas por rol (estrategia, finanzas, mercadeo, producto), presupuesto, hipótesis de IA y señales de compra |
+| [`plantillas/powerbi/`](plantillas/powerbi) | **Tablero de Power BI de la exportadora de café**: datos coherentes con el kit, tema beige y café, 19 medidas DAX, script para Snowflake y guía de 30 minutos |
+| [`plantillas/flujo_respaldo/`](plantillas/flujo_respaldo) | **Flujo de Power Automate sin código** (Forms → regla → aprobación en Teams → Excel) para cuando el kit no aplica |
 | [`plantillas/budget_games.md`](plantillas/budget_games.md) | **AI Budget Games**: hipótesis, método de 5 pasos para repartir un presupuesto, costos de una iniciativa de IA, práctica y preguntas para la organización |
 | [`plantillas/`](plantillas) | Para el día: entrevista, lienzo del problema, pitch, preguntas del jurado, lista de IA responsable, cómo adaptar el kit, **tres casos de simulacro** y un **prompt de auditoría** para que una IA haga de jurado una **calculadora de ROI** en Excel y una **hoja de una página** para el jurado (Word y ejemplo en PDF) |
 | [`kit/`](kit) | La demo lista para adaptar (abajo) |

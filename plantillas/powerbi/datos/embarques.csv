@@ -1,0 +1,1001 @@
+embarque_id,fecha,mes,puerto,destino_mercado,comprador,contenedores,dias_documentos,retraso_dias
+E0001,2026-08-15,2026-08,Buenaventura,Otros,Comprador Demo Corea,4,3,1
+E0002,2026-05-18,2026-05,Cartagena,Estados Unidos,Demo Roasters LLC,3,3,0
+E0003,2026-07-23,2026-07,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,6,0
+E0004,2026-10-03,2026-10,Cartagena,Estados Unidos,Demo Roasters LLC,5,4,5
+E0005,2026-03-29,2026-03,Buenaventura,Otros,Comprador Demo Corea,5,2,0
+E0006,2026-11-03,2026-11,Santa Marta,Estados Unidos,Demo Roasters LLC,5,2,4
+E0007,2026-01-30,2026-01,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,6,5,0
+E0008,2026-07-28,2026-07,Cartagena,Unión Europea,Importadora Ejemplo GmbH,2,8,2
+E0009,2025-12-28,2025-12,Buenaventura,Unión Europea,Tostadores Demo BV,7,3,3
+E0010,2026-11-16,2026-11,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,2,2,2
+E0011,2026-05-05,2026-05,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,8,7,0
+E0012,2026-03-02,2026-03,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,4,2,3
+E0013,2026-05-09,2026-05,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,6,6,1
+E0014,2026-05-28,2026-05,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,7,2,5
+E0015,2026-08-28,2026-08,Buenaventura,Estados Unidos,Demo Roasters LLC,2,7,0
+E0016,2026-01-12,2026-01,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,4,5,0
+E0017,2025-12-02,2025-12,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,8,5,1
+E0018,2026-09-30,2026-09,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,2,10,0
+E0019,2026-04-09,2026-04,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,3,6,3
+E0020,2026-07-17,2026-07,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,6,3,0
+E0021,2025-12-23,2025-12,Buenaventura,Unión Europea,Tostadores Demo BV,3,5,0
+E0022,2026-02-02,2026-02,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,5,3
+E0023,2026-01-04,2026-01,Cartagena,Unión Europea,Tostadores Demo BV,2,5,3
+E0024,2026-04-15,2026-04,Buenaventura,Unión Europea,Tostadores Demo BV,8,4,2
+E0025,2026-07-05,2026-07,Cartagena,Estados Unidos,Demo Roasters LLC,2,3,0
+E0026,2026-06-13,2026-06,Cartagena,Unión Europea,Importadora Ejemplo GmbH,7,5,2
+E0027,2026-09-04,2026-09,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,8,1
+E0028,2026-11-05,2026-11,Buenaventura,Estados Unidos,Demo Roasters LLC,6,3,0
+E0029,2025-12-27,2025-12,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,3,3,1
+E0030,2025-12-06,2025-12,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,4,10,1
+E0031,2026-05-17,2026-05,Buenaventura,Otros,Comprador Demo Corea,6,11,1
+E0032,2026-01-05,2026-01,Buenaventura,Otros,Comprador Demo Corea,4,4,0
+E0033,2026-05-16,2026-05,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,3,3,0
+E0034,2026-07-07,2026-07,Buenaventura,Otros,Comprador Demo Australia,3,7,4
+E0035,2026-05-14,2026-05,Cartagena,Unión Europea,Importadora Ejemplo GmbH,7,7,2
+E0036,2026-06-21,2026-06,Cartagena,Unión Europea,Tostadores Demo BV,3,8,3
+E0037,2026-04-03,2026-04,Buenaventura,Unión Europea,Tostadores Demo BV,3,2,3
+E0038,2026-03-17,2026-03,Buenaventura,Japón,Tostadora Demo KK,6,5,1
+E0039,2026-11-01,2026-11,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,3,0
+E0040,2026-01-23,2026-01,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,7,6,5
+E0041,2026-05-08,2026-05,Cartagena,Unión Europea,Importadora Ejemplo GmbH,3,6,0
+E0042,2026-11-11,2026-11,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,3,5,0
+E0043,2026-01-17,2026-01,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,3,0
+E0044,2025-12-07,2025-12,Buenaventura,Otros,Comprador Demo Corea,4,4,2
+E0045,2026-10-11,2026-10,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,7,9,0
+E0046,2026-03-31,2026-03,Cartagena,Unión Europea,Tostadores Demo BV,6,3,0
+E0047,2026-04-01,2026-04,Cartagena,Unión Europea,Tostadores Demo BV,2,8,3
+E0048,2026-05-22,2026-05,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,3,4,4
+E0049,2026-07-26,2026-07,Santa Marta,Otros,Comprador Demo Corea,5,6,0
+E0050,2025-12-11,2025-12,Buenaventura,Otros,Comprador Demo Australia,7,4,3
+E0051,2026-01-01,2026-01,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,7,10,0
+E0052,2026-03-28,2026-03,Cartagena,Japón,Tostadora Demo KK,3,6,2
+E0053,2026-02-20,2026-02,Buenaventura,Estados Unidos,Demo Roasters LLC,6,8,1
+E0054,2026-04-11,2026-04,Cartagena,Unión Europea,Importadora Ejemplo GmbH,5,5,5
+E0055,2025-12-27,2025-12,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,7,2,1
+E0056,2026-05-18,2026-05,Buenaventura,Unión Europea,Tostadores Demo BV,2,4,3
+E0057,2026-05-16,2026-05,Buenaventura,Japón,Tostadora Demo KK,8,7,1
+E0058,2026-11-07,2026-11,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,3,0
+E0059,2026-07-26,2026-07,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,6,4,0
+E0060,2026-01-26,2026-01,Buenaventura,Estados Unidos,Demo Roasters LLC,4,6,0
+E0061,2026-01-08,2026-01,Buenaventura,Unión Europea,Tostadores Demo BV,3,8,0
+E0062,2026-03-27,2026-03,Cartagena,Unión Europea,Tostadores Demo BV,7,2,0
+E0063,2026-06-11,2026-06,Buenaventura,Unión Europea,Tostadores Demo BV,4,7,5
+E0064,2026-10-21,2026-10,Buenaventura,Estados Unidos,Demo Roasters LLC,6,4,0
+E0065,2026-09-16,2026-09,Buenaventura,Estados Unidos,Demo Roasters LLC,5,7,4
+E0066,2026-11-07,2026-11,Buenaventura,Otros,Comprador Demo Australia,5,7,3
+E0067,2026-10-10,2026-10,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,3,7,0
+E0068,2026-11-20,2026-11,Santa Marta,Estados Unidos,Demo Roasters LLC,4,2,1
+E0069,2026-11-17,2026-11,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,7,11,4
+E0070,2026-09-11,2026-09,Cartagena,Otros,Comprador Demo Australia,2,4,2
+E0071,2026-04-17,2026-04,Buenaventura,Unión Europea,Tostadores Demo BV,4,2,2
+E0072,2026-02-18,2026-02,Cartagena,Estados Unidos,Demo Roasters LLC,8,3,4
+E0073,2026-08-15,2026-08,Buenaventura,Estados Unidos,Demo Roasters LLC,7,6,0
+E0074,2026-05-07,2026-05,Buenaventura,Estados Unidos,Demo Roasters LLC,7,2,1
+E0075,2026-05-08,2026-05,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,9,1
+E0076,2026-01-22,2026-01,Buenaventura,Japón,Tostadora Demo KK,2,3,2
+E0077,2026-07-03,2026-07,Cartagena,Estados Unidos,Demo Roasters LLC,8,9,4
+E0078,2026-06-15,2026-06,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,5,5,0
+E0079,2025-12-17,2025-12,Cartagena,Unión Europea,Tostadores Demo BV,7,8,0
+E0080,2026-02-27,2026-02,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,4,8,2
+E0081,2026-06-03,2026-06,Cartagena,Unión Europea,Importadora Ejemplo GmbH,3,8,1
+E0082,2026-01-17,2026-01,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,2,9,3
+E0083,2026-04-18,2026-04,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,8,8,2
+E0084,2026-06-16,2026-06,Cartagena,Otros,Comprador Demo Corea,6,9,0
+E0085,2026-02-04,2026-02,Cartagena,Unión Europea,Tostadores Demo BV,7,6,0
+E0086,2026-08-27,2026-08,Buenaventura,Estados Unidos,Demo Roasters LLC,2,4,2
+E0087,2026-03-04,2026-03,Buenaventura,Japón,Tostadora Demo KK,3,4,5
+E0088,2026-10-02,2026-10,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,6,3
+E0089,2026-07-03,2026-07,Buenaventura,Japón,Tostadora Demo KK,5,3,0
+E0090,2026-01-31,2026-01,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,8,6,2
+E0091,2026-09-09,2026-09,Cartagena,Unión Europea,Importadora Ejemplo GmbH,3,5,2
+E0092,2026-04-22,2026-04,Cartagena,Estados Unidos,Demo Roasters LLC,8,3,1
+E0093,2026-10-28,2026-10,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,6,3,3
+E0094,2026-11-09,2026-11,Cartagena,Unión Europea,Importadora Ejemplo GmbH,7,11,5
+E0095,2025-12-25,2025-12,Buenaventura,Unión Europea,Tostadores Demo BV,7,2,1
+E0096,2026-10-04,2026-10,Cartagena,Unión Europea,Tostadores Demo BV,7,3,0
+E0097,2026-09-04,2026-09,Cartagena,Unión Europea,Importadora Ejemplo GmbH,7,8,1
+E0098,2026-01-23,2026-01,Buenaventura,Estados Unidos,Demo Roasters LLC,2,7,2
+E0099,2026-05-10,2026-05,Buenaventura,Japón,Tostadora Demo KK,5,4,0
+E0100,2026-02-20,2026-02,Cartagena,Unión Europea,Importadora Ejemplo GmbH,6,4,0
+E0101,2026-01-25,2026-01,Cartagena,Japón,Tostadora Demo KK,3,9,0
+E0102,2026-07-03,2026-07,Cartagena,Unión Europea,Tostadores Demo BV,4,5,3
+E0103,2026-06-06,2026-06,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,3,8,2
+E0104,2026-08-03,2026-08,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,5,7,4
+E0105,2026-03-30,2026-03,Buenaventura,Unión Europea,Tostadores Demo BV,7,3,0
+E0106,2026-06-04,2026-06,Cartagena,Unión Europea,Tostadores Demo BV,2,8,0
+E0107,2026-01-02,2026-01,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,4,7,0
+E0108,2025-12-27,2025-12,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,8,6,0
+E0109,2026-08-28,2026-08,Cartagena,Unión Europea,Tostadores Demo BV,6,4,1
+E0110,2025-12-24,2025-12,Buenaventura,Otros,Comprador Demo Corea,6,5,0
+E0111,2026-11-25,2026-11,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,8,8,0
+E0112,2026-08-06,2026-08,Cartagena,Otros,Comprador Demo Australia,2,2,0
+E0113,2025-12-19,2025-12,Buenaventura,Unión Europea,Tostadores Demo BV,7,7,3
+E0114,2026-08-21,2026-08,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,6,2
+E0115,2026-07-05,2026-07,Buenaventura,Unión Europea,Tostadores Demo BV,4,10,3
+E0116,2026-01-20,2026-01,Santa Marta,Unión Europea,Tostadores Demo BV,2,2,4
+E0117,2026-03-23,2026-03,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,7,6,1
+E0118,2026-03-28,2026-03,Buenaventura,Unión Europea,Tostadores Demo BV,5,6,1
+E0119,2026-10-26,2026-10,Cartagena,Unión Europea,Importadora Ejemplo GmbH,5,7,1
+E0120,2026-01-21,2026-01,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,7,2,3
+E0121,2026-06-03,2026-06,Cartagena,Unión Europea,Importadora Ejemplo GmbH,8,6,4
+E0122,2025-12-06,2025-12,Buenaventura,Unión Europea,Tostadores Demo BV,7,6,1
+E0123,2026-02-27,2026-02,Cartagena,Estados Unidos,Demo Roasters LLC,8,5,0
+E0124,2026-11-08,2026-11,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,7,7,2
+E0125,2026-01-01,2026-01,Cartagena,Estados Unidos,Demo Roasters LLC,4,10,0
+E0126,2026-06-21,2026-06,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,2,1
+E0127,2026-09-11,2026-09,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,2,6,6
+E0128,2026-08-30,2026-08,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,2,9,1
+E0129,2026-06-28,2026-06,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,6,0
+E0130,2026-06-06,2026-06,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,3,0
+E0131,2026-06-01,2026-06,Buenaventura,Unión Europea,Tostadores Demo BV,2,3,4
+E0132,2026-05-29,2026-05,Buenaventura,Unión Europea,Tostadores Demo BV,6,4,1
+E0133,2026-09-23,2026-09,Cartagena,Japón,Tostadora Demo KK,8,6,0
+E0134,2026-04-28,2026-04,Cartagena,Unión Europea,Importadora Ejemplo GmbH,7,7,3
+E0135,2026-05-24,2026-05,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,8,3
+E0136,2026-06-10,2026-06,Cartagena,Unión Europea,Importadora Ejemplo GmbH,3,5,0
+E0137,2026-09-05,2026-09,Buenaventura,Unión Europea,Tostadores Demo BV,6,7,1
+E0138,2026-07-21,2026-07,Cartagena,Unión Europea,Importadora Ejemplo GmbH,7,6,0
+E0139,2026-04-07,2026-04,Buenaventura,Unión Europea,Tostadores Demo BV,2,9,4
+E0140,2026-08-16,2026-08,Buenaventura,Estados Unidos,Demo Roasters LLC,8,3,0
+E0141,2026-07-30,2026-07,Buenaventura,Estados Unidos,Demo Roasters LLC,8,6,1
+E0142,2026-09-27,2026-09,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,2,1
+E0143,2026-11-24,2026-11,Buenaventura,Unión Europea,Tostadores Demo BV,7,10,0
+E0144,2026-06-01,2026-06,Cartagena,Unión Europea,Tostadores Demo BV,7,5,5
+E0145,2026-09-16,2026-09,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,3,3,0
+E0146,2026-08-26,2026-08,Buenaventura,Unión Europea,Tostadores Demo BV,2,9,1
+E0147,2026-03-25,2026-03,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,7,3
+E0148,2026-08-15,2026-08,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,2,6,4
+E0149,2026-08-01,2026-08,Santa Marta,Otros,Comprador Demo Corea,4,9,0
+E0150,2026-02-12,2026-02,Buenaventura,Unión Europea,Tostadores Demo BV,3,3,1
+E0151,2025-12-06,2025-12,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,3,5,2
+E0152,2025-12-29,2025-12,Buenaventura,Otros,Comprador Demo Corea,3,4,0
+E0153,2026-02-01,2026-02,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,9,0
+E0154,2026-05-02,2026-05,Cartagena,Japón,Tostadora Demo KK,5,7,0
+E0155,2026-07-27,2026-07,Cartagena,Unión Europea,Importadora Ejemplo GmbH,7,7,4
+E0156,2026-04-09,2026-04,Buenaventura,Estados Unidos,Demo Roasters LLC,2,6,3
+E0157,2026-01-28,2026-01,Buenaventura,Unión Europea,Tostadores Demo BV,6,7,0
+E0158,2026-02-17,2026-02,Buenaventura,Unión Europea,Tostadores Demo BV,7,6,5
+E0159,2026-05-12,2026-05,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,5,6,2
+E0160,2026-09-15,2026-09,Buenaventura,Otros,Comprador Demo Australia,2,9,3
+E0161,2026-09-27,2026-09,Cartagena,Otros,Comprador Demo Australia,5,6,2
+E0162,2026-02-08,2026-02,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,5,4
+E0163,2026-01-26,2026-01,Cartagena,Estados Unidos,Demo Roasters LLC,4,10,0
+E0164,2026-10-26,2026-10,Cartagena,Unión Europea,Importadora Ejemplo GmbH,6,10,0
+E0165,2026-11-24,2026-11,Buenaventura,Estados Unidos,Demo Roasters LLC,2,9,7
+E0166,2026-07-03,2026-07,Cartagena,Unión Europea,Importadora Ejemplo GmbH,8,6,1
+E0167,2026-06-15,2026-06,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,3,3,0
+E0168,2026-01-02,2026-01,Buenaventura,Unión Europea,Tostadores Demo BV,2,3,5
+E0169,2026-07-19,2026-07,Cartagena,Unión Europea,Tostadores Demo BV,7,7,0
+E0170,2026-11-30,2026-11,Buenaventura,Estados Unidos,Demo Roasters LLC,5,7,3
+E0171,2026-07-31,2026-07,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,6,10,5
+E0172,2026-08-18,2026-08,Buenaventura,Unión Europea,Tostadores Demo BV,4,5,1
+E0173,2026-10-27,2026-10,Santa Marta,Unión Europea,Tostadores Demo BV,4,9,1
+E0174,2026-07-22,2026-07,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,7,8,3
+E0175,2026-04-23,2026-04,Buenaventura,Unión Europea,Tostadores Demo BV,8,6,0
+E0176,2026-07-31,2026-07,Buenaventura,Estados Unidos,Demo Roasters LLC,6,8,0
+E0177,2026-02-16,2026-02,Buenaventura,Estados Unidos,Demo Roasters LLC,7,4,1
+E0178,2026-05-04,2026-05,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,7,10,1
+E0179,2026-10-09,2026-10,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,8,0
+E0180,2026-03-23,2026-03,Buenaventura,Unión Europea,Tostadores Demo BV,3,8,2
+E0181,2026-05-06,2026-05,Cartagena,Estados Unidos,Demo Roasters LLC,4,9,0
+E0182,2026-07-25,2026-07,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,7,7,4
+E0183,2026-11-06,2026-11,Buenaventura,Japón,Tostadora Demo KK,8,8,7
+E0184,2026-03-03,2026-03,Buenaventura,Japón,Tostadora Demo KK,4,3,3
+E0185,2026-08-04,2026-08,Buenaventura,Estados Unidos,Demo Roasters LLC,7,10,2
+E0186,2026-11-22,2026-11,Cartagena,Unión Europea,Importadora Ejemplo GmbH,7,3,2
+E0187,2026-05-20,2026-05,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,6,0
+E0188,2026-09-22,2026-09,Buenaventura,Otros,Comprador Demo Australia,2,8,3
+E0189,2026-09-01,2026-09,Buenaventura,Estados Unidos,Demo Roasters LLC,5,6,0
+E0190,2026-11-27,2026-11,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,5,5
+E0191,2026-02-19,2026-02,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,2,4
+E0192,2026-02-15,2026-02,Buenaventura,Otros,Comprador Demo Australia,5,9,4
+E0193,2026-02-26,2026-02,Buenaventura,Unión Europea,Tostadores Demo BV,4,3,0
+E0194,2025-12-31,2025-12,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,2,7,2
+E0195,2026-05-12,2026-05,Cartagena,Unión Europea,Importadora Ejemplo GmbH,2,4,3
+E0196,2026-07-02,2026-07,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,2,6,3
+E0197,2026-05-02,2026-05,Buenaventura,Unión Europea,Tostadores Demo BV,6,4,0
+E0198,2026-04-25,2026-04,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,3,4
+E0199,2026-05-08,2026-05,Buenaventura,Unión Europea,Tostadores Demo BV,3,4,1
+E0200,2026-06-11,2026-06,Buenaventura,Otros,Comprador Demo Corea,6,9,1
+E0201,2026-08-19,2026-08,Buenaventura,Japón,Tostadora Demo KK,2,2,0
+E0202,2025-12-07,2025-12,Buenaventura,Japón,Tostadora Demo KK,7,6,0
+E0203,2026-01-21,2026-01,Santa Marta,Otros,Comprador Demo Australia,6,9,0
+E0204,2026-05-04,2026-05,Cartagena,Unión Europea,Tostadores Demo BV,8,2,5
+E0205,2026-11-16,2026-11,Buenaventura,Estados Unidos,Demo Roasters LLC,4,8,2
+E0206,2026-08-01,2026-08,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,7,7,0
+E0207,2026-01-09,2026-01,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,3,3,0
+E0208,2026-04-03,2026-04,Buenaventura,Japón,Tostadora Demo KK,6,8,1
+E0209,2026-10-15,2026-10,Cartagena,Japón,Tostadora Demo KK,8,9,1
+E0210,2026-10-20,2026-10,Buenaventura,Japón,Tostadora Demo KK,4,9,4
+E0211,2026-04-26,2026-04,Buenaventura,Unión Europea,Tostadores Demo BV,5,9,1
+E0212,2026-05-08,2026-05,Cartagena,Unión Europea,Importadora Ejemplo GmbH,2,8,0
+E0213,2026-06-10,2026-06,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,8,3,4
+E0214,2026-11-13,2026-11,Cartagena,Otros,Comprador Demo Australia,8,9,3
+E0215,2026-01-02,2026-01,Buenaventura,Unión Europea,Tostadores Demo BV,8,6,1
+E0216,2026-08-13,2026-08,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,2,10,1
+E0217,2026-04-19,2026-04,Buenaventura,Estados Unidos,Demo Roasters LLC,7,8,0
+E0218,2026-02-09,2026-02,Cartagena,Unión Europea,Tostadores Demo BV,6,7,0
+E0219,2026-02-20,2026-02,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,7,9,3
+E0220,2026-03-29,2026-03,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,2,2,1
+E0221,2026-01-13,2026-01,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,2,3,2
+E0222,2026-06-01,2026-06,Cartagena,Japón,Tostadora Demo KK,5,5,4
+E0223,2026-05-13,2026-05,Buenaventura,Japón,Tostadora Demo KK,8,5,0
+E0224,2026-09-28,2026-09,Buenaventura,Estados Unidos,Demo Roasters LLC,2,2,3
+E0225,2026-04-07,2026-04,Buenaventura,Estados Unidos,Demo Roasters LLC,5,4,3
+E0226,2026-07-30,2026-07,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,4,4,0
+E0227,2026-09-23,2026-09,Buenaventura,Otros,Comprador Demo Australia,3,10,1
+E0228,2026-05-19,2026-05,Cartagena,Unión Europea,Tostadores Demo BV,2,9,0
+E0229,2026-05-21,2026-05,Buenaventura,Otros,Comprador Demo Corea,8,9,1
+E0230,2026-01-16,2026-01,Buenaventura,Estados Unidos,Demo Roasters LLC,6,4,1
+E0231,2026-05-26,2026-05,Buenaventura,Otros,Comprador Demo Australia,5,7,2
+E0232,2026-11-13,2026-11,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,7,7,1
+E0233,2026-10-22,2026-10,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,4,8,1
+E0234,2026-04-04,2026-04,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,6,9,0
+E0235,2026-01-12,2026-01,Cartagena,Japón,Tostadora Demo KK,4,10,1
+E0236,2026-09-18,2026-09,Cartagena,Unión Europea,Tostadores Demo BV,2,6,0
+E0237,2026-11-04,2026-11,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,8,4,0
+E0238,2025-12-09,2025-12,Cartagena,Unión Europea,Importadora Ejemplo GmbH,5,2,3
+E0239,2026-07-03,2026-07,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,5,0
+E0240,2026-05-08,2026-05,Cartagena,Otros,Comprador Demo Australia,5,3,3
+E0241,2026-11-29,2026-11,Santa Marta,Unión Europea,Tostadores Demo BV,4,5,3
+E0242,2026-02-10,2026-02,Buenaventura,Otros,Comprador Demo Corea,5,8,0
+E0243,2026-06-15,2026-06,Buenaventura,Estados Unidos,Demo Roasters LLC,7,10,2
+E0244,2026-02-15,2026-02,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,3,7,1
+E0245,2026-06-10,2026-06,Buenaventura,Unión Europea,Tostadores Demo BV,7,10,0
+E0246,2026-07-10,2026-07,Cartagena,Unión Europea,Tostadores Demo BV,7,4,3
+E0247,2025-12-30,2025-12,Buenaventura,Japón,Tostadora Demo KK,2,8,2
+E0248,2026-03-22,2026-03,Buenaventura,Estados Unidos,Demo Roasters LLC,2,7,0
+E0249,2026-10-03,2026-10,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,5,9,0
+E0250,2026-07-03,2026-07,Cartagena,Japón,Tostadora Demo KK,8,4,1
+E0251,2026-06-04,2026-06,Santa Marta,Japón,Tostadora Demo KK,4,4,2
+E0252,2026-04-05,2026-04,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,2,6,1
+E0253,2026-09-19,2026-09,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,5,6,0
+E0254,2026-05-10,2026-05,Buenaventura,Estados Unidos,Demo Roasters LLC,6,4,3
+E0255,2026-10-14,2026-10,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,9,0
+E0256,2026-01-02,2026-01,Buenaventura,Unión Europea,Tostadores Demo BV,4,2,0
+E0257,2026-02-11,2026-02,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,3,4,0
+E0258,2026-01-31,2026-01,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,5,8,0
+E0259,2026-04-04,2026-04,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,9,0
+E0260,2026-10-29,2026-10,Cartagena,Estados Unidos,Demo Roasters LLC,5,4,0
+E0261,2026-02-20,2026-02,Buenaventura,Estados Unidos,Demo Roasters LLC,5,4,1
+E0262,2026-04-24,2026-04,Buenaventura,Japón,Tostadora Demo KK,5,11,2
+E0263,2026-08-15,2026-08,Cartagena,Japón,Tostadora Demo KK,8,7,2
+E0264,2026-04-09,2026-04,Buenaventura,Japón,Tostadora Demo KK,6,8,4
+E0265,2026-10-09,2026-10,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,3,3,0
+E0266,2026-01-24,2026-01,Buenaventura,Unión Europea,Tostadores Demo BV,7,9,2
+E0267,2026-03-25,2026-03,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,4,4,0
+E0268,2026-06-28,2026-06,Cartagena,Otros,Comprador Demo Australia,3,8,3
+E0269,2026-03-17,2026-03,Buenaventura,Unión Europea,Tostadores Demo BV,6,5,3
+E0270,2026-02-04,2026-02,Cartagena,Unión Europea,Importadora Ejemplo GmbH,3,6,1
+E0271,2026-10-19,2026-10,Cartagena,Japón,Tostadora Demo KK,2,8,2
+E0272,2026-07-23,2026-07,Cartagena,Unión Europea,Tostadores Demo BV,6,10,0
+E0273,2025-12-08,2025-12,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,3,5,5
+E0274,2026-08-09,2026-08,Santa Marta,Otros,Comprador Demo Australia,3,8,7
+E0275,2026-08-22,2026-08,Cartagena,Unión Europea,Tostadores Demo BV,5,10,2
+E0276,2026-10-23,2026-10,Buenaventura,Unión Europea,Tostadores Demo BV,2,10,0
+E0277,2026-01-05,2026-01,Buenaventura,Otros,Comprador Demo Corea,8,4,0
+E0278,2025-12-23,2025-12,Cartagena,Estados Unidos,Demo Roasters LLC,3,2,1
+E0279,2026-09-12,2026-09,Cartagena,Estados Unidos,Demo Roasters LLC,4,7,3
+E0280,2026-02-14,2026-02,Cartagena,Otros,Comprador Demo Corea,5,6,3
+E0281,2026-01-27,2026-01,Cartagena,Estados Unidos,Demo Roasters LLC,8,8,1
+E0282,2026-02-16,2026-02,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,4,2,3
+E0283,2026-05-22,2026-05,Cartagena,Japón,Tostadora Demo KK,7,5,4
+E0284,2026-01-02,2026-01,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,5,8
+E0285,2026-07-21,2026-07,Buenaventura,Estados Unidos,Demo Roasters LLC,7,2,3
+E0286,2026-03-16,2026-03,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,7,6,2
+E0287,2026-03-12,2026-03,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,4,3,0
+E0288,2026-06-16,2026-06,Buenaventura,Unión Europea,Tostadores Demo BV,3,4,0
+E0289,2025-12-02,2025-12,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,8,0
+E0290,2026-08-15,2026-08,Buenaventura,Otros,Comprador Demo Australia,5,6,6
+E0291,2026-06-14,2026-06,Cartagena,Otros,Comprador Demo Australia,5,4,0
+E0292,2026-04-12,2026-04,Cartagena,Unión Europea,Importadora Ejemplo GmbH,3,4,0
+E0293,2026-04-25,2026-04,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,3,10,1
+E0294,2026-01-22,2026-01,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,2,3,2
+E0295,2026-08-20,2026-08,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,4,3
+E0296,2026-01-15,2026-01,Buenaventura,Otros,Comprador Demo Australia,5,9,0
+E0297,2026-01-04,2026-01,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,3,6,0
+E0298,2025-12-20,2025-12,Cartagena,Unión Europea,Tostadores Demo BV,3,7,0
+E0299,2026-09-01,2026-09,Cartagena,Estados Unidos,Demo Roasters LLC,2,2,3
+E0300,2026-10-29,2026-10,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,10,4
+E0301,2026-05-22,2026-05,Buenaventura,Estados Unidos,Demo Roasters LLC,3,3,1
+E0302,2026-10-13,2026-10,Buenaventura,Japón,Tostadora Demo KK,3,3,3
+E0303,2026-05-07,2026-05,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,7,0
+E0304,2026-03-09,2026-03,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,5,10,0
+E0305,2026-03-13,2026-03,Buenaventura,Japón,Tostadora Demo KK,7,8,1
+E0306,2026-09-21,2026-09,Cartagena,Unión Europea,Importadora Ejemplo GmbH,3,7,1
+E0307,2026-01-27,2026-01,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,2,3,2
+E0308,2025-12-29,2025-12,Santa Marta,Unión Europea,Tostadores Demo BV,2,8,3
+E0309,2026-02-04,2026-02,Cartagena,Unión Europea,Tostadores Demo BV,5,6,2
+E0310,2026-02-16,2026-02,Santa Marta,Otros,Comprador Demo Corea,5,5,0
+E0311,2026-07-05,2026-07,Buenaventura,Japón,Tostadora Demo KK,7,3,3
+E0312,2026-10-06,2026-10,Buenaventura,Unión Europea,Tostadores Demo BV,3,5,2
+E0313,2026-09-19,2026-09,Buenaventura,Japón,Tostadora Demo KK,2,3,2
+E0314,2026-10-17,2026-10,Buenaventura,Unión Europea,Tostadores Demo BV,4,7,2
+E0315,2026-09-22,2026-09,Buenaventura,Unión Europea,Tostadores Demo BV,7,5,0
+E0316,2026-06-08,2026-06,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,3,3,0
+E0317,2026-10-25,2026-10,Cartagena,Otros,Comprador Demo Australia,6,9,0
+E0318,2026-06-01,2026-06,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,6,0
+E0319,2026-08-19,2026-08,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,5,2
+E0320,2026-07-02,2026-07,Cartagena,Unión Europea,Importadora Ejemplo GmbH,2,8,3
+E0321,2026-04-10,2026-04,Cartagena,Unión Europea,Importadora Ejemplo GmbH,8,8,0
+E0322,2026-08-08,2026-08,Buenaventura,Unión Europea,Tostadores Demo BV,7,9,0
+E0323,2026-03-24,2026-03,Santa Marta,Unión Europea,Tostadores Demo BV,4,5,1
+E0324,2026-09-14,2026-09,Buenaventura,Unión Europea,Tostadores Demo BV,5,5,3
+E0325,2026-10-22,2026-10,Cartagena,Estados Unidos,Demo Roasters LLC,7,4,0
+E0326,2026-01-02,2026-01,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,7,8,0
+E0327,2026-04-03,2026-04,Buenaventura,Unión Europea,Tostadores Demo BV,7,4,0
+E0328,2026-02-17,2026-02,Cartagena,Japón,Tostadora Demo KK,8,5,7
+E0329,2026-04-06,2026-04,Cartagena,Estados Unidos,Demo Roasters LLC,4,5,1
+E0330,2026-11-08,2026-11,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,7,5,2
+E0331,2026-07-03,2026-07,Santa Marta,Otros,Comprador Demo Australia,8,6,3
+E0332,2026-09-01,2026-09,Buenaventura,Unión Europea,Tostadores Demo BV,3,2,0
+E0333,2026-10-08,2026-10,Cartagena,Unión Europea,Importadora Ejemplo GmbH,7,8,0
+E0334,2026-08-01,2026-08,Cartagena,Estados Unidos,Demo Roasters LLC,2,3,0
+E0335,2026-03-16,2026-03,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,3,0
+E0336,2026-09-30,2026-09,Cartagena,Unión Europea,Tostadores Demo BV,3,3,4
+E0337,2026-01-17,2026-01,Buenaventura,Otros,Comprador Demo Corea,3,5,0
+E0338,2026-11-10,2026-11,Buenaventura,Unión Europea,Tostadores Demo BV,2,6,1
+E0339,2026-08-20,2026-08,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,8,1
+E0340,2026-11-28,2026-11,Buenaventura,Otros,Comprador Demo Australia,2,8,0
+E0341,2026-01-25,2026-01,Buenaventura,Japón,Tostadora Demo KK,2,4,4
+E0342,2026-10-11,2026-10,Cartagena,Unión Europea,Tostadores Demo BV,8,7,0
+E0343,2026-07-12,2026-07,Santa Marta,Japón,Tostadora Demo KK,8,3,0
+E0344,2026-03-07,2026-03,Cartagena,Otros,Comprador Demo Australia,2,3,1
+E0345,2025-12-08,2025-12,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,6,3
+E0346,2026-02-28,2026-02,Buenaventura,Otros,Comprador Demo Corea,8,8,2
+E0347,2026-02-06,2026-02,Buenaventura,Japón,Tostadora Demo KK,6,4,3
+E0348,2026-05-16,2026-05,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,4,8,0
+E0349,2025-12-16,2025-12,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,2,10,0
+E0350,2026-09-21,2026-09,Cartagena,Unión Europea,Tostadores Demo BV,4,6,0
+E0351,2026-03-13,2026-03,Santa Marta,Japón,Tostadora Demo KK,3,3,1
+E0352,2026-05-15,2026-05,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,2,4,0
+E0353,2026-09-14,2026-09,Cartagena,Unión Europea,Tostadores Demo BV,5,10,0
+E0354,2026-05-20,2026-05,Santa Marta,Japón,Tostadora Demo KK,5,9,0
+E0355,2026-05-31,2026-05,Buenaventura,Otros,Comprador Demo Corea,7,7,1
+E0356,2026-06-17,2026-06,Buenaventura,Unión Europea,Tostadores Demo BV,8,10,0
+E0357,2026-08-25,2026-08,Buenaventura,Unión Europea,Tostadores Demo BV,7,3,1
+E0358,2026-01-06,2026-01,Buenaventura,Otros,Comprador Demo Australia,5,4,3
+E0359,2026-07-28,2026-07,Buenaventura,Otros,Comprador Demo Corea,3,10,0
+E0360,2026-04-08,2026-04,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,4,10,5
+E0361,2026-01-20,2026-01,Cartagena,Unión Europea,Tostadores Demo BV,4,6,0
+E0362,2026-11-26,2026-11,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,4,8,1
+E0363,2026-04-20,2026-04,Buenaventura,Japón,Tostadora Demo KK,8,7,4
+E0364,2026-04-24,2026-04,Cartagena,Otros,Comprador Demo Australia,6,5,3
+E0365,2026-07-14,2026-07,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,7,5
+E0366,2026-07-03,2026-07,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,10,0
+E0367,2026-09-06,2026-09,Buenaventura,Otros,Comprador Demo Australia,2,2,2
+E0368,2026-02-11,2026-02,Cartagena,Unión Europea,Importadora Ejemplo GmbH,8,2,6
+E0369,2026-01-08,2026-01,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,7,0
+E0370,2026-01-20,2026-01,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,8,4,0
+E0371,2026-04-24,2026-04,Buenaventura,Japón,Tostadora Demo KK,6,9,0
+E0372,2026-02-15,2026-02,Cartagena,Otros,Comprador Demo Corea,4,5,0
+E0373,2026-01-11,2026-01,Cartagena,Unión Europea,Tostadores Demo BV,7,10,3
+E0374,2026-10-19,2026-10,Cartagena,Unión Europea,Tostadores Demo BV,8,3,3
+E0375,2026-07-01,2026-07,Buenaventura,Japón,Tostadora Demo KK,6,9,1
+E0376,2026-07-26,2026-07,Cartagena,Unión Europea,Tostadores Demo BV,3,2,0
+E0377,2026-07-09,2026-07,Buenaventura,Otros,Comprador Demo Corea,4,3,2
+E0378,2026-06-06,2026-06,Cartagena,Otros,Comprador Demo Australia,8,3,0
+E0379,2026-09-26,2026-09,Buenaventura,Otros,Comprador Demo Australia,4,6,3
+E0380,2026-10-15,2026-10,Cartagena,Otros,Comprador Demo Australia,5,2,0
+E0381,2026-09-14,2026-09,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,3,2,0
+E0382,2026-06-02,2026-06,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,4,10,2
+E0383,2026-06-18,2026-06,Cartagena,Estados Unidos,Demo Roasters LLC,7,9,2
+E0384,2026-05-17,2026-05,Buenaventura,Otros,Comprador Demo Australia,7,7,0
+E0385,2026-07-29,2026-07,Buenaventura,Unión Europea,Tostadores Demo BV,2,10,0
+E0386,2026-04-18,2026-04,Buenaventura,Japón,Tostadora Demo KK,6,9,2
+E0387,2026-01-04,2026-01,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,5,8,1
+E0388,2026-07-29,2026-07,Buenaventura,Unión Europea,Tostadores Demo BV,5,4,0
+E0389,2026-02-26,2026-02,Cartagena,Estados Unidos,Demo Roasters LLC,6,4,0
+E0390,2026-10-02,2026-10,Buenaventura,Japón,Tostadora Demo KK,5,7,5
+E0391,2026-10-12,2026-10,Cartagena,Japón,Tostadora Demo KK,3,9,5
+E0392,2026-09-18,2026-09,Buenaventura,Estados Unidos,Demo Roasters LLC,2,4,0
+E0393,2026-05-26,2026-05,Buenaventura,Otros,Comprador Demo Corea,3,3,1
+E0394,2026-05-19,2026-05,Cartagena,Otros,Comprador Demo Corea,8,6,1
+E0395,2026-10-24,2026-10,Buenaventura,Unión Europea,Tostadores Demo BV,4,3,2
+E0396,2026-01-07,2026-01,Buenaventura,Otros,Comprador Demo Australia,8,8,1
+E0397,2026-08-15,2026-08,Buenaventura,Otros,Comprador Demo Corea,7,9,3
+E0398,2026-08-27,2026-08,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,7,3,5
+E0399,2026-11-19,2026-11,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,9,1
+E0400,2026-11-24,2026-11,Cartagena,Unión Europea,Importadora Ejemplo GmbH,8,8,2
+E0401,2026-11-08,2026-11,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,3,2,2
+E0402,2026-11-26,2026-11,Cartagena,Japón,Tostadora Demo KK,6,7,0
+E0403,2026-05-02,2026-05,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,10,3
+E0404,2026-04-03,2026-04,Buenaventura,Otros,Comprador Demo Australia,6,10,5
+E0405,2026-01-14,2026-01,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,2,3,0
+E0406,2025-12-24,2025-12,Buenaventura,Unión Europea,Tostadores Demo BV,7,6,1
+E0407,2026-05-10,2026-05,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,7,9,3
+E0408,2026-06-22,2026-06,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,4,8,6
+E0409,2026-10-25,2026-10,Buenaventura,Estados Unidos,Demo Roasters LLC,2,6,0
+E0410,2026-07-05,2026-07,Buenaventura,Estados Unidos,Demo Roasters LLC,6,7,1
+E0411,2026-09-22,2026-09,Buenaventura,Japón,Tostadora Demo KK,6,6,0
+E0412,2026-11-25,2026-11,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,3,8,0
+E0413,2026-05-16,2026-05,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,8,10,0
+E0414,2026-09-07,2026-09,Cartagena,Otros,Comprador Demo Corea,6,3,2
+E0415,2026-09-21,2026-09,Buenaventura,Japón,Tostadora Demo KK,4,9,0
+E0416,2026-06-12,2026-06,Cartagena,Japón,Tostadora Demo KK,3,10,2
+E0417,2025-12-13,2025-12,Santa Marta,Japón,Tostadora Demo KK,8,7,0
+E0418,2026-09-04,2026-09,Buenaventura,Unión Europea,Tostadores Demo BV,5,4,0
+E0419,2026-06-12,2026-06,Cartagena,Estados Unidos,Demo Roasters LLC,2,7,1
+E0420,2026-09-05,2026-09,Buenaventura,Unión Europea,Tostadores Demo BV,6,5,2
+E0421,2026-04-10,2026-04,Cartagena,Unión Europea,Importadora Ejemplo GmbH,8,9,2
+E0422,2026-03-26,2026-03,Buenaventura,Japón,Tostadora Demo KK,3,9,0
+E0423,2025-12-19,2025-12,Cartagena,Japón,Tostadora Demo KK,4,10,0
+E0424,2026-11-22,2026-11,Cartagena,Estados Unidos,Demo Roasters LLC,5,5,6
+E0425,2026-05-12,2026-05,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,4,7,2
+E0426,2026-11-14,2026-11,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,5,9,1
+E0427,2026-11-16,2026-11,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,4,1
+E0428,2025-12-16,2025-12,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,8,3
+E0429,2026-06-08,2026-06,Buenaventura,Unión Europea,Tostadores Demo BV,6,3,0
+E0430,2026-02-17,2026-02,Cartagena,Unión Europea,Tostadores Demo BV,3,6,0
+E0431,2025-12-14,2025-12,Cartagena,Unión Europea,Importadora Ejemplo GmbH,2,2,0
+E0432,2025-12-21,2025-12,Buenaventura,Unión Europea,Tostadores Demo BV,4,4,1
+E0433,2026-11-08,2026-11,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,6,3,0
+E0434,2026-09-17,2026-09,Cartagena,Unión Europea,Importadora Ejemplo GmbH,2,4,3
+E0435,2026-06-17,2026-06,Buenaventura,Unión Europea,Tostadores Demo BV,3,10,4
+E0436,2026-02-11,2026-02,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,8,2
+E0437,2026-07-13,2026-07,Buenaventura,Japón,Tostadora Demo KK,5,8,0
+E0438,2026-01-09,2026-01,Buenaventura,Unión Europea,Tostadores Demo BV,5,2,3
+E0439,2026-09-09,2026-09,Buenaventura,Unión Europea,Tostadores Demo BV,7,4,0
+E0440,2026-09-06,2026-09,Buenaventura,Estados Unidos,Demo Roasters LLC,8,3,1
+E0441,2026-02-14,2026-02,Cartagena,Unión Europea,Importadora Ejemplo GmbH,8,3,2
+E0442,2026-03-20,2026-03,Buenaventura,Japón,Tostadora Demo KK,4,9,0
+E0443,2026-09-13,2026-09,Santa Marta,Otros,Comprador Demo Australia,5,7,0
+E0444,2026-09-06,2026-09,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,2,6
+E0445,2026-03-29,2026-03,Cartagena,Unión Europea,Tostadores Demo BV,7,7,1
+E0446,2026-08-12,2026-08,Buenaventura,Estados Unidos,Demo Roasters LLC,4,6,1
+E0447,2026-02-24,2026-02,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,4,8,0
+E0448,2026-10-27,2026-10,Buenaventura,Unión Europea,Tostadores Demo BV,5,11,0
+E0449,2026-10-15,2026-10,Buenaventura,Japón,Tostadora Demo KK,8,4,2
+E0450,2026-01-12,2026-01,Buenaventura,Japón,Tostadora Demo KK,2,7,0
+E0451,2026-07-13,2026-07,Cartagena,Otros,Comprador Demo Corea,5,6,0
+E0452,2025-12-23,2025-12,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,7,4,1
+E0453,2026-02-26,2026-02,Cartagena,Unión Europea,Importadora Ejemplo GmbH,5,9,0
+E0454,2026-01-16,2026-01,Cartagena,Unión Europea,Tostadores Demo BV,7,7,1
+E0455,2026-09-13,2026-09,Buenaventura,Unión Europea,Tostadores Demo BV,2,6,1
+E0456,2026-05-08,2026-05,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,3,3,0
+E0457,2026-05-17,2026-05,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,5,0
+E0458,2026-10-17,2026-10,Cartagena,Unión Europea,Tostadores Demo BV,3,9,1
+E0459,2026-04-07,2026-04,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,3,5,0
+E0460,2026-03-01,2026-03,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,2,9,3
+E0461,2026-04-03,2026-04,Buenaventura,Otros,Comprador Demo Corea,2,4,1
+E0462,2026-09-27,2026-09,Buenaventura,Unión Europea,Tostadores Demo BV,3,2,3
+E0463,2026-06-03,2026-06,Cartagena,Unión Europea,Importadora Ejemplo GmbH,6,7,0
+E0464,2026-08-20,2026-08,Cartagena,Unión Europea,Tostadores Demo BV,8,12,3
+E0465,2026-08-03,2026-08,Cartagena,Unión Europea,Tostadores Demo BV,7,9,0
+E0466,2026-10-17,2026-10,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,6,6,1
+E0467,2026-03-22,2026-03,Cartagena,Estados Unidos,Demo Roasters LLC,4,6,4
+E0468,2026-08-08,2026-08,Buenaventura,Unión Europea,Tostadores Demo BV,7,3,0
+E0469,2026-01-01,2026-01,Buenaventura,Otros,Comprador Demo Corea,8,4,6
+E0470,2025-12-03,2025-12,Buenaventura,Unión Europea,Tostadores Demo BV,5,5,0
+E0471,2026-10-03,2026-10,Buenaventura,Estados Unidos,Demo Roasters LLC,2,5,0
+E0472,2026-06-25,2026-06,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,8,6,3
+E0473,2026-10-04,2026-10,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,3,8,1
+E0474,2026-03-09,2026-03,Buenaventura,Estados Unidos,Demo Roasters LLC,7,8,1
+E0475,2026-03-12,2026-03,Buenaventura,Otros,Comprador Demo Corea,7,4,2
+E0476,2026-07-29,2026-07,Buenaventura,Otros,Comprador Demo Australia,6,3,0
+E0477,2026-10-07,2026-10,Buenaventura,Japón,Tostadora Demo KK,5,5,0
+E0478,2026-01-06,2026-01,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,5,3,3
+E0479,2026-01-24,2026-01,Buenaventura,Otros,Comprador Demo Australia,4,3,0
+E0480,2026-11-27,2026-11,Buenaventura,Otros,Comprador Demo Corea,4,10,0
+E0481,2026-08-07,2026-08,Buenaventura,Estados Unidos,Demo Roasters LLC,5,8,3
+E0482,2026-01-24,2026-01,Buenaventura,Unión Europea,Tostadores Demo BV,3,4,2
+E0483,2026-03-27,2026-03,Cartagena,Otros,Comprador Demo Australia,6,2,2
+E0484,2026-11-03,2026-11,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,5,2,0
+E0485,2026-02-01,2026-02,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,9,1
+E0486,2026-09-08,2026-09,Cartagena,Unión Europea,Tostadores Demo BV,8,7,0
+E0487,2026-05-31,2026-05,Cartagena,Unión Europea,Tostadores Demo BV,8,3,0
+E0488,2026-08-14,2026-08,Cartagena,Unión Europea,Importadora Ejemplo GmbH,3,5,4
+E0489,2026-04-22,2026-04,Cartagena,Unión Europea,Importadora Ejemplo GmbH,6,6,4
+E0490,2026-07-07,2026-07,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,8,8,0
+E0491,2026-07-25,2026-07,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,8,0
+E0492,2026-11-09,2026-11,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,2,5,1
+E0493,2026-01-21,2026-01,Cartagena,Estados Unidos,Demo Roasters LLC,2,3,2
+E0494,2025-12-08,2025-12,Buenaventura,Unión Europea,Tostadores Demo BV,4,10,0
+E0495,2026-11-15,2026-11,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,4,3
+E0496,2026-02-24,2026-02,Cartagena,Unión Europea,Importadora Ejemplo GmbH,6,4,0
+E0497,2026-08-17,2026-08,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,9,8
+E0498,2026-02-20,2026-02,Buenaventura,Otros,Comprador Demo Australia,3,8,2
+E0499,2026-10-26,2026-10,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,9,2
+E0500,2026-01-10,2026-01,Buenaventura,Unión Europea,Tostadores Demo BV,6,7,2
+E0501,2026-08-02,2026-08,Buenaventura,Unión Europea,Tostadores Demo BV,5,8,0
+E0502,2026-08-12,2026-08,Buenaventura,Otros,Comprador Demo Australia,5,10,8
+E0503,2026-11-24,2026-11,Buenaventura,Japón,Tostadora Demo KK,2,4,0
+E0504,2026-03-15,2026-03,Cartagena,Estados Unidos,Demo Roasters LLC,4,10,4
+E0505,2026-11-13,2026-11,Cartagena,Unión Europea,Tostadores Demo BV,2,5,5
+E0506,2025-12-19,2025-12,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,10,2
+E0507,2026-05-10,2026-05,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,2,0
+E0508,2026-02-09,2026-02,Buenaventura,Unión Europea,Tostadores Demo BV,4,6,0
+E0509,2026-11-15,2026-11,Cartagena,Unión Europea,Importadora Ejemplo GmbH,3,7,2
+E0510,2025-12-23,2025-12,Santa Marta,Unión Europea,Tostadores Demo BV,3,2,1
+E0511,2026-05-31,2026-05,Buenaventura,Japón,Tostadora Demo KK,3,6,2
+E0512,2026-04-04,2026-04,Cartagena,Japón,Tostadora Demo KK,8,5,1
+E0513,2026-01-19,2026-01,Cartagena,Otros,Comprador Demo Corea,3,6,3
+E0514,2026-01-19,2026-01,Buenaventura,Unión Europea,Tostadores Demo BV,7,3,3
+E0515,2026-04-30,2026-04,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,8,8,3
+E0516,2025-12-28,2025-12,Cartagena,Unión Europea,Importadora Ejemplo GmbH,8,2,0
+E0517,2026-08-01,2026-08,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,5,2
+E0518,2025-12-25,2025-12,Cartagena,Estados Unidos,Demo Roasters LLC,2,5,4
+E0519,2026-09-16,2026-09,Buenaventura,Otros,Comprador Demo Corea,5,10,0
+E0520,2026-11-25,2026-11,Cartagena,Unión Europea,Importadora Ejemplo GmbH,7,8,0
+E0521,2026-02-14,2026-02,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,6,5
+E0522,2026-01-15,2026-01,Cartagena,Unión Europea,Tostadores Demo BV,7,2,2
+E0523,2026-10-11,2026-10,Buenaventura,Estados Unidos,Demo Roasters LLC,2,2,3
+E0524,2026-05-20,2026-05,Buenaventura,Unión Europea,Tostadores Demo BV,6,4,4
+E0525,2026-11-11,2026-11,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,2,6,0
+E0526,2026-01-23,2026-01,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,6,5,4
+E0527,2026-04-30,2026-04,Buenaventura,Unión Europea,Tostadores Demo BV,4,4,1
+E0528,2026-02-20,2026-02,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,7,3,0
+E0529,2026-02-20,2026-02,Buenaventura,Unión Europea,Tostadores Demo BV,6,7,2
+E0530,2026-04-13,2026-04,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,8,8,0
+E0531,2026-05-20,2026-05,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,3,5,6
+E0532,2026-07-05,2026-07,Buenaventura,Japón,Tostadora Demo KK,7,6,0
+E0533,2026-06-10,2026-06,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,3,4
+E0534,2026-04-26,2026-04,Cartagena,Estados Unidos,Demo Roasters LLC,8,4,3
+E0535,2026-08-29,2026-08,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,7,0
+E0536,2026-07-11,2026-07,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,9,0
+E0537,2026-05-17,2026-05,Cartagena,Unión Europea,Tostadores Demo BV,5,6,1
+E0538,2026-09-10,2026-09,Cartagena,Unión Europea,Importadora Ejemplo GmbH,5,10,0
+E0539,2026-04-07,2026-04,Buenaventura,Japón,Tostadora Demo KK,3,5,2
+E0540,2026-01-01,2026-01,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,2,1
+E0541,2026-10-13,2026-10,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,8,8,0
+E0542,2026-03-12,2026-03,Buenaventura,Unión Europea,Tostadores Demo BV,7,8,1
+E0543,2026-01-17,2026-01,Buenaventura,Otros,Comprador Demo Australia,4,2,1
+E0544,2026-08-06,2026-08,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,4,3,0
+E0545,2026-03-11,2026-03,Buenaventura,Otros,Comprador Demo Australia,7,9,0
+E0546,2025-12-31,2025-12,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,4,8,0
+E0547,2026-09-16,2026-09,Cartagena,Unión Europea,Tostadores Demo BV,7,10,4
+E0548,2026-04-21,2026-04,Buenaventura,Japón,Tostadora Demo KK,2,8,0
+E0549,2026-02-18,2026-02,Cartagena,Unión Europea,Importadora Ejemplo GmbH,7,4,0
+E0550,2026-04-04,2026-04,Santa Marta,Unión Europea,Tostadores Demo BV,5,7,0
+E0551,2026-01-10,2026-01,Buenaventura,Unión Europea,Tostadores Demo BV,3,6,2
+E0552,2026-10-03,2026-10,Buenaventura,Otros,Comprador Demo Australia,5,4,0
+E0553,2026-02-17,2026-02,Buenaventura,Unión Europea,Tostadores Demo BV,5,8,0
+E0554,2026-06-06,2026-06,Buenaventura,Estados Unidos,Demo Roasters LLC,7,8,1
+E0555,2026-06-01,2026-06,Buenaventura,Otros,Comprador Demo Corea,5,11,0
+E0556,2026-10-06,2026-10,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,5,5,2
+E0557,2026-04-30,2026-04,Buenaventura,Otros,Comprador Demo Australia,3,3,2
+E0558,2026-04-09,2026-04,Buenaventura,Unión Europea,Tostadores Demo BV,5,9,0
+E0559,2026-01-12,2026-01,Buenaventura,Unión Europea,Tostadores Demo BV,2,9,1
+E0560,2026-11-25,2026-11,Santa Marta,Otros,Comprador Demo Corea,6,5,0
+E0561,2026-07-15,2026-07,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,5,2
+E0562,2026-02-13,2026-02,Cartagena,Unión Europea,Importadora Ejemplo GmbH,6,6,5
+E0563,2026-04-04,2026-04,Cartagena,Unión Europea,Tostadores Demo BV,8,3,3
+E0564,2025-12-21,2025-12,Buenaventura,Estados Unidos,Demo Roasters LLC,2,2,0
+E0565,2026-07-01,2026-07,Santa Marta,Unión Europea,Tostadores Demo BV,7,4,0
+E0566,2026-11-16,2026-11,Cartagena,Unión Europea,Importadora Ejemplo GmbH,6,5,2
+E0567,2025-12-02,2025-12,Cartagena,Otros,Comprador Demo Australia,2,2,0
+E0568,2026-09-03,2026-09,Cartagena,Unión Europea,Tostadores Demo BV,2,6,0
+E0569,2026-11-01,2026-11,Buenaventura,Estados Unidos,Demo Roasters LLC,6,10,6
+E0570,2026-02-11,2026-02,Buenaventura,Unión Europea,Tostadores Demo BV,2,5,2
+E0571,2026-06-25,2026-06,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,2,11,0
+E0572,2026-10-11,2026-10,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,3,1
+E0573,2026-09-04,2026-09,Buenaventura,Japón,Tostadora Demo KK,3,7,2
+E0574,2026-10-13,2026-10,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,4,9,6
+E0575,2026-03-04,2026-03,Buenaventura,Unión Europea,Tostadores Demo BV,3,2,7
+E0576,2026-02-27,2026-02,Buenaventura,Otros,Comprador Demo Corea,2,4,1
+E0577,2026-11-06,2026-11,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,7,8,0
+E0578,2026-10-13,2026-10,Santa Marta,Japón,Tostadora Demo KK,8,3,0
+E0579,2026-03-10,2026-03,Buenaventura,Unión Europea,Tostadores Demo BV,6,4,1
+E0580,2026-09-23,2026-09,Buenaventura,Otros,Comprador Demo Australia,7,5,0
+E0581,2026-04-03,2026-04,Cartagena,Unión Europea,Tostadores Demo BV,6,7,2
+E0582,2025-12-03,2025-12,Buenaventura,Estados Unidos,Demo Roasters LLC,8,4,0
+E0583,2026-04-18,2026-04,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,2,4,2
+E0584,2026-02-23,2026-02,Buenaventura,Unión Europea,Tostadores Demo BV,7,3,1
+E0585,2026-01-02,2026-01,Buenaventura,Unión Europea,Tostadores Demo BV,5,3,1
+E0586,2026-06-15,2026-06,Buenaventura,Estados Unidos,Demo Roasters LLC,5,8,0
+E0587,2026-08-22,2026-08,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,2,5,5
+E0588,2026-07-13,2026-07,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,3,8,3
+E0589,2026-06-23,2026-06,Cartagena,Unión Europea,Importadora Ejemplo GmbH,8,6,1
+E0590,2026-06-15,2026-06,Buenaventura,Otros,Comprador Demo Corea,5,6,4
+E0591,2026-08-09,2026-08,Buenaventura,Estados Unidos,Demo Roasters LLC,2,9,0
+E0592,2026-03-02,2026-03,Buenaventura,Otros,Comprador Demo Corea,4,10,3
+E0593,2026-03-24,2026-03,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,8,2,0
+E0594,2026-01-03,2026-01,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,3,3,5
+E0595,2026-07-31,2026-07,Buenaventura,Estados Unidos,Demo Roasters LLC,3,9,0
+E0596,2025-12-11,2025-12,Cartagena,Estados Unidos,Demo Roasters LLC,5,9,0
+E0597,2026-03-15,2026-03,Cartagena,Japón,Tostadora Demo KK,4,8,2
+E0598,2026-09-22,2026-09,Buenaventura,Estados Unidos,Demo Roasters LLC,4,9,0
+E0599,2026-06-03,2026-06,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,6,0
+E0600,2026-11-27,2026-11,Buenaventura,Estados Unidos,Demo Roasters LLC,5,2,0
+E0601,2026-05-30,2026-05,Buenaventura,Unión Europea,Tostadores Demo BV,6,5,0
+E0602,2026-08-22,2026-08,Buenaventura,Japón,Tostadora Demo KK,2,10,0
+E0603,2026-07-22,2026-07,Buenaventura,Otros,Comprador Demo Australia,6,2,0
+E0604,2025-12-13,2025-12,Cartagena,Unión Europea,Tostadores Demo BV,7,2,3
+E0605,2026-03-04,2026-03,Buenaventura,Unión Europea,Tostadores Demo BV,4,10,2
+E0606,2026-01-06,2026-01,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,5,2,0
+E0607,2026-05-26,2026-05,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,9,3
+E0608,2026-10-12,2026-10,Buenaventura,Unión Europea,Tostadores Demo BV,7,4,0
+E0609,2026-07-05,2026-07,Buenaventura,Japón,Tostadora Demo KK,4,10,2
+E0610,2026-02-15,2026-02,Cartagena,Otros,Comprador Demo Australia,7,8,0
+E0611,2026-09-20,2026-09,Cartagena,Estados Unidos,Demo Roasters LLC,2,7,2
+E0612,2026-01-21,2026-01,Buenaventura,Unión Europea,Tostadores Demo BV,7,3,3
+E0613,2026-01-09,2026-01,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,2,5,4
+E0614,2026-01-03,2026-01,Buenaventura,Estados Unidos,Demo Roasters LLC,3,7,4
+E0615,2026-10-20,2026-10,Santa Marta,Estados Unidos,Demo Roasters LLC,4,6,5
+E0616,2025-12-10,2025-12,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,8,6,5
+E0617,2026-11-08,2026-11,Buenaventura,Otros,Comprador Demo Australia,2,7,0
+E0618,2026-07-31,2026-07,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,6,7,0
+E0619,2026-10-04,2026-10,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,3,6,4
+E0620,2026-01-06,2026-01,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,3,1
+E0621,2026-10-26,2026-10,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,3,9,0
+E0622,2026-06-29,2026-06,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,6,6,0
+E0623,2026-11-28,2026-11,Cartagena,Otros,Comprador Demo Australia,8,9,2
+E0624,2026-04-02,2026-04,Cartagena,Estados Unidos,Demo Roasters LLC,6,9,0
+E0625,2026-05-14,2026-05,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,5,4,0
+E0626,2026-09-08,2026-09,Cartagena,Unión Europea,Tostadores Demo BV,6,2,1
+E0627,2026-02-06,2026-02,Buenaventura,Japón,Tostadora Demo KK,2,7,0
+E0628,2026-08-16,2026-08,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,6,9,1
+E0629,2026-06-16,2026-06,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,4,9,2
+E0630,2026-03-19,2026-03,Buenaventura,Unión Europea,Tostadores Demo BV,3,10,0
+E0631,2026-01-05,2026-01,Cartagena,Unión Europea,Tostadores Demo BV,4,6,4
+E0632,2025-12-23,2025-12,Buenaventura,Otros,Comprador Demo Australia,5,2,0
+E0633,2026-09-13,2026-09,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,8,1
+E0634,2026-06-05,2026-06,Buenaventura,Unión Europea,Tostadores Demo BV,4,2,0
+E0635,2026-06-07,2026-06,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,2,0
+E0636,2026-03-08,2026-03,Cartagena,Unión Europea,Importadora Ejemplo GmbH,5,10,2
+E0637,2026-05-28,2026-05,Buenaventura,Estados Unidos,Demo Roasters LLC,3,3,0
+E0638,2025-12-03,2025-12,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,2,0
+E0639,2026-10-14,2026-10,Cartagena,Unión Europea,Importadora Ejemplo GmbH,8,4,3
+E0640,2026-02-12,2026-02,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,2,2,1
+E0641,2026-08-22,2026-08,Buenaventura,Otros,Comprador Demo Corea,8,2,0
+E0642,2026-09-15,2026-09,Cartagena,Estados Unidos,Demo Roasters LLC,2,6,3
+E0643,2026-10-13,2026-10,Santa Marta,Otros,Comprador Demo Corea,8,5,0
+E0644,2026-05-20,2026-05,Cartagena,Unión Europea,Importadora Ejemplo GmbH,2,4,0
+E0645,2026-06-05,2026-06,Cartagena,Unión Europea,Tostadores Demo BV,7,10,0
+E0646,2026-01-26,2026-01,Cartagena,Unión Europea,Importadora Ejemplo GmbH,5,4,0
+E0647,2026-06-13,2026-06,Buenaventura,Japón,Tostadora Demo KK,2,4,1
+E0648,2025-12-04,2025-12,Cartagena,Unión Europea,Tostadores Demo BV,7,10,1
+E0649,2026-10-16,2026-10,Santa Marta,Unión Europea,Tostadores Demo BV,5,6,0
+E0650,2026-02-06,2026-02,Buenaventura,Unión Europea,Tostadores Demo BV,5,7,3
+E0651,2026-10-23,2026-10,Cartagena,Unión Europea,Tostadores Demo BV,5,7,2
+E0652,2026-05-09,2026-05,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,6,0
+E0653,2026-07-15,2026-07,Buenaventura,Otros,Comprador Demo Corea,5,3,5
+E0654,2025-12-10,2025-12,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,7,2,0
+E0655,2026-09-09,2026-09,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,6,1
+E0656,2026-11-19,2026-11,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,5,3,0
+E0657,2026-06-06,2026-06,Cartagena,Estados Unidos,Demo Roasters LLC,2,4,1
+E0658,2026-06-13,2026-06,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,5,3
+E0659,2026-03-07,2026-03,Santa Marta,Unión Europea,Tostadores Demo BV,8,9,3
+E0660,2026-09-20,2026-09,Buenaventura,Otros,Comprador Demo Corea,7,9,0
+E0661,2026-07-22,2026-07,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,7,2
+E0662,2026-05-22,2026-05,Buenaventura,Unión Europea,Tostadores Demo BV,5,8,0
+E0663,2025-12-10,2025-12,Cartagena,Unión Europea,Tostadores Demo BV,3,8,1
+E0664,2026-05-31,2026-05,Cartagena,Unión Europea,Tostadores Demo BV,4,2,8
+E0665,2026-01-23,2026-01,Buenaventura,Estados Unidos,Demo Roasters LLC,3,10,0
+E0666,2026-04-20,2026-04,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,6,2
+E0667,2026-11-21,2026-11,Buenaventura,Otros,Comprador Demo Corea,3,4,6
+E0668,2026-06-25,2026-06,Buenaventura,Unión Europea,Tostadores Demo BV,8,3,0
+E0669,2025-12-10,2025-12,Cartagena,Unión Europea,Tostadores Demo BV,8,7,5
+E0670,2026-02-23,2026-02,Cartagena,Unión Europea,Importadora Ejemplo GmbH,5,10,4
+E0671,2026-05-23,2026-05,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,7,2,2
+E0672,2026-04-26,2026-04,Cartagena,Estados Unidos,Demo Roasters LLC,7,3,0
+E0673,2026-01-29,2026-01,Cartagena,Unión Europea,Tostadores Demo BV,8,6,4
+E0674,2026-04-29,2026-04,Cartagena,Estados Unidos,Demo Roasters LLC,2,2,3
+E0675,2025-12-02,2025-12,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,4,8,2
+E0676,2026-07-10,2026-07,Buenaventura,Japón,Tostadora Demo KK,2,10,0
+E0677,2026-10-31,2026-10,Buenaventura,Unión Europea,Tostadores Demo BV,3,3,2
+E0678,2026-02-09,2026-02,Cartagena,Estados Unidos,Demo Roasters LLC,3,3,1
+E0679,2025-12-15,2025-12,Cartagena,Japón,Tostadora Demo KK,3,7,0
+E0680,2026-06-04,2026-06,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,7,10,0
+E0681,2026-08-20,2026-08,Buenaventura,Estados Unidos,Demo Roasters LLC,6,3,1
+E0682,2025-12-04,2025-12,Buenaventura,Unión Europea,Tostadores Demo BV,5,2,0
+E0683,2026-06-25,2026-06,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,4,7,2
+E0684,2026-11-29,2026-11,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,6,10,0
+E0685,2026-05-11,2026-05,Cartagena,Unión Europea,Tostadores Demo BV,2,10,0
+E0686,2026-09-05,2026-09,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,6,6,2
+E0687,2026-03-02,2026-03,Buenaventura,Estados Unidos,Demo Roasters LLC,4,10,2
+E0688,2026-06-11,2026-06,Cartagena,Japón,Tostadora Demo KK,5,2,2
+E0689,2026-06-15,2026-06,Buenaventura,Otros,Comprador Demo Australia,7,9,1
+E0690,2026-05-16,2026-05,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,3,0
+E0691,2026-07-04,2026-07,Buenaventura,Otros,Comprador Demo Australia,5,4,1
+E0692,2026-11-30,2026-11,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,3,0
+E0693,2025-12-28,2025-12,Cartagena,Unión Europea,Importadora Ejemplo GmbH,5,4,1
+E0694,2025-12-16,2025-12,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,3,0
+E0695,2026-05-13,2026-05,Cartagena,Estados Unidos,Demo Roasters LLC,4,10,1
+E0696,2026-03-30,2026-03,Santa Marta,Unión Europea,Tostadores Demo BV,7,5,0
+E0697,2026-05-24,2026-05,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,4,7,1
+E0698,2026-02-05,2026-02,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,2,10,0
+E0699,2026-08-13,2026-08,Buenaventura,Otros,Comprador Demo Corea,5,10,0
+E0700,2026-01-13,2026-01,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,4,5,2
+E0701,2026-06-30,2026-06,Buenaventura,Unión Europea,Tostadores Demo BV,5,5,0
+E0702,2026-03-03,2026-03,Cartagena,Otros,Comprador Demo Australia,3,6,0
+E0703,2026-09-02,2026-09,Cartagena,Japón,Tostadora Demo KK,3,7,0
+E0704,2026-09-13,2026-09,Cartagena,Unión Europea,Importadora Ejemplo GmbH,6,6,2
+E0705,2026-07-07,2026-07,Buenaventura,Japón,Tostadora Demo KK,3,5,2
+E0706,2026-10-24,2026-10,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,4,5,0
+E0707,2026-09-12,2026-09,Buenaventura,Otros,Comprador Demo Corea,8,8,2
+E0708,2026-11-23,2026-11,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,3,7,0
+E0709,2026-05-16,2026-05,Buenaventura,Otros,Comprador Demo Corea,5,8,3
+E0710,2025-12-05,2025-12,Cartagena,Japón,Tostadora Demo KK,4,4,1
+E0711,2026-04-05,2026-04,Santa Marta,Unión Europea,Tostadores Demo BV,7,7,0
+E0712,2026-08-30,2026-08,Cartagena,Unión Europea,Tostadores Demo BV,6,7,4
+E0713,2026-10-09,2026-10,Santa Marta,Estados Unidos,Demo Roasters LLC,8,7,0
+E0714,2026-08-21,2026-08,Cartagena,Otros,Comprador Demo Corea,2,9,0
+E0715,2026-02-13,2026-02,Buenaventura,Estados Unidos,Demo Roasters LLC,6,9,3
+E0716,2026-08-11,2026-08,Cartagena,Unión Europea,Importadora Ejemplo GmbH,3,6,3
+E0717,2026-11-14,2026-11,Buenaventura,Unión Europea,Tostadores Demo BV,3,10,0
+E0718,2026-06-20,2026-06,Cartagena,Estados Unidos,Demo Roasters LLC,7,5,0
+E0719,2026-10-12,2026-10,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,2,2,1
+E0720,2026-08-17,2026-08,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,2,10,0
+E0721,2026-01-08,2026-01,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,7,6,0
+E0722,2026-10-17,2026-10,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,3,2,2
+E0723,2026-08-18,2026-08,Buenaventura,Unión Europea,Tostadores Demo BV,2,4,1
+E0724,2025-12-19,2025-12,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,2,4,0
+E0725,2026-11-29,2026-11,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,9,0
+E0726,2026-02-21,2026-02,Buenaventura,Otros,Comprador Demo Australia,3,6,0
+E0727,2026-10-29,2026-10,Buenaventura,Estados Unidos,Demo Roasters LLC,5,5,4
+E0728,2026-11-09,2026-11,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,5,5
+E0729,2026-03-20,2026-03,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,10,2
+E0730,2026-04-14,2026-04,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,6,10,1
+E0731,2026-03-30,2026-03,Cartagena,Japón,Tostadora Demo KK,6,8,7
+E0732,2026-06-20,2026-06,Buenaventura,Unión Europea,Tostadores Demo BV,4,2,0
+E0733,2026-01-24,2026-01,Buenaventura,Otros,Comprador Demo Corea,3,3,4
+E0734,2026-11-07,2026-11,Buenaventura,Unión Europea,Tostadores Demo BV,6,9,1
+E0735,2026-02-23,2026-02,Cartagena,Unión Europea,Importadora Ejemplo GmbH,7,5,0
+E0736,2026-10-07,2026-10,Buenaventura,Unión Europea,Tostadores Demo BV,3,5,1
+E0737,2026-06-01,2026-06,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,3,8,2
+E0738,2026-03-15,2026-03,Santa Marta,Otros,Comprador Demo Corea,6,5,8
+E0739,2026-07-28,2026-07,Cartagena,Unión Europea,Importadora Ejemplo GmbH,6,5,0
+E0740,2026-04-02,2026-04,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,3,2,2
+E0741,2026-07-20,2026-07,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,2,3,0
+E0742,2026-06-03,2026-06,Buenaventura,Unión Europea,Tostadores Demo BV,6,10,3
+E0743,2026-01-28,2026-01,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,5,5,3
+E0744,2026-01-28,2026-01,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,4,7,1
+E0745,2026-02-02,2026-02,Buenaventura,Japón,Tostadora Demo KK,4,5,2
+E0746,2026-07-19,2026-07,Buenaventura,Estados Unidos,Demo Roasters LLC,3,8,0
+E0747,2026-10-18,2026-10,Buenaventura,Unión Europea,Tostadores Demo BV,8,10,1
+E0748,2026-09-22,2026-09,Buenaventura,Unión Europea,Tostadores Demo BV,7,5,4
+E0749,2026-01-24,2026-01,Cartagena,Estados Unidos,Demo Roasters LLC,6,2,4
+E0750,2026-03-27,2026-03,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,3,7,0
+E0751,2026-07-01,2026-07,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,2,7,3
+E0752,2025-12-01,2025-12,Buenaventura,Otros,Comprador Demo Australia,3,8,4
+E0753,2026-10-17,2026-10,Buenaventura,Unión Europea,Tostadores Demo BV,5,9,1
+E0754,2026-01-23,2026-01,Buenaventura,Unión Europea,Tostadores Demo BV,7,9,2
+E0755,2026-10-19,2026-10,Cartagena,Japón,Tostadora Demo KK,6,3,2
+E0756,2026-09-09,2026-09,Buenaventura,Japón,Tostadora Demo KK,2,7,0
+E0757,2026-09-08,2026-09,Cartagena,Estados Unidos,Demo Roasters LLC,3,9,5
+E0758,2026-01-18,2026-01,Cartagena,Otros,Comprador Demo Australia,7,5,0
+E0759,2026-08-12,2026-08,Buenaventura,Otros,Comprador Demo Australia,5,8,0
+E0760,2026-04-23,2026-04,Buenaventura,Otros,Comprador Demo Australia,7,4,1
+E0761,2026-03-20,2026-03,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,6,2,3
+E0762,2026-04-04,2026-04,Buenaventura,Otros,Comprador Demo Corea,8,3,0
+E0763,2026-02-04,2026-02,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,2,7,5
+E0764,2026-01-27,2026-01,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,6,0
+E0765,2026-06-19,2026-06,Buenaventura,Estados Unidos,Demo Roasters LLC,2,5,0
+E0766,2026-03-29,2026-03,Buenaventura,Unión Europea,Tostadores Demo BV,7,6,3
+E0767,2025-12-20,2025-12,Santa Marta,Otros,Comprador Demo Australia,5,7,2
+E0768,2026-07-23,2026-07,Buenaventura,Japón,Tostadora Demo KK,6,10,2
+E0769,2026-05-21,2026-05,Cartagena,Unión Europea,Importadora Ejemplo GmbH,8,10,2
+E0770,2026-08-26,2026-08,Cartagena,Otros,Comprador Demo Australia,7,3,0
+E0771,2026-02-12,2026-02,Buenaventura,Unión Europea,Tostadores Demo BV,7,4,1
+E0772,2025-12-13,2025-12,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,4,3,0
+E0773,2026-11-16,2026-11,Buenaventura,Otros,Comprador Demo Corea,6,7,0
+E0774,2026-04-14,2026-04,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,3,10,1
+E0775,2026-09-12,2026-09,Cartagena,Otros,Comprador Demo Corea,4,3,3
+E0776,2026-02-23,2026-02,Cartagena,Unión Europea,Importadora Ejemplo GmbH,3,9,0
+E0777,2026-10-27,2026-10,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,2,8,3
+E0778,2026-08-08,2026-08,Cartagena,Unión Europea,Tostadores Demo BV,4,7,0
+E0779,2025-12-31,2025-12,Cartagena,Otros,Comprador Demo Corea,8,7,3
+E0780,2026-03-18,2026-03,Buenaventura,Japón,Tostadora Demo KK,8,2,3
+E0781,2026-07-29,2026-07,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,7,1
+E0782,2026-10-06,2026-10,Buenaventura,Unión Europea,Tostadores Demo BV,6,8,4
+E0783,2026-11-01,2026-11,Cartagena,Unión Europea,Importadora Ejemplo GmbH,2,2,3
+E0784,2026-05-15,2026-05,Cartagena,Otros,Comprador Demo Corea,3,5,6
+E0785,2026-09-12,2026-09,Cartagena,Japón,Tostadora Demo KK,5,2,0
+E0786,2026-01-18,2026-01,Buenaventura,Japón,Tostadora Demo KK,5,5,0
+E0787,2026-04-25,2026-04,Cartagena,Estados Unidos,Demo Roasters LLC,2,3,0
+E0788,2026-09-16,2026-09,Buenaventura,Estados Unidos,Demo Roasters LLC,8,7,1
+E0789,2026-10-02,2026-10,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,7,8,0
+E0790,2026-05-11,2026-05,Cartagena,Unión Europea,Tostadores Demo BV,6,5,1
+E0791,2026-05-19,2026-05,Buenaventura,Estados Unidos,Demo Roasters LLC,4,3,0
+E0792,2026-03-27,2026-03,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,3,7,2
+E0793,2026-11-17,2026-11,Cartagena,Estados Unidos,Demo Roasters LLC,6,7,3
+E0794,2026-01-27,2026-01,Cartagena,Unión Europea,Tostadores Demo BV,5,10,0
+E0795,2025-12-30,2025-12,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,4,0
+E0796,2026-06-15,2026-06,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,7,4
+E0797,2026-03-04,2026-03,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,9,0
+E0798,2026-09-24,2026-09,Buenaventura,Otros,Comprador Demo Australia,3,9,1
+E0799,2026-05-16,2026-05,Buenaventura,Unión Europea,Tostadores Demo BV,7,10,5
+E0800,2026-10-06,2026-10,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,2,5,0
+E0801,2026-05-25,2026-05,Buenaventura,Estados Unidos,Demo Roasters LLC,4,3,0
+E0802,2025-12-10,2025-12,Buenaventura,Otros,Comprador Demo Australia,3,8,0
+E0803,2026-09-26,2026-09,Buenaventura,Unión Europea,Tostadores Demo BV,6,4,3
+E0804,2026-01-23,2026-01,Buenaventura,Otros,Comprador Demo Australia,7,9,0
+E0805,2025-12-09,2025-12,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,6,3
+E0806,2025-12-10,2025-12,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,10,1
+E0807,2025-12-14,2025-12,Cartagena,Unión Europea,Tostadores Demo BV,6,7,0
+E0808,2026-11-29,2026-11,Buenaventura,Unión Europea,Tostadores Demo BV,7,8,1
+E0809,2026-07-19,2026-07,Cartagena,Estados Unidos,Demo Roasters LLC,2,7,2
+E0810,2026-03-28,2026-03,Buenaventura,Otros,Comprador Demo Corea,5,5,0
+E0811,2025-12-13,2025-12,Cartagena,Unión Europea,Importadora Ejemplo GmbH,6,2,6
+E0812,2026-06-07,2026-06,Cartagena,Estados Unidos,Demo Roasters LLC,4,9,0
+E0813,2026-02-03,2026-02,Santa Marta,Estados Unidos,Demo Roasters LLC,5,4,1
+E0814,2026-09-22,2026-09,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,3,9,0
+E0815,2026-03-02,2026-03,Buenaventura,Estados Unidos,Demo Roasters LLC,7,8,1
+E0816,2026-09-20,2026-09,Santa Marta,Unión Europea,Tostadores Demo BV,4,6,2
+E0817,2026-08-18,2026-08,Cartagena,Otros,Comprador Demo Australia,6,10,3
+E0818,2026-04-17,2026-04,Buenaventura,Unión Europea,Tostadores Demo BV,5,10,7
+E0819,2026-11-10,2026-11,Buenaventura,Otros,Comprador Demo Corea,7,5,0
+E0820,2026-04-15,2026-04,Buenaventura,Otros,Comprador Demo Corea,3,8,0
+E0821,2026-07-04,2026-07,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,2,9,2
+E0822,2026-05-26,2026-05,Santa Marta,Otros,Comprador Demo Corea,6,5,0
+E0823,2026-09-24,2026-09,Buenaventura,Japón,Tostadora Demo KK,5,2,1
+E0824,2026-06-23,2026-06,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,7,6,1
+E0825,2026-07-30,2026-07,Cartagena,Unión Europea,Tostadores Demo BV,7,5,0
+E0826,2026-07-27,2026-07,Buenaventura,Unión Europea,Tostadores Demo BV,6,2,7
+E0827,2026-01-28,2026-01,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,8,4,0
+E0828,2026-01-04,2026-01,Cartagena,Unión Europea,Importadora Ejemplo GmbH,8,10,1
+E0829,2026-02-16,2026-02,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,3,10,1
+E0830,2026-03-30,2026-03,Cartagena,Estados Unidos,Demo Roasters LLC,6,9,4
+E0831,2026-03-23,2026-03,Cartagena,Estados Unidos,Demo Roasters LLC,5,6,0
+E0832,2026-06-25,2026-06,Cartagena,Unión Europea,Tostadores Demo BV,3,9,0
+E0833,2026-06-24,2026-06,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,6,2
+E0834,2026-05-26,2026-05,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,6,1
+E0835,2026-10-10,2026-10,Cartagena,Unión Europea,Tostadores Demo BV,6,8,2
+E0836,2026-03-23,2026-03,Buenaventura,Unión Europea,Tostadores Demo BV,8,7,0
+E0837,2026-06-08,2026-06,Buenaventura,Unión Europea,Tostadores Demo BV,7,2,0
+E0838,2026-05-08,2026-05,Buenaventura,Unión Europea,Tostadores Demo BV,8,3,3
+E0839,2026-02-06,2026-02,Buenaventura,Unión Europea,Tostadores Demo BV,6,10,4
+E0840,2026-10-04,2026-10,Buenaventura,Otros,Comprador Demo Corea,7,8,4
+E0841,2026-09-10,2026-09,Buenaventura,Unión Europea,Tostadores Demo BV,8,8,0
+E0842,2026-05-15,2026-05,Cartagena,Unión Europea,Importadora Ejemplo GmbH,3,5,1
+E0843,2026-01-17,2026-01,Cartagena,Otros,Comprador Demo Corea,2,7,0
+E0844,2026-01-05,2026-01,Cartagena,Otros,Comprador Demo Corea,4,7,1
+E0845,2026-03-03,2026-03,Cartagena,Estados Unidos,Demo Roasters LLC,6,2,3
+E0846,2026-06-20,2026-06,Cartagena,Unión Europea,Tostadores Demo BV,3,5,3
+E0847,2026-02-19,2026-02,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,8,2,1
+E0848,2026-05-25,2026-05,Buenaventura,Unión Europea,Tostadores Demo BV,3,5,1
+E0849,2026-04-25,2026-04,Santa Marta,Unión Europea,Tostadores Demo BV,5,2,1
+E0850,2026-09-21,2026-09,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,6,2,0
+E0851,2026-07-28,2026-07,Cartagena,Estados Unidos,Demo Roasters LLC,5,7,0
+E0852,2026-02-11,2026-02,Cartagena,Unión Europea,Tostadores Demo BV,5,8,7
+E0853,2026-11-06,2026-11,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,10,0
+E0854,2026-06-09,2026-06,Buenaventura,Otros,Comprador Demo Corea,8,2,2
+E0855,2025-12-03,2025-12,Cartagena,Otros,Comprador Demo Australia,4,3,0
+E0856,2026-10-19,2026-10,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,3,5,0
+E0857,2025-12-07,2025-12,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,4,5,0
+E0858,2026-05-08,2026-05,Buenaventura,Unión Europea,Tostadores Demo BV,5,3,0
+E0859,2026-05-21,2026-05,Buenaventura,Japón,Tostadora Demo KK,3,3,1
+E0860,2026-11-25,2026-11,Buenaventura,Otros,Comprador Demo Corea,5,5,7
+E0861,2026-06-11,2026-06,Buenaventura,Japón,Tostadora Demo KK,3,6,3
+E0862,2026-04-15,2026-04,Buenaventura,Estados Unidos,Demo Roasters LLC,4,4,0
+E0863,2026-02-03,2026-02,Buenaventura,Estados Unidos,Demo Roasters LLC,3,2,0
+E0864,2026-01-08,2026-01,Buenaventura,Unión Europea,Tostadores Demo BV,4,2,2
+E0865,2026-11-30,2026-11,Santa Marta,Japón,Tostadora Demo KK,5,8,1
+E0866,2026-04-02,2026-04,Cartagena,Estados Unidos,Demo Roasters LLC,7,4,2
+E0867,2026-04-27,2026-04,Buenaventura,Otros,Comprador Demo Australia,6,6,4
+E0868,2026-05-13,2026-05,Buenaventura,Estados Unidos,Demo Roasters LLC,8,4,1
+E0869,2026-08-31,2026-08,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,6,5,0
+E0870,2026-08-11,2026-08,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,7,1
+E0871,2026-02-20,2026-02,Cartagena,Japón,Tostadora Demo KK,7,10,4
+E0872,2026-06-01,2026-06,Buenaventura,Unión Europea,Tostadores Demo BV,8,10,1
+E0873,2026-09-19,2026-09,Cartagena,Otros,Comprador Demo Corea,5,7,1
+E0874,2026-05-27,2026-05,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,3,0
+E0875,2026-09-20,2026-09,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,2,4,0
+E0876,2026-03-07,2026-03,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,2,2,0
+E0877,2026-09-19,2026-09,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,8,5,3
+E0878,2026-10-15,2026-10,Buenaventura,Otros,Comprador Demo Australia,8,7,2
+E0879,2026-03-05,2026-03,Buenaventura,Japón,Tostadora Demo KK,6,3,0
+E0880,2026-03-21,2026-03,Cartagena,Estados Unidos,Demo Roasters LLC,3,8,0
+E0881,2026-07-11,2026-07,Buenaventura,Estados Unidos,Demo Roasters LLC,3,5,1
+E0882,2026-05-15,2026-05,Buenaventura,Estados Unidos,Demo Roasters LLC,4,4,2
+E0883,2026-05-21,2026-05,Cartagena,Unión Europea,Tostadores Demo BV,8,9,1
+E0884,2026-07-26,2026-07,Buenaventura,Unión Europea,Tostadores Demo BV,3,2,1
+E0885,2026-05-24,2026-05,Buenaventura,Otros,Comprador Demo Corea,5,7,5
+E0886,2026-10-26,2026-10,Santa Marta,Unión Europea,Tostadores Demo BV,3,5,0
+E0887,2026-07-01,2026-07,Buenaventura,Unión Europea,Tostadores Demo BV,6,7,3
+E0888,2026-05-15,2026-05,Cartagena,Estados Unidos,Demo Roasters LLC,3,10,6
+E0889,2026-05-23,2026-05,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,7,6,0
+E0890,2026-04-11,2026-04,Cartagena,Unión Europea,Importadora Ejemplo GmbH,6,3,2
+E0891,2026-01-31,2026-01,Cartagena,Otros,Comprador Demo Australia,3,8,1
+E0892,2026-06-16,2026-06,Cartagena,Japón,Tostadora Demo KK,2,10,1
+E0893,2026-06-10,2026-06,Cartagena,Unión Europea,Importadora Ejemplo GmbH,6,9,2
+E0894,2026-04-25,2026-04,Buenaventura,Estados Unidos,Demo Roasters LLC,4,9,1
+E0895,2026-08-06,2026-08,Cartagena,Unión Europea,Importadora Ejemplo GmbH,2,7,3
+E0896,2026-05-02,2026-05,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,6,8,1
+E0897,2026-04-18,2026-04,Santa Marta,Estados Unidos,Demo Roasters LLC,8,6,4
+E0898,2026-04-28,2026-04,Santa Marta,Japón,Tostadora Demo KK,8,6,0
+E0899,2026-10-04,2026-10,Cartagena,Unión Europea,Importadora Ejemplo GmbH,6,9,2
+E0900,2026-06-10,2026-06,Cartagena,Unión Europea,Tostadores Demo BV,8,2,4
+E0901,2026-07-14,2026-07,Buenaventura,Otros,Comprador Demo Corea,2,5,3
+E0902,2026-09-05,2026-09,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,6,8,0
+E0903,2026-09-01,2026-09,Cartagena,Estados Unidos,Demo Roasters LLC,2,5,1
+E0904,2026-06-13,2026-06,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,5,2,1
+E0905,2026-04-27,2026-04,Cartagena,Otros,Comprador Demo Corea,4,2,5
+E0906,2026-10-23,2026-10,Cartagena,Unión Europea,Tostadores Demo BV,7,7,5
+E0907,2026-02-17,2026-02,Buenaventura,Japón,Tostadora Demo KK,6,8,2
+E0908,2026-05-09,2026-05,Buenaventura,Unión Europea,Tostadores Demo BV,5,5,3
+E0909,2026-03-24,2026-03,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,7,2
+E0910,2026-06-15,2026-06,Cartagena,Otros,Comprador Demo Corea,3,3,0
+E0911,2025-12-22,2025-12,Buenaventura,Otros,Comprador Demo Corea,7,8,0
+E0912,2026-10-29,2026-10,Cartagena,Estados Unidos,Demo Roasters LLC,6,10,3
+E0913,2026-11-13,2026-11,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,7,0
+E0914,2026-06-14,2026-06,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,3,0
+E0915,2026-04-09,2026-04,Cartagena,Unión Europea,Importadora Ejemplo GmbH,2,4,2
+E0916,2026-08-13,2026-08,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,8,2
+E0917,2026-10-16,2026-10,Cartagena,Unión Europea,Importadora Ejemplo GmbH,5,2,0
+E0918,2026-03-12,2026-03,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,3,4
+E0919,2026-02-27,2026-02,Buenaventura,Otros,Comprador Demo Corea,3,7,4
+E0920,2026-10-22,2026-10,Cartagena,Unión Europea,Tostadores Demo BV,2,9,3
+E0921,2026-06-20,2026-06,Santa Marta,Otros,Comprador Demo Australia,8,7,0
+E0922,2026-06-09,2026-06,Buenaventura,Unión Europea,Tostadores Demo BV,6,2,3
+E0923,2026-05-28,2026-05,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,3,0
+E0924,2025-12-06,2025-12,Buenaventura,Otros,Comprador Demo Corea,4,3,0
+E0925,2025-12-11,2025-12,Cartagena,Otros,Comprador Demo Corea,2,10,2
+E0926,2026-08-24,2026-08,Santa Marta,Otros,Comprador Demo Australia,4,4,0
+E0927,2026-08-16,2026-08,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,3,9,1
+E0928,2025-12-28,2025-12,Buenaventura,Unión Europea,Tostadores Demo BV,4,7,0
+E0929,2025-12-14,2025-12,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,5,8,5
+E0930,2026-07-20,2026-07,Santa Marta,Estados Unidos,Demo Roasters LLC,7,4,0
+E0931,2026-02-27,2026-02,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,3,8,0
+E0932,2026-11-30,2026-11,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,2,8,2
+E0933,2026-09-07,2026-09,Cartagena,Unión Europea,Tostadores Demo BV,3,10,0
+E0934,2026-11-19,2026-11,Cartagena,Otros,Comprador Demo Corea,5,10,1
+E0935,2025-12-31,2025-12,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,9,3
+E0936,2026-04-02,2026-04,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,8,7,1
+E0937,2026-08-08,2026-08,Buenaventura,Japón,Tostadora Demo KK,5,2,2
+E0938,2026-10-24,2026-10,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,7,3,2
+E0939,2026-06-07,2026-06,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,10,3
+E0940,2026-07-02,2026-07,Santa Marta,Japón,Tostadora Demo KK,3,3,5
+E0941,2026-05-25,2026-05,Buenaventura,Unión Europea,Tostadores Demo BV,3,10,0
+E0942,2026-04-25,2026-04,Buenaventura,Otros,Comprador Demo Corea,7,3,3
+E0943,2026-01-09,2026-01,Cartagena,Unión Europea,Tostadores Demo BV,7,10,2
+E0944,2026-10-10,2026-10,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,8,3,4
+E0945,2026-07-15,2026-07,Buenaventura,Estados Unidos,Demo Roasters LLC,5,7,5
+E0946,2026-05-24,2026-05,Cartagena,Unión Europea,Importadora Ejemplo GmbH,6,6,0
+E0947,2026-02-27,2026-02,Buenaventura,Otros,Comprador Demo Corea,3,6,0
+E0948,2026-02-23,2026-02,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,6,6,1
+E0949,2026-05-19,2026-05,Cartagena,Unión Europea,Tostadores Demo BV,2,10,1
+E0950,2026-04-28,2026-04,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,8,2,6
+E0951,2026-02-01,2026-02,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,2,1
+E0952,2026-02-01,2026-02,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,7,4,3
+E0953,2026-01-22,2026-01,Cartagena,Otros,Comprador Demo Australia,3,11,1
+E0954,2025-12-18,2025-12,Cartagena,Unión Europea,Tostadores Demo BV,5,6,0
+E0955,2026-07-21,2026-07,Cartagena,Estados Unidos,Demo Roasters LLC,3,9,1
+E0956,2026-04-28,2026-04,Buenaventura,Japón,Tostadora Demo KK,2,7,0
+E0957,2026-10-02,2026-10,Cartagena,Japón,Tostadora Demo KK,5,6,0
+E0958,2026-09-16,2026-09,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,6,9,3
+E0959,2026-09-06,2026-09,Cartagena,Unión Europea,Tostadores Demo BV,2,4,2
+E0960,2026-07-21,2026-07,Cartagena,Estados Unidos,Demo Roasters LLC,4,5,0
+E0961,2026-08-23,2026-08,Santa Marta,Estados Unidos,Demo Roasters LLC,3,2,2
+E0962,2025-12-20,2025-12,Buenaventura,Unión Europea,Tostadores Demo BV,5,6,0
+E0963,2025-12-17,2025-12,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,7,3,1
+E0964,2025-12-02,2025-12,Santa Marta,Estados Unidos,Demo Roasters LLC,6,5,3
+E0965,2026-07-28,2026-07,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,5,3,0
+E0966,2026-07-14,2026-07,Cartagena,Japón,Tostadora Demo KK,4,7,1
+E0967,2026-03-31,2026-03,Cartagena,Otros,Comprador Demo Australia,2,3,0
+E0968,2026-11-25,2026-11,Cartagena,Japón,Tostadora Demo KK,2,9,5
+E0969,2026-09-18,2026-09,Santa Marta,Unión Europea,Importadora Ejemplo GmbH,6,3,5
+E0970,2026-08-01,2026-08,Buenaventura,Unión Europea,Tostadores Demo BV,2,7,0
+E0971,2026-03-04,2026-03,Cartagena,Unión Europea,Importadora Ejemplo GmbH,4,9,1
+E0972,2026-07-02,2026-07,Buenaventura,Estados Unidos,Demo Roasters LLC,4,2,1
+E0973,2026-08-01,2026-08,Buenaventura,Unión Europea,Tostadores Demo BV,6,10,0
+E0974,2026-03-01,2026-03,Cartagena,Unión Europea,Importadora Ejemplo GmbH,7,9,2
+E0975,2025-12-26,2025-12,Buenaventura,Japón,Tostadora Demo KK,8,7,1
+E0976,2026-10-08,2026-10,Cartagena,Unión Europea,Importadora Ejemplo GmbH,7,10,0
+E0977,2026-11-09,2026-11,Cartagena,Unión Europea,Tostadores Demo BV,3,9,1
+E0978,2026-11-22,2026-11,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,3,8,4
+E0979,2026-06-29,2026-06,Santa Marta,Unión Europea,Tostadores Demo BV,4,3,1
+E0980,2026-09-26,2026-09,Santa Marta,Estados Unidos,Ejemplo Coffee Imports Inc.,6,10,0
+E0981,2025-12-21,2025-12,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,6,6,0
+E0982,2026-04-17,2026-04,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,4,7,4
+E0983,2026-07-03,2026-07,Cartagena,Unión Europea,Tostadores Demo BV,2,6,1
+E0984,2026-09-13,2026-09,Cartagena,Unión Europea,Tostadores Demo BV,7,7,0
+E0985,2026-01-16,2026-01,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,7,4,0
+E0986,2026-10-22,2026-10,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,8,9,2
+E0987,2026-08-03,2026-08,Buenaventura,Unión Europea,Importadora Ejemplo GmbH,7,5,3
+E0988,2026-11-04,2026-11,Buenaventura,Estados Unidos,Demo Roasters LLC,3,5,2
+E0989,2026-08-25,2026-08,Cartagena,Unión Europea,Importadora Ejemplo GmbH,2,8,8
+E0990,2026-01-13,2026-01,Cartagena,Estados Unidos,Ejemplo Coffee Imports Inc.,2,4,0
+E0991,2026-08-25,2026-08,Cartagena,Estados Unidos,Demo Roasters LLC,4,10,3
+E0992,2026-06-19,2026-06,Buenaventura,Estados Unidos,Demo Roasters LLC,5,10,0
+E0993,2026-07-06,2026-07,Cartagena,Unión Europea,Importadora Ejemplo GmbH,2,6,2
+E0994,2026-05-10,2026-05,Cartagena,Otros,Comprador Demo Corea,5,3,4
+E0995,2026-10-17,2026-10,Cartagena,Unión Europea,Importadora Ejemplo GmbH,6,6,0
+E0996,2025-12-26,2025-12,Santa Marta,Unión Europea,Tostadores Demo BV,4,6,5
+E0997,2026-08-04,2026-08,Buenaventura,Estados Unidos,Demo Roasters LLC,3,9,0
+E0998,2026-05-09,2026-05,Buenaventura,Otros,Comprador Demo Australia,3,4,2
+E0999,2026-10-05,2026-10,Buenaventura,Japón,Tostadora Demo KK,6,7,0
+E1000,2026-10-19,2026-10,Buenaventura,Estados Unidos,Ejemplo Coffee Imports Inc.,8,10,4
