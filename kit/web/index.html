@@ -32,6 +32,7 @@
   }
   *{box-sizing:border-box}
   html,body{height:100%}
+  body{height:100vh;height:100dvh}
   body{margin:0;background:var(--page);color:var(--fg);font:16px/1.47 var(--sans);letter-spacing:-.011em;-webkit-font-smoothing:antialiased;
        display:flex;flex-direction:column}
   svg.i{width:18px;height:18px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
@@ -61,7 +62,6 @@
 
   /* El espacio de trabajo: dos tarjetas grandes a toda la altura */
   main{flex:1;min-height:0;padding:20px max(22px,4vw);display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px}
-  @media (min-width:901px){main{height:calc(100vh - 44px - 58px - 34px)}}
   @media (max-width:900px){main{grid-template-columns:minmax(0,1fr)}}
   .panel{min-width:0;background:var(--card);border-radius:22px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:0;overflow:hidden}
   .cab{padding:22px 26px 12px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
@@ -70,7 +70,7 @@
   .cab .acc{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 
   /* Conversación */
-  #chat{flex:1;min-height:280px;overflow-y:auto;padding:8px 26px 12px;display:flex;flex-direction:column;gap:10px}
+  #chat{flex:1;min-height:0;overflow-y:auto;padding:8px 26px 12px;display:flex;flex-direction:column;gap:10px}
   .msg{padding:10px 15px;border-radius:20px;max-width:82%;overflow-wrap:anywhere;font-size:16px}
   .yo{align-self:flex-end;background:var(--blue);color:var(--on-blue);border-bottom-right-radius:6px}
   .ia{align-self:flex-start;background:var(--bubble-ia);border-bottom-left-radius:6px}
@@ -144,6 +144,33 @@
     .panel{overflow:visible}
     #chat{max-height:60vh}
     .vista{overflow:visible}
+  }
+  /* Pantallas bajas (portátiles de 13 a 15 pulgadas con la barra del navegador): menos aire para que todo quepa */
+  @media (min-width:901px) and (max-height:780px){
+    .global{height:38px}
+    .local{top:38px;padding:6px max(22px,4vw)}
+    .local h1{font-size:18px}
+    main{padding:12px max(22px,4vw);gap:14px}
+    .cab{padding:14px 22px 6px}
+    .cab h2{font-size:20px}
+    .cab .sub{font-size:12px}
+    #v-doc .nota,.panel:last-child .cab .sub{display:none}
+    #chat{padding:6px 22px 8px}
+    .msg{font-size:15px;padding:8px 13px}
+    .pie-chat{padding:8px 22px 12px;gap:8px}
+    .sug button{padding:5px 12px;font-size:13px}
+    .barra-pregunta input{padding:6px 0}
+    .redondo{width:34px;height:34px}
+    .seg{margin:0 22px 4px}
+    .vista{padding:10px 22px 16px;gap:10px}
+    textarea{min-height:96px}
+    input,select{padding:8px 12px}
+    footer{padding:4px max(22px,4vw) 6px}
+  }
+  /* Muy bajas: la página baja normalmente en vez de apretar los paneles */
+  @media (min-width:901px) and (max-height:560px){
+    html,body{height:auto} body{display:block}
+    main{min-height:520px}
   }
   footer{padding:8px max(22px,4vw) 12px;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 </style>
