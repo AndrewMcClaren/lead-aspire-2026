@@ -23,4 +23,7 @@ jobs:
       - run: python -m kit.medir
         env:
           KIT_DATOS: casos/presupuesto
+      - run: python -m kit.medir
+        env:
+          KIT_DATOS: casos/cafe
       - run: python -m seguridad.pentest

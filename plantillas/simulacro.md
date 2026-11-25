@@ -1,6 +1,7 @@
 # Simulacro del día completo
 
-Tres casos para ensayar antes del 27. **Todos los datos son inventados.** Cada caso tiene dos partes:
+Cuatro casos para ensayar antes del 27. **El caso 4 (café) es el más parecido al real: hagan con ese el simulacro
+completo.** **Todos los datos son inventados.** Cada caso tiene dos partes:
 - **Para el equipo:** solo la primera frase. Así llega el reto el día real.
 - **Para quien hace de cliente:** el guion completo. El equipo no lo lee. El "cliente" solo cuenta los datos
   escondidos si le hacen la pregunta correcta: así se practica la entrevista.
@@ -86,3 +87,39 @@ Qué sería un buen resultado: no el kit. Un dashboard en Power BI (o Excel con 
 y qué publicaciones venden, y un flujo para preparar las publicaciones de la semana con Copilot y aprobación de
 la fundadora antes de publicar. El número: ventas por publicación y horas a la semana. Lo que sí se lleva del
 kit: cada número con su fuente y una persona que aprueba lo que se publica.
+
+---
+
+## Caso 4 · Exportadora de café, con Snowflake y Microsoft (el más parecido al real)
+
+**Para el equipo:** "Somos una de las exportadoras de café más grandes de Colombia. Tenemos muchísimos datos en
+Snowflake, pero sentimos que no los aprovechamos. ¿Qué harían con IA?"
+
+**Para quien hace de cliente**
+
+Eres el director de operaciones y sostenibilidad. Sabes de café y de negocio; de tecnología, lo básico.
+
+Datos escondidos (solo si preguntan):
+- Si preguntan qué les cuesta más: "Europa nos exige probar de qué finca viene cada lote. Hoy tenemos la
+  geolocalización del 71 % de los lotes, y armar ese reporte nos toma dos semanas cada mes, con tres personas."
+- Si preguntan por calidad: "Tuvimos 57 reclamos de compradores el año pasado; nos costaron 3,1 millones de dólares."
+- Si preguntan por los datos: "Todo está en Snowflake: compras, lotes, calidad, embarques. Pero solo dos analistas
+  saben consultarlo. El área comercial me pide cifras por correo y tarda días."
+- Si preguntan qué sistemas usan: "Microsoft 365 y Teams para todo, Power BI para algunos tableros, Snowflake y un
+  ERP."
+- Si preguntan por pagos a productores: "Les compramos a 48.000 productores y cooperativas. El año pasado hubo un
+  intento de cambiar la cuenta de una cooperativa con un correo falso."
+- Si preguntan qué no puede pasar: "Que se despache a Europa un lote sin trazabilidad completa. Eso nos cierra el
+  mercado. Y que se pague a una cuenta que no es."
+- Si preguntan cómo medirían el éxito: "Que el reporte de trazabilidad salga en un día, y que el área comercial
+  tenga sus cifras sin pedírselas a nadie."
+- Si preguntan por precios de bolsa: "Eso lo maneja la mesa de coberturas; no es lo que más nos preocupa hoy."
+
+**Lo que debería salir:** un asistente en Teams que responde con datos de Snowflake verificados (cuántos lotes tienen
+trazabilidad, cuáles faltan, reclamos, embarques) y que **no deja despachar a Europa un lote sin geolocalización**:
+lo marca para revisión humana. Palancas: seguridad (no perder el mercado europeo) y productividad (de dos semanas a
+un día). El kit sirve con `KIT_DATOS=casos/cafe` como base.
+
+**Trampas del caso:** prometer predecir el precio del café; decir "integramos Snowflake" sin mostrar cómo (basta
+exportar una consulta a CSV); olvidar que la decisión de despachar la toma una persona.
+

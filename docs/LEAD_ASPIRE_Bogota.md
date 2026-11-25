@@ -3,9 +3,11 @@
 Preparación del equipo para LEAD Aspire Day Colombia 2026 en Microsoft Bogotá, a partir de la descripción
 oficial de Bogotá y de lo que se sabe de la edición de Nueva York.
 
-> **Importante: Bogotá no se describe igual que Nueva York.** Ver "Nueva York frente a Bogotá" abajo. Preparamos
-> los dos formatos: el caso con construcción (como Nueva York) y una competencia de estrategia y presupuesto (los
-> AI Budget Games).
+> **Confirmado en el hospitality (24 de noviembre):** el formato es como el de Nueva York. El viernes, las
+> empresas invitadas presentan sus necesidades y su contexto, los equipos construyen y le presentan la solución a
+> esos mismos clientes. **Las empresas: una de las cafeteras más grandes de Colombia (exportadora o importadora,
+> por confirmar), Snowflake y Microsoft.** Por eso vale el **plan A** (caso con construcción). Preparación del caso:
+> [`ESCENARIOS.md`](ESCENARIOS.md), sección "El caso confirmado", y el caso del kit `casos/cafe`.
 
 ## Qué sabemos y de dónde
 

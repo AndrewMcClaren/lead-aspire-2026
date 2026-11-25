@@ -1,0 +1,10 @@
+{
+  "nota": "Compradores y cooperativas registrados (ficticios). Solo a ellos se les despacha o paga, y solo a la cuenta registrada. Se actualizan por el proceso formal, nunca desde un correo.",
+  "fecha_corte": "2026-11-27",
+  "destinos": {
+    "Importadora Ejemplo GmbH": {"cuenta": "Banco Ficticio DE 1111-2222", "desde": "2023-02-01"},
+    "Ejemplo Coffee Imports Inc.": {"cuenta": "Banco Ficticio US 3333-4444", "desde": "2024-06-15"},
+    "Tostadora Demo KK": {"cuenta": "Banco Ficticio JP 5555-6666", "desde": "2026-11-10"},
+    "Cooperativa Cafetera Ejemplo": {"cuenta": "Banco Ficticio CO 7777-8888", "desde": "2022-01-20"}
+  }
+}

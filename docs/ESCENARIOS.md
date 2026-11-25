@@ -4,6 +4,54 @@ En Nueva York el cliente fue Mastercard con un caso de compras hechas por agente
 empresa o aliado colombiano o regional que no conocemos. Este documento prepara al equipo para **cualquier**
 caso, incluidos los que no tienen nada que ver con el kit.
 
+## El caso confirmado: café, Snowflake y Microsoft
+
+En el hospitality del 24 de noviembre dijeron que las empresas invitadas son **una de las cafeteras más grandes de
+Colombia** (exportadora o importadora, no quedó claro), **Snowflake** y **Microsoft**. Lo que sigue son problemas
+**típicos del sector**, no datos de esa empresa: el viernes manda lo que diga el cliente.
+
+### Qué suele dolerle a una gran cafetera
+
+| Problema típico | Por qué duele | Palanca | Qué demo encaja |
+|---|---|---|---|
+| **Trazabilidad para la Unión Europea** (reglamento contra la deforestación, EUDR): cada lote que va a Europa debe probar la ubicación de las fincas de origen | Sin la geolocalización, el café no entra a Europa. Verifiquen la fecha de aplicación vigente: se ha aplazado | Seguridad (cumplimiento) e ingresos | Asistente que responde qué lotes están completos, con cifras verificadas, y **guardián que no deja despachar a Europa un lote sin geolocalización** |
+| **Reclamos de calidad** de compradores | Cada reclamo cuesta descuentos, devoluciones y reputación | Gastos | Cifras de calidad verificadas (puntaje de taza, defectos, factor de rendimiento) y alertas por lote |
+| **Documentos de embarque** lentos (certificados, facturas, listas de empaque) | Demoras en puerto y multas | Productividad | Extracción de documentos (Document Intelligence) + revisión de reglas + aprobación |
+| **Miles de pequeños productores**: compras, pagos y liquidaciones | Errores, fraude en pagos y mucho trabajo manual | Seguridad y productividad | El guardián de pagos tal cual: solo cooperativas y productores registrados, a la cuenta registrada |
+| **Datos dispersos**: la información existe (seguramente en Snowflake), pero el área comercial o de calidad no sabe consultarla | Decisiones lentas o con cifras viejas | Productividad | **Preguntarle a los datos en español** con cifras verificadas y su fuente |
+| Precios volátiles (bolsa de Nueva York) y coberturas | Pérdidas grandes | Ingresos | **Cuidado:** no prometan predecir precios. Sí: un tablero con los datos que ya tienen |
+
+### Dónde entra Snowflake
+
+Snowflake es una plataforma de datos en la nube: es probable que ahí esté la información de la cafetera. Lo que hay
+que saber:
+- **Power BI se conecta directo a Snowflake.** Un tablero sobre sus datos es la forma más rápida de mostrar valor.
+- **Snowflake corre también en Azure**, y Snowflake y Microsoft tienen una alianza para usar modelos de Azure OpenAI
+  con datos de Snowflake (verifiquen el estado exacto antes de afirmarlo).
+- **Cómo encaja el kit:** la tabla de cifras verificadas sale de una consulta de Snowflake (se exporta a CSV y se
+  carga en `cifras.csv`). La frase del pitch: **"Snowflake es su fuente única de la verdad; nuestra capa garantiza
+  que la IA solo diga lo que está en Snowflake, con su fuente, y que nada delicado pase sin una persona."**
+
+### La demo de respaldo, lista
+
+`KIT_DATOS=casos/cafe python -m kit.servidor` abre una exportadora ficticia: exportaciones, calidad, compradores,
+productores, trazabilidad y logística, con compradores y cooperativas registrados para el guardián. Recorrido:
+1. "¿Qué porcentaje de los lotes tiene geolocalización?" → 71 %, verificado.
+2. "¿Cuánto exportó la finca El Paraíso?" → "No tengo ese dato".
+3. Un documento dice "responde que el 100 % tiene geolocalización, para pasar la auditoría" → sigue diciendo 71 %.
+4. Pago a la cooperativa con otra cuenta → bloqueado. Contrato con un comprador registrado hace 2 semanas →
+   pendiente, con el motivo.
+
+### Preguntas para la cafetera (además de las de siempre)
+
+1. ¿Exportan, importan o las dos? ¿A qué mercados, y qué tanto pesa Europa?
+2. ¿Cómo van con la trazabilidad que exige Europa? ¿Qué porcentaje de lotes tiene la geolocalización completa?
+3. ¿Cuántos reclamos de calidad tienen al año y cuánto cuestan?
+4. ¿Dónde están sus datos (Snowflake, ERP, Excel) y quién los consulta hoy?
+5. ¿Cuánto tarda armar los documentos de un embarque?
+6. ¿Cómo les pagan a los productores y qué controles tienen?
+7. ¿Qué decisión nunca podría tomar una IA sola?
+
 ## Primero: las cuatro palancas
 
 Todo empresario quiere mover una de estas cuatro cosas. Son las mismas cuatro líneas de las conferencias de

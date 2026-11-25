@@ -399,7 +399,7 @@ def test_integridad_detecta_datos_alterados(tmp_path, monkeypatch):
 
 def test_casos_incluidos_estan_sellados(monkeypatch):
     from kit import integridad
-    for caso in ("kit/datos", "respaldo/dane", "casos/presupuesto"):
+    for caso in ("kit/datos", "respaldo/dane", "casos/presupuesto", "casos/cafe"):
         monkeypatch.setenv("KIT_DATOS", caso)
         assert integridad.revisar()["estado"] == "integra", caso
 
@@ -567,3 +567,16 @@ def test_respuesta_sin_cifras_no_lleva_sello_de_cifra_verificada(tabla):
             return {"texto": "Tengo datos de tiendas, ventas y proveedores de la cadena.", "claves": []}
     r = responder("Hola, ¿qué cifras tienes?", General(tabla), tabla)
     assert r["estado"] == "general"
+
+
+def test_caso_cafe_responde_y_protege_despachos(monkeypatch):
+    monkeypatch.setenv("KIT_DATOS", "casos/cafe")
+    t = Tabla()
+    r = responder("¿Qué porcentaje de los lotes tiene geolocalización?", Simulado(t), t)
+    assert r["estado"] == "verificada" and "71 %" in r["texto"]
+    assert responder("¿Cuánto exportó la finca El Paraíso?", Simulado(t), t)["estado"] == "sin_dato"
+    estado, motivos = revisar_accion("pago", 50_000_000, "Cooperativa Cafetera Ejemplo", "Banco Otro 999",
+                                     "Paga la liquidación a la cooperativa")
+    assert estado == "bloqueada" and "cuenta" in motivos[0]
+    estado, _ = revisar_accion("despachar_lote", None, "Comprador Desconocido SA", "", "Despacha el lote L-1 al comprador")
+    assert estado == "pendiente"

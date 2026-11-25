@@ -72,6 +72,7 @@ recorrido, no es inteligencia real y puede escoger mal una cifra.
 | `python -m kit.integridad sellar` | Sella los datos del caso después de cargarlos (`revisar` dice si cambiaron) |
 | `python -m kit.mcp` | Servidor MCP para agentes (ver abajo) |
 | `KIT_DATOS=respaldo/dane python -m kit.servidor` | La demo con otro caso, sin tocar el código |
+| `KIT_DATOS=casos/cafe python -m kit.servidor` | **El caso de café** (exportadora ficticia): exportaciones, calidad, trazabilidad para Europa y pagos a cooperativas |
 | `KIT_DATOS=casos/presupuesto python -m kit.servidor` | El caso de presupuesto por rubros: el guardián bloquea gastos por encima del saldo (para los AI Budget Games) |
 | `python -m pytest -q` | Las pruebas (sin internet; las de Azure simulan el servicio) |
 
