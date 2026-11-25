@@ -36,12 +36,12 @@ import os
 import threading
 import time
 from collections import defaultdict, deque
-from dataclasses import asdict
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
 
 from . import integridad, modelos, privacidad
+from . import decisiones
 from .aprobacion import Bandeja, cargar_politica, nueva_sesion, registrar_incidentes
 from .asistente import responder
 from .bitacora import Bitacora, huella, proteger, verificar
@@ -84,6 +84,7 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
     modelo = modelos.crear(nombre_modelo, tabla)
     bitacora = bitacora or Bitacora()
     bandeja = Bandeja(bitacora)
+    decisiones.vigilar(bandeja, bitacora)  # decisiones tomadas en Teams que llegan por OneDrive (si KIT_DECISIONES)
     sesion = nueva_sesion()
     limite = int(os.environ.get("KIT_LIMITE_MINUTO", "60") or 0)
     recientes: dict[str, deque] = defaultdict(deque)
@@ -169,7 +170,8 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                                    "sesion": sesion, "autonomia": cargar_politica()["nivel_autonomia"],
                                    "tipos_accion": cargar_politica()["tipos_sensibles"] + cargar_politica()["tipos_solo_lectura"],
                                    "datos_personales": privacidad.activa(), "integridad": integridad.revisar()["estado"],
-                                   "limite_minuto": limite})
+                                   "limite_minuto": limite, "teams": bool(os.environ.get("NOTIFICAR_URL")),
+                                   "decisiones_teams": decisiones.carpeta() is not None})
             if self.path == "/api/acciones":
                 return self._json(bandeja.lista())
             if self.path == "/api/bitacora":
@@ -229,7 +231,7 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                                      str(datos.get("destino", ""))[:120], str(datos.get("cuenta", ""))[:120],
                                      str(datos.get("peticion", ""))[:300], str(datos.get("solicitante", "asistente"))[:60],
                                      sesion["estado"])
-                return self._json({**asdict(a), "motivo": a.motivo}, 201)
+                return self._json(a.publica(), 201)
             if self.path.startswith("/api/acciones/"):
                 try:
                     if not isinstance(datos.get("aprobar"), bool):

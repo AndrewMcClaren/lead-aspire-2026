@@ -26,6 +26,7 @@ no se probó desde este repositorio; la demo funciona igual sin él.
 """
 
 import itertools
+import secrets
 import json
 import os
 import re
@@ -206,6 +207,14 @@ class Accion:
     motivos: list = field(default_factory=list)
     creada: str = field(default_factory=lambda: datetime.now().isoformat(timespec="seconds"))
     decidida_por: str = ""
+    canal: str = ""          # dónde se decidió: "página" o "Teams"
+    comentario: str = ""     # lo que escribió quien decidió
+    notificada: bool = False  # se avisó a Power Automate (NOTIFICAR_URL)
+    token: str = field(default="", repr=False)  # código de un solo uso para aceptar la decisión desde Teams
+
+    def publica(self) -> dict:
+        """Lo que se muestra por la API: todo menos el token."""
+        return {**{k: v for k, v in asdict(self).items() if k != "token"}, "motivo": self.motivo}
 
     @property
     def motivo(self) -> str:
@@ -228,13 +237,17 @@ class Bandeja:
                    estado, motivos)
         self.acciones[a.id] = a
         if self.bitacora:
-            datos = {k: v for k, v in asdict(a).items() if k != "creada"}
+            datos = {k: v for k, v in asdict(a).items() if k not in ("creada", "token", "notificada", "canal", "comentario")}
             self.bitacora.registrar("accion_propuesta", proteger(datos, ("detalle", "peticion", "cuenta")))
         if estado == "pendiente":
-            notificar(a)
+            a.token = secrets.token_urlsafe(16)
+            a.notificada = notificar(a)
+            if a.notificada and self.bitacora:
+                self.bitacora.registrar("accion_enviada_a_teams", {"id": a.id})
         return a
 
-    def decidir(self, id_: int, aprobar: bool, aprobador: str = "persona") -> Accion:
+    def decidir(self, id_: int, aprobar: bool, aprobador: str = "persona", canal: str = "página",
+                comentario: str = "") -> Accion:
         a = self.acciones[id_]
         if not _norm(aprobador):
             raise ValueError("Falta el nombre de quien aprueba")
@@ -243,13 +256,15 @@ class Bandeja:
         pol = cargar_politica()
         if pol["segregacion_de_funciones"] and _norm(aprobador) == _norm(a.solicitante):
             raise ValueError("Quien pidió la acción no puede aprobarla (segregación de funciones)")
-        a.estado, a.decidida_por = ("aprobada" if aprobar else "rechazada"), aprobador
+        a.estado, a.decidida_por, a.canal, a.comentario = ("aprobada" if aprobar else "rechazada"), aprobador, canal, comentario
+        a.token = ""  # ya no sirve: una decisión por acción
         if self.bitacora:
-            self.bitacora.registrar("accion_decidida", {"id": a.id, "estado": a.estado, "aprobador": aprobador})
+            self.bitacora.registrar("accion_decidida", {"id": a.id, "estado": a.estado, "aprobador": aprobador, "canal": canal,
+                                                        **({"comentario": comentario} if comentario else {})})
         return a
 
     def lista(self) -> list[dict]:
-        return [{**asdict(a), "motivo": a.motivo} for a in sorted(self.acciones.values(), key=lambda x: -x.id)]
+        return [a.publica() for a in sorted(self.acciones.values(), key=lambda x: -x.id)]
 
 
 def notificar(accion: Accion) -> bool:
@@ -258,7 +273,9 @@ def notificar(accion: Accion) -> bool:
     if not url:
         return False
     try:
-        req = urllib.request.Request(url, data=json.dumps({**asdict(accion), "motivo": accion.motivo}, ensure_ascii=False).encode("utf-8"),
+        cuerpo = {**{k: v for k, v in asdict(accion).items() if k not in ("notificada", "canal", "comentario")},
+                  "motivo": accion.motivo}  # incluye el token: lo devuelve el flujo con la decisión
+        req = urllib.request.Request(url, data=json.dumps(cuerpo, ensure_ascii=False).encode("utf-8"),
                                      headers={"Content-Type": "application/json"}, method="POST")
         urllib.request.urlopen(req, timeout=10).close()
         return True

@@ -639,3 +639,53 @@ def test_snowflake_rechaza_consultas_y_datos_malos(tmp_path, monkeypatch):
         snowflake.escribir_cifras([{"clave": "dos palabras", "descripcion": "d", "valor": 1, "unidad": ""}], "o")
     with pytest.raises(ValueError):  # sin filas no se borra el CSV
         snowflake.escribir_cifras([], "o")
+
+
+# --- Decisiones desde Teams por OneDrive (kit/decisiones.py) ---
+
+def _decision(carpeta, nombre, **datos):
+    (carpeta / nombre).write_text(json.dumps(datos, ensure_ascii=False), encoding="utf-8")
+
+
+def test_decisiones_desde_teams_con_token(tmp_path, monkeypatch):
+    from kit.decisiones import procesar
+    b = Bandeja(Bitacora(tmp_path / "b.jsonl"))
+    pago = dict(tipo="pago", detalle="Pago", monto=200000, destino="Proveedor Demo S.A.S.",
+                peticion="Paga la factura de Proveedor Demo", solicitante="asistente")
+    a1, a2, a3 = b.proponer(**pago), b.proponer(**pago), b.proponer(**pago)
+    assert a1.estado == "pendiente" and len(a1.token) > 15
+    assert all("token" not in x for x in b.lista())  # la API nunca muestra el token
+    dec = tmp_path / "decisiones"
+    dec.mkdir()
+    _decision(dec, "a.json", id=a1.id, token=a1.token, resultado="Approve", aprobador="Ana Tesorería", comentario="Revisado")
+    _decision(dec, "b.json", id=a2.id, token="adivinado", resultado="Approve", aprobador="Ana Tesorería")  # token falso
+    _decision(dec, "c.json", id=a3.id, token=a3.token, resultado="Approve", aprobador="asistente")  # se aprueba a sí mismo
+    (dec / "d.json").write_text("{esto no es json", encoding="utf-8")
+    hechos = {h["archivo"]: h["resultado"] for h in procesar(dec, b, b.bitacora)}
+    assert hechos == {"a.json": "aplicado", "b.json": "rechazado", "c.json": "rechazado", "d.json": "rechazado"}
+    assert (a1.estado, a1.decidida_por, a1.canal, a1.comentario) == ("aprobada", "Ana Tesorería", "Teams", "Revisado")
+    assert a2.estado == "pendiente" and a3.estado == "pendiente"
+    assert (dec / "procesadas" / "a.json").exists() and (dec / "rechazadas" / "b.json").exists()
+    # El mismo archivo otra vez (o uno viejo de otra sesión) ya no sirve: el token se gasta al decidir
+    _decision(dec, "e.json", id=a1.id, token=a1.token or "viejo", resultado="Reject", aprobador="Otra persona")
+    assert procesar(dec, b)[0]["resultado"] in ("rechazado", "ignorado") and a1.estado == "aprobada"
+    texto = (tmp_path / "b.jsonl").read_text(encoding="utf-8")
+    assert '"canal": "Teams"' in texto and "decision_teams_rechazada" in texto and a2.token not in texto
+
+
+def test_aviso_a_power_automate_lleva_el_token(monkeypatch):
+    from kit import aprobacion
+    enviados = []
+
+    class _Resp:
+        def close(self):
+            pass
+
+    def falso_urlopen(req, timeout=10):
+        enviados.append(json.loads(req.data))
+        return _Resp()
+
+    monkeypatch.setenv("NOTIFICAR_URL", "https://flujo.example/aviso")
+    monkeypatch.setattr(aprobacion.urllib.request, "urlopen", falso_urlopen)
+    a = Bandeja().proponer("pago", "Pago", 200000, "Proveedor Demo S.A.S.", "", "Paga la factura de Proveedor Demo")
+    assert a.notificada and enviados[0]["token"] == a.token and enviados[0]["id"] == a.id

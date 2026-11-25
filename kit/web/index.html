@@ -5,63 +5,106 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Asistente verificado</title>
 <style>
-  /* Layout: dos columnas (conversación | documento, acciones y bitácora); una sola en pantallas angostas */
+  /* Diseño: minimalista, beige y café. Dos columnas (conversación | documento, acciones y bitácora); una en pantallas angostas.
+     Fuentes del sistema: la página no descarga nada de internet, así no depende del wifi del evento. */
   :root{
-    --bg:#0e1621; --panel:#16212e; --panel2:#1c2a3a; --line:#2a3b4f; --fg:#e8eef4; --muted:#93a4b6;
-    --accent:#3b82f6; --ok:#34c77b; --warn:#f2b441; --bad:#f06a6a;
-    --sans: "Segoe UI", system-ui, -apple-system, sans-serif; --mono: "Cascadia Mono", Consolas, ui-monospace, monospace;
+    --bg:#f4eee4; --surface:#fbf8f2; --surface-2:#f2eadd; --line:#e4d8c6; --line-2:#d6c6ae;
+    --fg:#2b1e16; --muted:#7a6857; --accent:#6f4a2f; --accent-hover:#5c3c25; --accent-fg:#fff8ee; --caramel:#b9824e;
+    --ok:#4f7a4a; --warn:#a86b14; --bad:#a4442f;
+    --shadow:0 1px 2px rgba(43,30,22,.04), 0 10px 30px rgba(43,30,22,.06);
+    --sans:"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --mono:"Cascadia Mono",Consolas,ui-monospace,monospace;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#17110d; --surface:#211913; --surface-2:#2a2019; --line:#3a2c22; --line-2:#4a392c;
+      --fg:#f2e8d8; --muted:#b3a08a; --accent:#c9a27a; --accent-hover:#d9b48e; --accent-fg:#1b130e; --caramel:#d9a46f;
+      --ok:#8db580; --warn:#e0b060; --bad:#e08a73; --shadow:0 1px 2px rgba(0,0,0,.25), 0 10px 30px rgba(0,0,0,.25);
+      color-scheme:dark;
+    }
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 var(--sans)}
-  header{padding:22px max(16px,4vw) 14px;border-bottom:1px solid var(--line)}
-  h1{font-size:22px;margin:6px 0 2px}
-  .sub{color:var(--muted);font-size:13px;margin:0}
-  .chips{display:flex;flex-wrap:wrap;gap:6px}
-  .chip{font-size:12px;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
-  .chip.on{border-color:var(--ok);color:var(--ok)} .chip.alerta{border-color:var(--warn);color:var(--warn)}
-  main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px;padding:16px max(16px,4vw) 40px}
+  body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+  header{padding:28px max(16px,5vw) 18px;display:flex;flex-direction:column;gap:6px}
+  .marca{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+  .marca svg{width:22px;height:22px;color:var(--accent)}
+  .marca b{color:var(--fg);font-weight:600;letter-spacing:.06em}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(28px,4vw,40px);line-height:1.15;margin:6px 0 0;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:14.5px;margin:0;max-width:70ch}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:4px 10px;border-radius:999px;background:var(--surface);
+        border:1px solid var(--line);color:var(--muted)}
+  .chip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--line-2)}
+  .chip.on{color:var(--fg)} .chip.on::before{background:var(--ok)}
+  .chip.alerta{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,var(--line))} .chip.alerta::before{background:var(--warn)}
+  .chip.info::before{background:var(--caramel)}
+  main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px;padding:8px max(16px,5vw) 48px}
   @media (max-width:900px){main{grid-template-columns:1fr}}
-  .col{display:flex;flex-direction:column;gap:16px;min-width:0}
-  section{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
-  h2{font-size:13.5px;margin:0;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:8px}
-  #chat{display:flex;flex-direction:column;gap:10px;min-height:300px;max-height:62vh;overflow-y:auto;padding-right:4px}
-  .msg{padding:10px 12px;border-radius:8px;max-width:94%}
-  .yo{align-self:flex-end;background:var(--accent);color:#fff}
-  .ia{align-self:flex-start;background:var(--panel2);border:1px solid var(--line)}
-  .meta{margin-top:6px;font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-  .sello{font-weight:600;padding:1px 7px;border-radius:4px;font-size:11.5px}
-  .verificada,.permitida,.aprobada,.pasa{background:rgba(52,199,123,.15);color:var(--ok)}
-  .sin_dato,.pendiente,.saneado{background:rgba(242,180,65,.15);color:var(--warn)}
-  .bloqueada,.error_modelo,.rechazada,.bloqueado{background:rgba(240,106,106,.15);color:var(--bad)}
-  .capa{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:4px;padding:0 5px}
-  code{font-family:var(--mono);font-size:11.5px}
+  .col{display:flex;flex-direction:column;gap:18px;min-width:0}
+  section{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;
+          gap:14px;min-width:0;box-shadow:var(--shadow)}
+  h2{font-size:12px;margin:0;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:600;display:flex;
+     justify-content:space-between;align-items:center;gap:8px}
+  #chat{display:flex;flex-direction:column;gap:12px;min-height:320px;max-height:60vh;overflow-y:auto;padding:2px 4px 2px 0}
+  .msg{padding:12px 14px;border-radius:14px;max-width:92%;overflow-wrap:anywhere}
+  .yo{align-self:flex-end;background:var(--accent);color:var(--accent-fg);border-bottom-right-radius:4px}
+  .ia{align-self:flex-start;background:var(--surface-2);border:1px solid var(--line);border-bottom-left-radius:4px}
+  .meta{margin-top:8px;font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .sello{font-weight:600;padding:2px 9px;border-radius:999px;font-size:11.5px;letter-spacing:.01em}
+  .verificada,.permitida,.aprobada,.pasa{background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok)}
+  .sin_dato,.pendiente,.saneado,.general{background:color-mix(in srgb,var(--warn) 15%,transparent);color:var(--warn)}
+  .general{background:color-mix(in srgb,var(--muted) 15%,transparent);color:var(--muted)}
+  .bloqueada,.error_modelo,.rechazada,.bloqueado{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
+  .capa{font-family:var(--mono);font-size:10.5px;border:1px solid var(--line);border-radius:6px;padding:0 6px;color:var(--muted)}
+  code{font-family:var(--mono);font-size:11.5px;color:var(--accent)}
   .fila{display:flex;gap:8px;flex-wrap:wrap}
   .fila > *{flex:1 1 140px;min-width:0}
-  input,textarea,select{background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:9px 10px;font:inherit;width:100%}
-  textarea{min-height:100px;resize:vertical}
-  label.campo{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted)}
-  button{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:9px 14px;font:inherit;font-weight:600;cursor:pointer}
-  button.sec{background:transparent;border:1px solid var(--line);color:var(--fg);font-weight:500}
-  button.chico{padding:4px 10px;font-size:12px;flex:0 0 auto}
-  button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-  button[disabled]{opacity:.5;cursor:default}
-  #mic.grabando{background:var(--bad)}
+  input,textarea,select{background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;width:100%;
+                        transition:border-color .15s}
+  input:hover,textarea:hover,select:hover{border-color:var(--line-2)}
+  textarea{min-height:110px;resize:vertical}
+  label.campo{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted)}
+  button{background:var(--accent);color:var(--accent-fg);border:0;border-radius:10px;padding:10px 16px;font:inherit;font-weight:600;cursor:pointer;
+         transition:background .15s, border-color .15s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+  button:hover{background:var(--accent-hover)}
+  button.sec{background:transparent;border:1px solid var(--line-2);color:var(--fg);font-weight:500}
+  button.sec:hover{background:var(--surface-2)}
+  button.chico{padding:5px 12px;font-size:12.5px;flex:0 0 auto}
+  button svg{width:18px;height:18px}
+  button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--caramel);outline-offset:2px}
+  button[disabled]{opacity:.45;cursor:default}
+  #mic.grabando{background:var(--bad);border-color:var(--bad);color:#fff}
   .sug{display:flex;flex-wrap:wrap;gap:6px}
-  .sug button{font-size:12.5px;padding:5px 10px}
-  .lista{display:flex;flex-direction:column;gap:8px}
-  .accion{border:1px solid var(--line);border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+  .sug button{font-size:12.5px;padding:6px 12px;border-radius:999px;font-weight:500}
+  .lista{display:flex;flex-direction:column;gap:10px}
+  .accion{border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;font-size:14px}
+  .accion .titulo{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
   .accion ul{margin:0;padding-left:18px;color:var(--muted);font-size:12.5px}
+  .teams{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+  .teams::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--caramel);animation:latido 1.6s ease-in-out infinite}
+  .teams.listo::before{animation:none;background:var(--ok)}
+  @keyframes latido{50%{opacity:.25}}
+  @media (prefers-reduced-motion:reduce){.teams::before{animation:none}}
   .nota{font-size:12.5px;color:var(--muted);margin:0}
   .error{color:var(--bad);font-size:12.5px;margin:0}
-  .bit{font-family:var(--mono);font-size:11.5px;color:var(--muted);border-bottom:1px dashed var(--line);padding:4px 0;overflow-wrap:anywhere}
+  .bit{font-family:var(--mono);font-size:11px;color:var(--muted);border-bottom:1px dashed var(--line);padding:5px 0;overflow-wrap:anywhere}
   details summary{cursor:pointer;color:var(--muted);font-size:12.5px}
+  footer{padding:0 max(16px,5vw) 32px;color:var(--muted);font-size:12px}
 </style>
 </head>
 <body>
 <header>
-  <div class="chips" id="chips"><span class="chip">Cargando…</span></div>
+  <div class="marca">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+      <ellipse cx="12" cy="12" rx="6.5" ry="9" transform="rotate(35 12 12)"/><path d="M8.6 18.2c2.6-2.4 2.2-4.6 2-6.2s-.6-3.8 2.8-6.2"/>
+    </svg>
+    <b>Asistente verificado</b><span aria-hidden="true">·</span><span id="caso">cargando</span>
+  </div>
   <h1>Pregúntale a los datos</h1>
-  <p class="sub">Cada cifra sale de una tabla verificada. Si el dato no está, el asistente lo dice. Lo delicado lo aprueba una persona.</p>
+  <p class="sub">Cada cifra sale de una tabla verificada, con su fuente. Si el dato no está, el asistente lo dice. Lo delicado lo aprueba una persona.</p>
+  <div class="chips" id="chips"><span class="chip">Cargando…</span></div>
 </header>
 <main>
   <div class="col">
@@ -71,7 +114,9 @@
       <div class="sug" id="sug"></div>
       <form class="fila" id="form">
         <input id="pregunta" autocomplete="off" placeholder="Escribe tu pregunta" aria-label="Pregunta" style="flex:4 1 220px">
-        <button type="button" class="sec" id="mic" title="Hablar (Chrome o Edge)" style="flex:0 0 auto">🎙</button>
+        <button type="button" class="sec" id="mic" title="Hablar (Chrome o Edge)" aria-label="Hablar" style="flex:0 0 auto">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button>
         <button id="enviar" style="flex:0 0 auto">Preguntar</button>
       </form>
       <label class="nota"><input type="checkbox" id="leer" checked style="width:auto"> Leer las respuestas en voz alta</label>
@@ -127,6 +172,7 @@
     </section>
   </div>
 </main>
+<footer>Las cifras salen de una versión sellada de los datos del cliente. Todo queda en una bitácora verificable.</footer>
 
 <script>
 const $ = s => document.querySelector(s);
@@ -228,20 +274,24 @@ $("#reiniciar").onclick = async () => {
 function pintarSesion(s) {
   const chip = $("#chipSesion"); if (!chip) return;
   estado.sesionActual = s.estado;
-  chip.textContent = "Sesión: " + s.estado + (s.estado === "detenida" ? " (una persona debe reiniciarla)" : "");
+  chip.textContent = "Sesión " + s.estado + (s.estado === "detenida" ? " · una persona debe reiniciarla" : "");
   chip.className = "chip " + (s.estado === "limpia" ? "on" : "alerta");
   chip.title = (s.motivos || []).join(" · ");
 }
 
+let hayPendientes = false;
 async function pintarAcciones() {
   const {datos: lista} = await api("/api/acciones");
+  hayPendientes = lista.some(a => a.estado === "pendiente");
   $("#acciones").innerHTML = lista.length ? "" : `<p class="nota">Todavía no hay acciones propuestas.</p>`;
   for (const a of lista) {
     const d = document.createElement("div"); d.className = "accion";
-    d.innerHTML = `<div><span class="sello ${a.estado}">${esc(a.estado)}</span> <b>#${a.id}</b> ${esc(a.tipo)} · ${esc(a.detalle)}
+    const teams = a.estado === "pendiente" && a.notificada ? `<span class="teams">Enviada a Teams · esperando la decisión</span>` : "";
+    const decision = a.decidida_por ? `<span class="teams listo">${a.estado === "aprobada" ? "Aprobada" : "Rechazada"} por ${esc(a.decidida_por)}` +
+      `${a.canal ? " · desde " + esc(a.canal) : ""}${a.comentario ? " · «" + esc(a.comentario) + "»" : ""}</span>` : "";
+    d.innerHTML = `<div class="titulo"><span class="sello ${a.estado}">${esc(a.estado)}</span> <b>#${a.id}</b> ${esc(a.tipo)} · ${esc(a.detalle)}
       ${a.monto != null ? "· " + pesos(a.monto) : ""} ${a.destino ? "→ " + esc(a.destino) : ""}</div>
-      <ul>${(a.motivos || []).map(m => `<li>${esc(m)}</li>`).join("")}</ul>
-      ${a.decidida_por ? `<div class="nota">Decidida por ${esc(a.decidida_por)}</div>` : ""}`;
+      <ul>${(a.motivos || []).map(m => `<li>${esc(m)}</li>`).join("")}</ul>${teams}${decision}`;
     if (a.estado === "pendiente") {
       const f = document.createElement("div"); f.className = "fila";
       for (const [txt, ok] of [["Aprobar", true], ["Rechazar", false]]) {
@@ -278,16 +328,23 @@ async function pintarBitacora() {
     `<div class="bit">#${e.n} ${esc(e.fecha.slice(11))} ${esc(e.tipo)} · ${esc(JSON.stringify(e.datos).slice(0, 110))} · ${esc(e.sello.slice(0, 10))}…</div>`).join("");
 }
 $("#verBitacora").onclick = pintarBitacora;
+// Mientras haya acciones pendientes, la página se actualiza sola: así se ve llegar la decisión tomada en Teams.
+setInterval(() => { if (hayPendientes && !document.hidden) { pintarAcciones(); pintarBitacora(); } }, 3000);
 
 (async () => {
   const {datos: e} = await api("/api/estado"); estado = e;
-  const capa = (nombre, on) => `<span class="chip ${on ? "on" : ""}">${nombre}: ${on ? "activo" : "apagado"}</span>`;
-  $("#chips").innerHTML = `<span class="chip on">Caso: ${esc(e.caso)}</span><span class="chip on">Modelo: ${esc(e.modelo)}</span>
-    ${capa("Firmas locales", e.escudo.firmas)}${capa("Prompt Shields", e.escudo.prompt_shields)}${capa("Juez", e.escudo.juez)}
-    <span class="chip ${e.voz ? "on" : ""}">Voz: ${e.voz ? "Azure Speech" : "navegador"}</span>
-    <span class="chip">Autonomía: ${esc(e.autonomia)}</span><span class="chip" id="chipSesion">Sesión</span>
-    <span class="chip">${e.cifras} cifras verificadas</span>${capa("Datos personales ocultos", e.datos_personales)}
-    <span class="chip ${e.integridad === "integra" ? "on" : "alerta"}">Datos: ${e.integridad === "integra" ? "sellados" : esc(e.integridad.replace("_", " "))}</span>`;
+  const chip = (texto, on, titulo = "") => `<span class="chip ${on ? "on" : ""}" title="${esc(titulo)}">${texto}</span>`;
+  $("#caso").textContent = e.caso;
+  $("#chips").innerHTML = chip("Modelo · " + esc(e.modelo), true) +
+    chip("Firmas locales", e.escudo.firmas, "Filtro propio contra instrucciones escondidas") +
+    chip("Prompt Shields", e.escudo.prompt_shields, "Filtro de seguridad de Microsoft") +
+    chip("Juez", e.escudo.juez, "Segunda revisión de cada documento con IA (KIT_JUEZ=1)") +
+    chip(e.voz ? "Voz · Azure Speech" : "Voz · navegador", e.voz) +
+    chip("Datos personales ocultos", e.datos_personales) +
+    `<span class="chip ${e.integridad === "integra" ? "on" : "alerta"}">Datos ${e.integridad === "integra" ? "sellados" : esc(e.integridad.replace("_", " "))}</span>` +
+    chip(e.decisiones_teams ? "Teams · ida y vuelta" : "Teams", e.teams, "Aprobaciones en Teams con Power Automate") +
+    chip(e.cifras + " cifras verificadas", true) +
+    `<span class="chip info">Autonomía · ${esc(e.autonomia.replace("_", " "))}</span><span class="chip" id="chipSesion">Sesión</span>`;
   pintarSesion(e.sesion);
   if (e.tipos_accion && e.tipos_accion.length)  // los tipos de acción salen de la política del caso
     $("#accTipo").innerHTML = e.tipos_accion.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("");

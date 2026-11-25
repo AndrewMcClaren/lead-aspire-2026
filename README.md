@@ -95,8 +95,9 @@ También funciona con un modelo local: `--modelo ollama:qwen2.5:7b`.
 - **GitHub Copilot en VS Code (modo agente)**: agreguen el servidor MCP en `.vscode/mcp.json`:
   `{"servers": {"asistente-verificado": {"type": "stdio", "command": "python", "args": ["-m", "kit.mcp"]}}}`.
   El agente tendrá las herramientas `buscar_cifras`, `obtener_cifra`, `revisar_documento` y `proponer_accion`.
-- **Avisos en Teams**: con `NOTIFICAR_URL` cada acción pendiente se envía como JSON a esa dirección (por
-  ejemplo, el disparador HTTP de un flujo de Power Automate que publica en Teams).
+- **Aprobaciones en Teams, de ida y vuelta**: con `NOTIFICAR_URL` cada acción pendiente llega a un flujo de Power Automate
+  que pide la aprobación en Teams; con `KIT_DECISIONES`, la decisión vuelve al kit por una carpeta de OneDrive, con un
+  código de un solo uso por acción. Solo conectores estándar. Pasos: `docs/GUIA_AZURE_EQUIPO.md`, Paso 7.
 
 **Probado con Azure real (24 de noviembre de 2026):** Azure OpenAI (gpt-4.1-mini), Prompt Shields y Azure Speech,
 con `kit.verificar` y una primera medición (`docs/INFRAESTRUCTURA.md`, sección Límites). **Sin probar todavía:** el

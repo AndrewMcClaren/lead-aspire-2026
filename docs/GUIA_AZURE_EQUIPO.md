@@ -218,6 +218,48 @@ Recorrido de prueba:
 
 Para el caso del café: `KIT_DATOS=casos/cafe python -m kit.servidor --modelo azure:demo` (en PowerShell: `$env:KIT_DATOS="casos/cafe"` y luego el comando).
 
+## Paso 7 (opcional): aprobaciones en Teams, de ida y vuelta (20 minutos)
+
+Con esto, cada acción que el guardián deja "pendiente" le llega a Tesorería en Teams o por correo, y cuando la aprueban allá, la página del kit cambia sola a **"Aprobada por … · desde Teams"**. Solo usa conectores estándar (sin licencia Premium): el disparador de Teams, Aprobaciones y OneDrive.
+
+Cómo funciona:
+
+1. El kit envía la acción pendiente al flujo, con un **código de un solo uso** (token).
+2. El flujo pide la aprobación en Teams o por correo.
+3. Al decidir, el flujo guarda un archivo pequeño en una carpeta de OneDrive.
+4. OneDrive lo sincroniza al computador y el kit lo aplica, con las mismas reglas de siempre: el token debe coincidir, quien pidió no puede aprobar y todo queda en la bitácora. Un archivo viejo o inventado se aparta en la subcarpeta `rechazadas`.
+
+**A. La carpeta de OneDrive** (en el computador que corre la demo):
+
+1. Abran el Explorador de archivos → **OneDrive - <su universidad>** y creen las carpetas `lead-aspire` y, dentro, `decisiones`.
+2. Clic derecho en `decisiones` → **Mantener siempre en este dispositivo**, para que sincronice rápido.
+3. Copien la ruta (clic derecho → **Copiar como ruta**). Será algo como `C:\Users\<usuario>\OneDrive - Universidad Santo Tomás\lead-aspire\decisiones`.
+
+**B. El flujo en Power Automate** (make.powerautomate.com):
+
+1. **Create** → **Instant cloud flow** → disparador **When a Teams webhook request is received** → **Create**. En **Who can trigger the flow?**: **Anyone**.
+2. **+** → **Start and wait for an approval**: tipo *Aprobar o rechazar: primero en responder*, **Assigned to** el correo de quien aprueba, y en **Title** y **Details** estas expresiones (ícono **fx**):
+    - Title: `concat('Acción #', string(triggerBody()?['id']), ': ', triggerBody()?['tipo'], ' a ', triggerBody()?['destino'])`
+    - Details: `concat('Monto: ', string(triggerBody()?['monto']), '. Lo pidió: ', triggerBody()?['solicitante'], '. Motivo del guardián: ', triggerBody()?['motivo'])`
+3. **+** → busquen **Create file** de **OneDrive for Business**:
+    - **Folder Path**: `/lead-aspire/decisiones` (o búsquenla con el ícono de carpeta)
+    - **File Name** (fx): `concat('accion-', string(triggerBody()?['id']), '-', utcNow('yyyyMMddHHmmss'), '.json')`
+    - **File Content** (fx): `string(addProperty(addProperty(addProperty(addProperty(addProperty(json('{}'), 'id', triggerBody()?['id']), 'token', triggerBody()?['token']), 'resultado', body('Start_and_wait_for_an_approval')?['outcome']), 'aprobador', first(body('Start_and_wait_for_an_approval')?['responses'])?['responder']?['displayName']), 'comentario', coalesce(first(body('Start_and_wait_for_an_approval')?['responses'])?['comments'], '')))`
+4. **Save** y copien la **HTTP URL** del disparador. Es secreta: no la compartan.
+
+Si la expresión del contenido da error "action not found", es porque el bloque de aprobación tiene otro nombre: en `body('…')` pongan el nombre del bloque con guiones bajos en vez de espacios.
+
+**C. El kit** (`notepad .env`):
+
+```
+NOTIFICAR_URL=<la HTTP URL del disparador>
+KIT_DECISIONES=C:\Users\<usuario>\OneDrive - Universidad Santo Tomás\lead-aspire\decisiones
+```
+
+Sin comillas. Reinicien `python -m kit.servidor --modelo azure:demo`. Arriba debe salir el chip **Teams · ida y vuelta**.
+
+**Probarlo:** en Acciones, propongan el pago de ejemplo → sale **pendiente** con "Enviada a Teams · esperando la decisión" → aprueben en Teams o en el correo → en 10 a 60 segundos (lo que tarde OneDrive en sincronizar) la tarjeta cambia a **"Aprobada por <nombre> · desde Teams"**, sin recargar. Si en el ensayo tarda más de 15 segundos, el viernes muestren la llegada a Teams y aprueben en la página.
+
 ## Problemas que ya nos pasaron
 
 Todos estos salieron el 24 de noviembre y tienen solución conocida.
