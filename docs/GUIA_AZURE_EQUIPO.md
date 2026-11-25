@@ -231,6 +231,7 @@ Cómo funciona:
 
 **A. La carpeta de OneDrive** (en el computador que corre la demo):
 
+0. Primero, OneDrive de la universidad debe estar **conectado y sincronizando** en ese computador: junto al reloj debe haber una **nube azul** que diga "Al día". Si no la hay, abran OneDrive → Configuración → Cuenta → Agregar una cuenta, con el correo de la universidad, y acepten la ubicación que propone. Conéctenlo **antes** de configurar el kit: si el kit arranca primero, crea la carpeta por su cuenta y OneDrive puede quedar instalado dentro de ella.
 1. Abran el Explorador de archivos → **OneDrive - <su universidad>** y creen las carpetas `lead-aspire` y, dentro, `decisiones`.
 2. Clic derecho en `decisiones` → **Mantener siempre en este dispositivo**, para que sincronice rápido.
 3. Copien la ruta (clic derecho → **Copiar como ruta**). Será algo como `C:\Users\<usuario>\OneDrive - Universidad Santo Tomás\lead-aspire\decisiones`.
@@ -258,7 +259,7 @@ KIT_DECISIONES=C:\Users\<usuario>\OneDrive - Universidad Santo Tomás\lead-aspir
 
 Sin comillas. Reinicien `python -m kit.servidor --modelo azure:demo`. Arriba debe salir el chip **Teams · ida y vuelta**.
 
-**Probarlo:** en Acciones, propongan el pago de ejemplo → sale **pendiente** con "Enviada a Teams · esperando la decisión" → aprueben en Teams o en el correo → en 10 a 60 segundos (lo que tarde OneDrive en sincronizar) la tarjeta cambia a **"Aprobada por <nombre> · desde Teams"**, sin recargar. Si en el ensayo tarda más de 15 segundos, el viernes muestren la llegada a Teams y aprueben en la página.
+**Probarlo:** en Acciones, propongan el pago de ejemplo → sale **pendiente** con "Enviada a Teams · esperando la decisión" → aprueben en Teams o en el correo → en 10 a 60 segundos (lo que tarde OneDrive en sincronizar) la tarjeta cambia a **"Aprobada por <nombre> · desde Teams"**, sin recargar. En la prueba del 25 de noviembre tardó unos 20 segundos: en la demo, llenen ese tiempo explicando qué está pasando. Si en el ensayo tarda más de 15 segundos, el viernes muestren la llegada a Teams y aprueben en la página.
 
 ## Problemas que ya nos pasaron
 
@@ -278,6 +279,7 @@ Todos estos salieron el 24 de noviembre y tienen solución conocida.
 | `TimeoutError` en pip-audit | La red no alcanza pypi.org | `pip-audit -r requirements.txt -s osv --timeout 60`, o mirar la pestaña Actions de GitHub |
 | `ConnectionAbortedError` en la prueba de penetración | Versión vieja del repo | Actualizar el repo (Paso 5) |
 | `Address already in use` | Otro servidor usa el puerto 8000 | `python -m kit.servidor --puerto 8001` y abrir localhost:8001 |
+| La aprobación sale en verde en Power Automate, pero la página sigue "pendiente" | OneDrive de la universidad no está sincronizando en ese computador, o quedó instalado dentro de la carpeta del kit | Conectar OneDrive (nube azul "Al día") y poner en `KIT_DECISIONES` la carpeta que de verdad sincroniza. Al reiniciar el servidor las acciones empiezan de nuevo: propongan otra |
 | "Datos: alterada" en la página | Cambiaron un archivo de datos sin sellar | Si fue a propósito: `python -m kit.integridad sellar` |
 
 ## Plan B: si la cuenta de Andrés falla el viernes
