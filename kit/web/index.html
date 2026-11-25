@@ -5,227 +5,204 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Asistente verificado</title>
 <style>
-  /* Sistema visual al estilo Fluent 2 / Microsoft Events: blanco con secciones #FAFAFA, azul #0067B8, Segoe UI,
-     botones de 4 px, tarjetas de 8 px, sombras suaves. Modo oscuro estilo Copilot. Sin recursos externos: la página
-     funciona sin internet (plan B si falla el wifi del evento). */
+  /* Lenguaje visual inspirado en apple.com (sin su marca): mucho aire, tipografía grande y apretada, fondo #f5f5f7 con
+     tarjetas blancas muy redondeadas, barra translúcida, botones píldora, burbujas tipo mensajería y control segmentado.
+     Distribución: todo en una pantalla. Sin recursos externos: funciona sin internet. */
   :root{
-    --bg:#ffffff; --bg-alt:#fafafa; --surface:#ffffff; --line:#e0e0e0; --line-soft:#ebebeb; --input:#d1d1d1;
-    --fg:#1a1a1a; --fg-2:#424242; --muted:#616161;
-    --accent:#0067b8; --accent-hover:#005da6; --accent-soft:#ebf3fc; --accent-fg:#ffffff;
-    --ok:#107c10; --ok-bg:#dff6dd; --warn:#8a5a00; --warn-bg:#fff4ce; --bad:#a4262c; --bad-bg:#fde7e9; --neutral-bg:#f5f5f5;
-    --hero:linear-gradient(135deg,#f3f8fd 0%,#ffffff 55%,#ebf3fc 100%);
-    --shadow:0 2px 8px rgba(0,0,0,.08); --shadow-hover:0 6px 16px rgba(0,0,0,.10);
-    --sans:"Segoe UI Variable Text","Segoe UI","Segoe UI Web (West European)",Inter,"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
-    --mono:"Cascadia Mono",Consolas,ui-monospace,monospace;
+    --page:#f5f5f7; --card:#ffffff; --fill:#e8e8ed; --fill-2:#f0f0f3; --line:#d2d2d7;
+    --fg:#1d1d1f; --fg-2:#424245; --muted:#6e6e73;
+    --blue:#0071e3; --blue-hover:#0077ed; --link:#0066cc; --on-blue:#ffffff;
+    --bubble-ia:#e9e9eb; --ok:#248a3d; --ok-bg:rgba(36,138,61,.12); --warn:#b25000; --warn-bg:rgba(255,149,0,.15);
+    --bad:#d70015; --bad-bg:rgba(255,59,48,.12); --neutral-bg:rgba(0,0,0,.05);
+    --nav:rgba(251,251,253,.8); --shadow:0 4px 24px rgba(0,0,0,.06);
+    --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue","Segoe UI Variable Text","Segoe UI",system-ui,Roboto,Arial,sans-serif;
+    --mono:"SF Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
     color-scheme:light;
   }
   @media (prefers-color-scheme:dark){
     :root{
-      --bg:#0b0f19; --bg-alt:#0f1422; --surface:#141a28; --line:#263044; --line-soft:#1e2636; --input:#33405a;
-      --fg:#f5f5f5; --fg-2:#d0d6e2; --muted:#a3acbd;
-      --accent:#4ca3f5; --accent-hover:#6cb5f8; --accent-soft:rgba(76,163,245,.14); --accent-fg:#06101f;
-      --ok:#6ccb5f; --ok-bg:rgba(108,203,95,.14); --warn:#f2c661; --warn-bg:rgba(242,198,97,.14); --bad:#f1707b; --bad-bg:rgba(241,112,123,.14);
-      --neutral-bg:rgba(255,255,255,.06);
-      --hero:radial-gradient(1200px 400px at 85% -10%,rgba(160,90,255,.22),transparent 60%),
-             radial-gradient(900px 380px at 10% 0%,rgba(0,190,255,.18),transparent 60%),#0b0f19;
-      --shadow:0 2px 8px rgba(0,0,0,.35); --shadow-hover:0 6px 18px rgba(0,0,0,.45);
+      --page:#000000; --card:#1c1c1e; --fill:#2c2c2e; --fill-2:#232325; --line:#3a3a3c;
+      --fg:#f5f5f7; --fg-2:#d1d1d6; --muted:#98989d;
+      --blue:#0a84ff; --blue-hover:#3395ff; --link:#2997ff; --on-blue:#ffffff;
+      --bubble-ia:#2c2c2e; --ok:#30d158; --ok-bg:rgba(48,209,88,.15); --warn:#ff9f0a; --warn-bg:rgba(255,159,10,.16);
+      --bad:#ff453a; --bad-bg:rgba(255,69,58,.15); --neutral-bg:rgba(255,255,255,.08);
+      --nav:rgba(22,22,23,.8); --shadow:0 4px 24px rgba(0,0,0,.4);
       color-scheme:dark;
     }
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
-  svg.i{width:20px;height:20px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+  html,body{height:100%}
+  body{margin:0;background:var(--page);color:var(--fg);font:16px/1.47 var(--sans);letter-spacing:-.011em;-webkit-font-smoothing:antialiased;
+       display:flex;flex-direction:column}
+  svg.i{width:18px;height:18px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 
-  /* 1. Barra superior */
-  .nav{position:sticky;top:0;z-index:10;height:56px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;gap:16px;
-       background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
-  .nav-izq{display:flex;align-items:center;gap:14px;min-width:0}
-  .marca{width:24px;height:24px;border-radius:6px;background:var(--accent);color:var(--accent-fg);display:grid;place-items:center}
-  .marca svg{width:16px;height:16px;stroke-width:2}
-  .sep{width:1px;height:22px;background:var(--fg);opacity:.85}
-  .nombre{font-weight:600;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-  @media (max-width:560px){.sep{display:none}.nombre{font-size:15px}.estado{font-size:12px;padding:4px 10px;max-width:46vw;overflow:hidden;text-overflow:ellipsis}}
-  .anclas{display:flex;gap:22px;margin-left:18px}
-  .anclas a{color:var(--fg-2);text-decoration:none;font-size:14px;padding:16px 0;border-bottom:2px solid transparent}
-  .anclas a:hover{color:var(--accent);border-bottom-color:var(--accent)}
-  @media (max-width:900px){.anclas{display:none}}
-  .estado{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--fg-2);padding:5px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);white-space:nowrap}
-  .estado::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ok)}
+  /* Barra global, delgada y translúcida */
+  .global{height:44px;padding:0 max(22px,4vw);display:flex;align-items:center;justify-content:space-between;gap:16px;
+          background:var(--nav);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
+          position:sticky;top:0;z-index:20;font-size:12px;color:var(--fg-2)}
+  .global .marca{display:flex;align-items:center;gap:8px;color:var(--fg);font-size:13px;font-weight:600}
+  .global .marca svg{width:18px;height:18px}
+  .estado{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .estado::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok);flex:0 0 auto}
 
-  /* 2. Encabezado a dos columnas */
-  .hero{background:var(--hero);border-bottom:1px solid var(--line-soft);padding:44px 5% 40px}
-  .hero-in{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:center}
-  @media (max-width:900px){.hero-in{grid-template-columns:1fr}}
-  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px}
-  h1{font-size:clamp(30px,4vw,42px);line-height:1.18;font-weight:600;letter-spacing:-.02em;margin:0 0 12px}
-  @media (prefers-color-scheme:dark){
-    h1 span{background:linear-gradient(90deg,#3ccbf4,#a970ff 55%,#ff6ad5);-webkit-background-clip:text;background-clip:text;color:transparent}
-  }
-  .lead{font-size:17px;line-height:1.55;color:var(--fg-2);margin:0 0 22px;max-width:600px}
-  .meta{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:14px;color:var(--fg-2)}
-  .meta span{display:inline-flex;align-items:center;gap:8px}
-  .meta svg{color:var(--accent)}
-  .acrilico{background:color-mix(in srgb,var(--surface) 85%,transparent);backdrop-filter:blur(12px);border:1px solid color-mix(in srgb,var(--accent) 18%,transparent);
-            border-radius:8px;padding:22px 24px;box-shadow:0 8px 24px color-mix(in srgb,var(--accent) 14%,transparent)}
-  .acrilico h2{margin:0 0 12px;font-size:16px;font-weight:600;text-transform:none;letter-spacing:0;color:var(--fg)}
-  .capas{list-style:none;margin:0;padding:0;display:grid;gap:9px}
-  .capas li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--fg-2)}
-  .capas li .punto{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:var(--neutral-bg);color:var(--muted);flex:0 0 auto}
-  .capas li.on .punto{background:var(--ok-bg);color:var(--ok)}
+  /* Barra local: título del producto, capas y acción principal */
+  .local{padding:10px max(22px,4vw);display:flex;align-items:center;gap:18px;border-bottom:1px solid var(--line);background:var(--nav);
+         backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);position:sticky;top:44px;z-index:19}
+  .local h1{margin:0;font-size:21px;font-weight:600;letter-spacing:-.02em;white-space:nowrap}
+  .local .caso{font-size:12px;color:var(--muted);white-space:nowrap}
+  .capas{list-style:none;margin:0 0 0 auto;padding:0;display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+  .capas li{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);background:var(--fill-2);padding:4px 10px;border-radius:980px}
   .capas li.on{color:var(--fg)}
-  .capas li .punto svg{width:12px;height:12px;stroke-width:2.4}
-  .capas small{color:var(--muted);margin-left:auto;font-size:12px;text-align:right}
+  .capas li .punto{width:14px;height:14px;border-radius:50%;display:grid;place-items:center;background:var(--fill)}
+  .capas li.on .punto{background:var(--ok);color:#fff}
+  .capas li .punto svg{width:10px;height:10px;stroke-width:3}
+  .capas small{display:none}
+  @media (max-width:1100px){.capas{display:none}}
 
-  /* 3. Propuesta de valor */
-  .valor{padding:28px 5% 8px;background:var(--bg-alt)}
-  .valor-in{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-  @media (max-width:1000px){.valor-in{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media (max-width:560px){.valor-in{grid-template-columns:1fr}}
-  .vcard{background:var(--surface);border:1px solid var(--line-soft);border-radius:8px;padding:18px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
-  .vcard:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover)}
-  .vicon{width:40px;height:40px;border-radius:6px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;margin-bottom:12px}
-  .vcard h3{margin:0 0 4px;font-size:15px;font-weight:600}
-  .vcard p{margin:0;font-size:13px;color:var(--muted)}
+  /* El espacio de trabajo: dos tarjetas grandes a toda la altura */
+  main{flex:1;min-height:0;padding:20px max(22px,4vw);display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px}
+  @media (min-width:901px){main{height:calc(100vh - 44px - 58px - 34px)}}
+  @media (max-width:900px){main{grid-template-columns:minmax(0,1fr)}}
+  .panel{min-width:0;background:var(--card);border-radius:22px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:0;overflow:hidden}
+  .cab{padding:22px 26px 12px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .cab h2{margin:0;font-size:24px;font-weight:600;letter-spacing:-.02em}
+  .cab .sub{margin:4px 0 0;font-size:13px;color:var(--muted)}
+  .cab .acc{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 
-  /* 4. La herramienta */
-  main{background:var(--bg-alt);padding:20px 5% 48px}
-  .main-in{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:20px}
-  @media (max-width:900px){.main-in{grid-template-columns:1fr}}
-  .col{display:flex;flex-direction:column;gap:20px;min-width:0}
-  section.card{background:var(--surface);border:1px solid var(--line-soft);border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:14px;
-               min-width:0;box-shadow:var(--shadow);scroll-margin-top:72px}
-  .card h2{font-size:18px;font-weight:600;margin:0;display:flex;justify-content:space-between;align-items:center;gap:8px}
-  .card h2 .acc{display:flex;gap:8px;align-items:center}
-  .nota{font-size:13px;color:var(--muted);margin:0}
-  #chat{display:flex;flex-direction:column;gap:12px;min-height:320px;max-height:58vh;overflow-y:auto;padding:4px 4px 4px 0}
-  .msg{padding:11px 14px;border-radius:8px;max-width:92%;overflow-wrap:anywhere}
-  .yo{align-self:flex-end;background:var(--accent);color:var(--accent-fg)}
-  .ia{align-self:flex-start;background:var(--surface);border:1px solid var(--line);box-shadow:0 1px 2px rgba(0,0,0,.04)}
-  .meta-msg,.meta{margin-top:8px}
+  /* Conversación */
+  #chat{flex:1;min-height:280px;overflow-y:auto;padding:8px 26px 12px;display:flex;flex-direction:column;gap:10px}
+  .msg{padding:10px 15px;border-radius:20px;max-width:82%;overflow-wrap:anywhere;font-size:16px}
+  .yo{align-self:flex-end;background:var(--blue);color:var(--on-blue);border-bottom-right-radius:6px}
+  .ia{align-self:flex-start;background:var(--bubble-ia);border-bottom-left-radius:6px}
   .msg .meta{margin-top:8px;font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-  .sello{font-weight:600;padding:2px 8px;border-radius:4px;font-size:12px}
+  .pie-chat{min-width:0;padding:12px 26px 22px;display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--fill)}
+  .sug{min-width:0;max-width:100%;display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+  .sug::-webkit-scrollbar{display:none}
+  .sug button{flex:0 0 auto;font-size:14px;font-weight:400;padding:7px 14px;background:var(--fill-2);color:var(--fg);border-radius:980px}
+  .sug button:hover{background:var(--fill)}
+  .barra-pregunta{display:flex;gap:8px;align-items:center;background:var(--fill-2);border-radius:980px;padding:5px 5px 5px 18px}
+  .barra-pregunta input{flex:1;border:0;background:transparent;padding:8px 0;font-size:16px;outline:none;color:var(--fg)}
+  .barra-pregunta input:focus{border:0;padding:8px 0}
+  .redondo{width:38px;height:38px;padding:0;border-radius:50%;min-height:0}
+  .leer{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px;margin:0}
+
+  /* Panel derecho con control segmentado */
+  .seg{margin:0 26px 6px;display:grid;grid-template-columns:repeat(3,1fr);background:var(--fill);border-radius:10px;padding:2px;gap:2px}
+  .seg button{background:transparent;color:var(--fg);font-size:14px;font-weight:500;padding:7px 8px;border-radius:8px;min-height:0}
+  .seg button:hover{background:transparent;opacity:.8}
+  .seg button[aria-selected="true"]{background:var(--card);box-shadow:0 2px 6px rgba(0,0,0,.12);font-weight:600;opacity:1}
+  .cuenta{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--warn);color:#fff;font-size:11px;font-weight:600}
+  .cuenta[hidden]{display:none}
+  .vista{flex:1;min-height:0;overflow-y:auto;padding:14px 26px 24px;display:flex;flex-direction:column;gap:14px}
+  .vista[hidden]{display:none}
+
+  /* Controles */
+  .nota{font-size:14px;color:var(--muted);margin:0}
+  .fila{display:flex;gap:10px;flex-wrap:wrap}
+  .fila > *{flex:1 1 150px;min-width:0}
+  input,textarea,select{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;font-size:15px;width:100%}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px color-mix(in srgb,var(--blue) 25%,transparent)}
+  textarea{min-height:150px;resize:vertical}
+  label.campo{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500;color:var(--fg-2)}
+  button{background:var(--blue);color:var(--on-blue);border:0;border-radius:980px;padding:9px 20px;font:inherit;font-size:15px;font-weight:500;
+         cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:38px;transition:background .15s,opacity .15s}
+  button:hover{background:var(--blue-hover)}
+  button.sec{background:transparent;color:var(--link);box-shadow:inset 0 0 0 1px var(--link)}
+  button.sec:hover{background:color-mix(in srgb,var(--link) 8%,transparent)}
+  button.chico{padding:5px 14px;font-size:13px;min-height:30px;flex:0 0 auto}
+  button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  button[disabled]{opacity:.4;cursor:default}
+  #mic{background:transparent;color:var(--fg-2)}
+  #mic:hover{background:var(--fill)}
+  #mic.grabando{background:var(--bad);color:#fff}
+
+  /* Sellos y tarjetas de acciones */
+  .sello{font-weight:600;padding:2px 9px;border-radius:980px;font-size:12px}
   .verificada,.permitida,.aprobada,.pasa{background:var(--ok-bg);color:var(--ok)}
   .sin_dato,.pendiente,.saneado{background:var(--warn-bg);color:var(--warn)}
   .general{background:var(--neutral-bg);color:var(--muted)}
   .bloqueada,.error_modelo,.rechazada,.bloqueado{background:var(--bad-bg);color:var(--bad)}
-  .capa{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:4px;padding:0 6px;color:var(--muted)}
-  code{font-family:var(--mono);font-size:12px;color:var(--accent)}
-  .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--ok-bg);color:var(--ok)}
+  .capa{font-family:var(--mono);font-size:11px;color:var(--muted);background:var(--neutral-bg);border-radius:6px;padding:1px 6px}
+  code{font-family:var(--mono);font-size:12px;color:var(--link)}
+  .pill{display:inline-flex;align-items:center;font-size:12px;font-weight:600;padding:4px 11px;border-radius:980px;background:var(--ok-bg);color:var(--ok);white-space:nowrap}
   .pill.alerta{background:var(--warn-bg);color:var(--warn)}
-  .fila{display:flex;gap:8px;flex-wrap:wrap}
-  .fila > *{flex:1 1 140px;min-width:0}
-  input,textarea,select{background:var(--surface);color:var(--fg);border:1px solid var(--input);border-bottom-color:color-mix(in srgb,var(--fg) 45%,var(--input));
-                        border-radius:4px;padding:8px 10px;font:inherit;width:100%}
-  input:hover,textarea:hover,select:hover{border-color:color-mix(in srgb,var(--fg) 35%,var(--input))}
-  input:focus,textarea:focus,select:focus{outline:none;border-bottom:2px solid var(--accent);padding-bottom:7px}
-  textarea{min-height:104px;resize:vertical}
-  label.campo{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:var(--fg-2)}
-  button{background:var(--accent);color:var(--accent-fg);border:1px solid transparent;border-radius:4px;padding:7px 16px;font:inherit;font-weight:600;
-         cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:32px;transition:background .12s}
-  button:hover{background:var(--accent-hover)}
-  button.sec{background:var(--surface);border-color:var(--input);color:var(--fg)}
-  button.sec:hover{background:var(--neutral-bg)}
-  button.chico{padding:3px 12px;font-size:13px;min-height:28px;flex:0 0 auto}
-  button:focus-visible,a:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
-  button[disabled]{opacity:.45;cursor:default}
-  #mic.grabando{background:var(--bad);border-color:var(--bad);color:#fff}
-  .sug{display:flex;flex-wrap:wrap;gap:8px}
-  .sug button{font-size:13px;font-weight:400;padding:4px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent);border-color:transparent}
-  .sug button:hover{background:color-mix(in srgb,var(--accent) 18%,transparent)}
-  .lista{display:flex;flex-direction:column;gap:10px}
-  .accion{border:1px solid var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:8px;font-size:14px;background:var(--surface)}
+  .lista{display:flex;flex-direction:column;gap:12px}
+  .accion{background:var(--fill-2);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;font-size:15px}
   .accion .titulo{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
   .accion ul{margin:0;padding-left:18px;color:var(--muted);font-size:13px}
-  .teams{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
-  .teams::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);animation:latido 1.6s ease-in-out infinite}
+  .teams{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+  .teams::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--blue);animation:latido 1.6s ease-in-out infinite}
   .teams.listo::before{animation:none;background:var(--ok)}
   @keyframes latido{50%{opacity:.25}}
-  @media (prefers-reduced-motion:reduce){.teams::before{animation:none}.vcard{transition:none}}
-  .error{color:var(--bad);font-size:13px;margin:0}
-  .bit{font-family:var(--mono);font-size:11px;color:var(--muted);border-bottom:1px solid var(--line-soft);padding:6px 0;overflow-wrap:anywhere}
+  @media (prefers-reduced-motion:reduce){.teams::before{animation:none}}
+  .error{color:var(--bad);font-size:14px;margin:0}
+  .bit{font-family:var(--mono);font-size:11.5px;color:var(--muted);border-bottom:1px solid var(--fill);padding:8px 0;overflow-wrap:anywhere}
 
-  /* 5. Pie */
-  footer{background:var(--bg-alt);border-top:1px solid var(--line-soft);padding:22px 5%;font-size:12px;color:var(--muted)}
-  footer .pie-in{max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  @media (max-width:900px){
+    html,body{height:auto} body{display:block}
+    main{height:auto}
+    .panel{overflow:visible}
+    #chat{max-height:60vh}
+    .vista{overflow:visible}
+  }
+  footer{padding:8px max(22px,4vw) 12px;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 </style>
 </head>
 <body>
-<header class="nav">
-  <div class="nav-izq">
-    <span class="marca" aria-hidden="true"><svg viewBox="0 0 24 24" class="i"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6l7-3z"/><path d="M8.8 12.2l2.2 2.2 4.4-4.6"/></svg></span>
-    <span class="sep" aria-hidden="true"></span>
-    <span class="nombre">Asistente verificado</span>
-    <nav class="anclas" aria-label="Secciones">
-      <a href="#conversacion">Conversación</a><a href="#documento">Documento</a><a href="#acciones-sec">Acciones</a><a href="#bitacora-sec">Bitácora</a>
-    </nav>
-  </div>
+<div class="global">
+  <span class="marca"><svg viewBox="0 0 24 24" class="i"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6l7-3z"/><path d="M8.8 12.2l2.2 2.2 4.4-4.6"/></svg>Asistente verificado</span>
   <span class="estado" id="estadoModelo">Conectando…</span>
-</header>
-
-<section class="hero">
-  <div class="hero-in">
-    <div>
-      <div class="eyebrow"><svg viewBox="0 0 24 24" class="i"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg>Caso · <span id="caso">cargando</span></div>
-      <h1>Pregúntale a los datos. <span>La IA propone, el código verifica.</span></h1>
-      <p class="lead">Cada cifra sale de los datos del cliente, con su fuente. Si el dato no está, el asistente lo dice. Lo delicado lo aprueba una persona, en Teams.</p>
-      <div class="meta">
-        <span><svg viewBox="0 0 24 24" class="i"><path d="M4 7h16M4 12h16M4 17h10"/></svg><b id="nCifras">–</b>&nbsp;cifras verificadas</span>
-        <span><svg viewBox="0 0 24 24" class="i"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6l7-3z"/></svg>Autonomía: <b id="autonomia">–</b></span>
-        <span><svg viewBox="0 0 24 24" class="i"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Sesión: <b id="sesionTexto">limpia</b></span>
-      </div>
-    </div>
-    <aside class="acrilico" aria-label="Capas activas">
-      <h2>Capas de confianza activas</h2>
-      <ul class="capas" id="capas"><li>Cargando…</li></ul>
-    </aside>
+</div>
+<div class="local">
+  <div>
+    <h1>Pregúntale a los datos</h1>
+    <div class="caso">Caso · <span id="caso">cargando</span></div>
   </div>
-</section>
-
-<section class="valor" aria-label="Qué hace">
-  <div class="valor-in">
-    <article class="vcard"><div class="vicon"><svg viewBox="0 0 24 24" class="i"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg></div>
-      <h3>Cifras verificadas</h3><p>La IA no escribe números: cita los datos del cliente y muestra la fuente.</p></article>
-    <article class="vcard"><div class="vicon"><svg viewBox="0 0 24 24" class="i"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6l7-3z"/><path d="M9.5 9.5l5 5M14.5 9.5l-5 5"/></svg></div>
-      <h3>Escudo contra trampas</h3><p>Firmas propias, Prompt Shields y un juez con IA revisan cada documento.</p></article>
-    <article class="vcard"><div class="vicon"><svg viewBox="0 0 24 24" class="i"><circle cx="9" cy="8" r="3"/><path d="M3 19c.7-3 3-5 6-5s5.3 2 6 5"/><path d="M15.5 11.5l2 2 4-4"/></svg></div>
-      <h3>Aprobación en Teams</h3><p>Lo delicado espera a una persona; la decisión vuelve sola desde Teams.</p></article>
-    <article class="vcard"><div class="vicon"><svg viewBox="0 0 24 24" class="i"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg></div>
-      <h3>Auditoría y medición</h3><p>Bitácora que nadie altera sin que se note, y pruebas de antes y después.</p></article>
-  </div>
-</section>
+  <ul class="capas" id="capas" aria-label="Capas de confianza activas"></ul>
+</div>
 
 <main>
-  <div class="main-in">
-  <div class="col">
-    <section class="card" id="conversacion" aria-label="Conversación">
-      <h2>Conversación <span class="acc"><span class="pill" id="chipSesion">Sesión limpia</span><button class="sec chico" id="reiniciar" title="Vuelve la sesión a limpia">Nueva sesión</button></span></h2>
-      <div id="chat" aria-live="polite"></div>
+  <section class="panel" aria-label="Conversación">
+    <div class="cab">
+      <div>
+        <h2>Conversación</h2>
+        <p class="sub"><b id="nCifras">–</b> cifras verificadas · autonomía: <span id="autonomia">–</span></p>
+      </div>
+      <div class="acc"><span class="pill" id="chipSesion">Sesión limpia</span><button class="sec chico" id="reiniciar" title="Vuelve la sesión a limpia">Nueva sesión</button></div>
+    </div>
+    <div id="chat" aria-live="polite"></div>
+    <div class="pie-chat">
       <div class="sug" id="sug"></div>
-      <form class="fila" id="form">
-        <input id="pregunta" autocomplete="off" placeholder="Escribe tu pregunta" aria-label="Pregunta" style="flex:4 1 220px">
-        <button type="button" class="sec" id="mic" title="Hablar (Chrome o Edge)" aria-label="Hablar" style="flex:0 0 auto">
+      <form class="barra-pregunta" id="form">
+        <input id="pregunta" autocomplete="off" placeholder="Pregúntale a los datos" aria-label="Pregunta">
+        <button type="button" class="redondo" id="mic" title="Hablar (Chrome o Edge)" aria-label="Hablar">
           <svg viewBox="0 0 24 24" class="i"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button>
-        <button id="enviar" style="flex:0 0 auto">Preguntar</button>
+        <button id="enviar" class="redondo" aria-label="Preguntar" title="Preguntar">
+          <svg viewBox="0 0 24 24" class="i" style="stroke-width:2.2"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
       </form>
-      <label class="nota"><input type="checkbox" id="leer" checked style="width:auto;margin-right:6px">Leer las respuestas en voz alta</label>
-    </section>
-  </div>
+      <label class="leer"><input type="checkbox" id="leer" checked style="width:auto">Leer las respuestas en voz alta</label>
+    </div>
+  </section>
 
-  <div class="col">
-    <section class="card" id="documento" aria-label="Documento externo">
-      <h2>Documento externo</h2>
+  <section class="panel" aria-label="Documento, acciones y bitácora">
+    <div class="cab"><div><h2>Control</h2><p class="sub">Lo que la IA lee, lo que propone y lo que queda registrado.</p></div></div>
+    <div class="seg" role="tablist" aria-label="Paneles">
+      <button role="tab" aria-selected="false" aria-controls="v-doc" data-vista="v-doc">Documento</button>
+      <button role="tab" aria-selected="true" aria-controls="v-acc" data-vista="v-acc">Acciones <span class="cuenta" id="cuentaPend" hidden>0</span></button>
+      <button role="tab" aria-selected="false" aria-controls="v-bit" data-vista="v-bit">Bitácora</button>
+    </div>
+
+    <div class="vista" id="v-doc" role="tabpanel" hidden>
       <p class="nota">Pega un correo o un documento que el asistente debe leer. Las firmas propias retiran las frases con instrucciones
         escondidas; Prompt Shields y el juez lo revisan después.</p>
       <textarea id="doc" placeholder="Pega aquí el texto de un correo, una factura o una página"></textarea>
       <div class="fila">
-        <button type="button" class="sec" id="docAtaque">Pegar un ejemplo con trampa</button>
+        <button type="button" id="docAtaque">Pegar un ejemplo con trampa</button>
         <button type="button" class="sec" id="docLimpiar">Limpiar</button>
       </div>
-    </section>
+    </div>
 
-    <section class="card" id="acciones-sec" aria-label="Acciones">
-      <h2>Acciones y aprobaciones</h2>
+    <div class="vista" id="v-acc" role="tabpanel">
       <p class="nota">La IA propone; el guardián revisa la política, los datos maestros, el monto y la sesión; una persona aprueba lo delicado.</p>
       <form id="formAccion" class="lista">
         <div class="fila">
@@ -244,29 +221,26 @@
           <label class="campo">Detalle<input id="accDetalle" value="Pago factura FE-0001"></label>
           <label class="campo">Quién la pide<input id="accSolicitante" value="asistente"></label>
         </div>
+        <label class="campo">Quién aprueba (no puede ser quien la pidió)<input id="aprobador" value="Tesorería"></label>
         <div class="fila">
           <button>Proponer acción</button>
           <button type="button" class="sec" id="accTrampa">Ejemplo: cuenta cambiada</button>
         </div>
       </form>
-      <label class="campo">Quién aprueba (no puede ser quien la pidió)<input id="aprobador" value="Tesorería"></label>
       <p class="error" id="accError" hidden></p>
       <div id="acciones" class="lista"></div>
-    </section>
+    </div>
 
-    <section class="card" id="bitacora-sec" aria-label="Bitácora">
-      <h2>Bitácora de auditoría <button class="sec chico" id="verBitacora">Verificar</button></h2>
-      <p class="nota" id="bitEstado">Cada decisión queda encadenada con la anterior: si alguien edita el archivo, se nota.</p>
+    <div class="vista" id="v-bit" role="tabpanel" hidden>
+      <div class="fila" style="align-items:center"><p class="nota" id="bitEstado" style="flex:3 1 200px">Cada decisión queda encadenada con la anterior: si alguien edita el archivo, se nota.</p>
+        <button class="sec chico" id="verBitacora" style="flex:0 0 auto">Verificar</button></div>
       <div id="bitacora"></div>
-    </section>
-  </div>
-  </div>
+    </div>
+  </section>
 </main>
 <footer>
-  <div class="pie-in">
-    <span>Construido sobre Microsoft Azure (Azure OpenAI, Azure AI Content Safety, Azure AI Speech), Power Automate y Snowflake. Datos de ejemplo.</span>
-    <span>Proyecto estudiantil para LEAD Aspire Day Colombia 2026. No es un producto oficial de Microsoft.</span>
-  </div>
+  <span>Construido sobre Microsoft Azure (Azure OpenAI, Azure AI Content Safety, Azure AI Speech), Power Automate y Snowflake. Datos de ejemplo.</span>
+  <span>Proyecto estudiantil para LEAD Aspire Day Colombia 2026.</span>
 </footer>
 
 <script>
@@ -379,6 +353,8 @@ let hayPendientes = false;
 async function pintarAcciones() {
   const {datos: lista} = await api("/api/acciones");
   hayPendientes = lista.some(a => a.estado === "pendiente");
+  const n = lista.filter(a => a.estado === "pendiente").length, cuenta = $("#cuentaPend");
+  if (cuenta) { cuenta.hidden = !n; cuenta.textContent = n; }
   $("#acciones").innerHTML = lista.length ? "" : `<p class="nota">Todavía no hay acciones propuestas.</p>`;
   for (const a of lista) {
     const d = document.createElement("div"); d.className = "accion";
@@ -409,7 +385,10 @@ $("#formAccion").onsubmit = async e => {
   const {ok, datos} = await api("/api/acciones", {tipo: $("#accTipo").value, detalle: $("#accDetalle").value, monto: $("#accMonto").value,
     destino: $("#accDestino").value, cuenta: $("#accCuenta").value, peticion: $("#accPeticion").value, solicitante: $("#accSolicitante").value});
   $("#accError").hidden = ok; $("#accError").textContent = ok ? "" : datos.error;
-  pintarAcciones(); pintarBitacora();
+  await pintarAcciones(); pintarBitacora();
+  // La tarjeta nueva queda a la vista sin tener que buscarla
+  const nueva = $("#acciones").firstElementChild;
+  if (ok && nueva) nueva.scrollIntoView({behavior: "smooth", block: "nearest"});
 };
 $("#accTrampa").onclick = () => {
   $("#accCuenta").value = "Banco Nuevo 4410-778899-03";
@@ -424,6 +403,12 @@ async function pintarBitacora() {
     `<div class="bit">#${e.n} ${esc(e.fecha.slice(11))} ${esc(e.tipo)} · ${esc(JSON.stringify(e.datos).slice(0, 110))} · ${esc(e.sello.slice(0, 10))}…</div>`).join("");
 }
 $("#verBitacora").onclick = pintarBitacora;
+// Control segmentado: Documento · Acciones · Bitácora
+document.querySelectorAll('.seg [role="tab"]').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.seg [role="tab"]').forEach(o => {
+    o.setAttribute("aria-selected", String(o === t)); document.getElementById(o.dataset.vista).hidden = o !== t;
+  });
+});
 // Mientras haya acciones pendientes, la página se actualiza sola: así se ve llegar la decisión tomada en Teams.
 setInterval(() => { if (hayPendientes && !document.hidden) { pintarAcciones(); pintarBitacora(); } }, 3000);
 
