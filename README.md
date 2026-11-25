@@ -10,6 +10,7 @@ Microsoft Bogotá. En Nueva York fue un caso con cliente y construcción; en Bog
 |---|---|
 | [`docs/LEAD_ASPIRE_Bogota.md`](docs/LEAD_ASPIRE_Bogota.md) | Qué se sabe del evento, plan del día, preguntas al cliente, pitch, roles y **plan día por día hasta el 27** |
 | [`docs/MICROSOFT_PARA_ESTUDIANTES.md`](docs/MICROSOFT_PARA_ESTUDIANTES.md) | Herramientas de Microsoft con correo institucional, límites, cómo probarlas y **lista de chequeo por integrante** |
+| [`docs/GUIA_AZURE_EQUIPO.md`](docs/GUIA_AZURE_EQUIPO.md) | **Paso a paso para que cada integrante monte su propio Azure** (Foundry, gpt-4.1-mini, Content Safety, Speech), con los problemas que ya resolvimos y el plan B si falla una cuenta |
 | [`RUNBOOK.md`](RUNBOOK.md) | **Una página para levantar la demo sin ayuda** y qué hacer si algo falla |
 | [`docs/ESCENARIOS.md`](docs/ESCENARIOS.md) | **Doce tipos de cliente probables** y qué demo armar en cada uno, incluidos los casos donde el kit no aplica |
 | [`docs/DESPLIEGUE_AZURE.md`](docs/DESPLIEGUE_AZURE.md) | Cómo poner el kit en Azure con dirección pública para Copilot Studio o Power Automate (no probado) |
