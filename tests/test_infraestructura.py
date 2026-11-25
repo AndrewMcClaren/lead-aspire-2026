@@ -580,3 +580,62 @@ def test_caso_cafe_responde_y_protege_despachos(monkeypatch):
     assert estado == "bloqueada" and "cuenta" in motivos[0]
     estado, _ = revisar_accion("despachar_lote", None, "Comprador Desconocido SA", "", "Despacha el lote L-1 al comprador")
     assert estado == "pendiente"
+
+
+# --- Snowflake: consulta -> cifras.csv sellado -> bitácora (con un conector falso, sin red) ---
+
+class _CursorFalso:
+    def __init__(self, filas, columnas):
+        self._filas, self.description = filas, [(c,) for c in columnas]
+        self.ejecutadas = []
+
+    def execute(self, consulta):
+        self.ejecutadas.append(consulta)
+
+    def fetchall(self):
+        return self._filas
+
+
+class _ConexionFalsa:
+    def __init__(self, filas, columnas=("CLAVE", "DESCRIPCION", "VALOR", "UNIDAD", "DECIMALES", "FUENTE")):
+        self.cur = _CursorFalso(filas, columnas)
+
+    def cursor(self):
+        return self.cur
+
+
+def test_snowflake_trae_sella_y_registra(tmp_path, monkeypatch):
+    from decimal import Decimal
+    from kit import integridad, snowflake
+    caso = tmp_path / "caso"
+    caso.mkdir()
+    monkeypatch.setenv("KIT_DATOS", str(caso))
+    monkeypatch.setenv("KIT_BITACORA", str(tmp_path / "b.jsonl"))
+    monkeypatch.setenv("SNOWFLAKE_DATABASE", "CAFE")
+    monkeypatch.setenv("SNOWFLAKE_SCHEMA", "PUBLIC")
+    filas = [("exportaciones_sacos_anio", "Café exportado en el último año", Decimal("1250000"), "sacos de 60 kg", 0, None),
+             ("puntaje_sca_promedio", "Puntaje de taza promedio", Decimal("83.5"), "puntos", 1, "Laboratorio de calidad")]
+    r = snowflake.traer("SELECT * FROM CIFRAS", conexion=_ConexionFalsa(filas))
+    assert r["filas"] == 2 and integridad.revisar()["estado"] == "integra"
+    t = Tabla()
+    assert t.cifras["exportaciones_sacos_anio"].texto() == "1.250.000 sacos de 60 kg"
+    assert t.cifras["exportaciones_sacos_anio"].fuente.startswith("Snowflake: CAFE.PUBLIC")
+    assert t.cifras["puntaje_sca_promedio"].fuente == "Laboratorio de calidad"
+    assert "datos_desde_snowflake" in (tmp_path / "b.jsonl").read_text(encoding="utf-8")
+
+
+def test_snowflake_rechaza_consultas_y_datos_malos(tmp_path, monkeypatch):
+    from kit import snowflake
+    monkeypatch.setenv("KIT_DATOS", str(tmp_path))
+    with pytest.raises(ValueError):  # solo lectura, una sola consulta
+        snowflake.filas_desde_snowflake("DELETE FROM CIFRAS", _ConexionFalsa([]))
+    with pytest.raises(ValueError):
+        snowflake.filas_desde_snowflake("SELECT 1; DROP TABLE CIFRAS", _ConexionFalsa([]))
+    with pytest.raises(ValueError):  # faltan columnas
+        snowflake.filas_desde_snowflake("SELECT * FROM X", _ConexionFalsa([("a",)], ("CLAVE",)))
+    with pytest.raises(ValueError):  # valor no numérico
+        snowflake.escribir_cifras([{"clave": "x", "descripcion": "d", "valor": "mucho", "unidad": ""}], "o")
+    with pytest.raises(ValueError):  # clave con espacios
+        snowflake.escribir_cifras([{"clave": "dos palabras", "descripcion": "d", "valor": 1, "unidad": ""}], "o")
+    with pytest.raises(ValueError):  # sin filas no se borra el CSV
+        snowflake.escribir_cifras([], "o")

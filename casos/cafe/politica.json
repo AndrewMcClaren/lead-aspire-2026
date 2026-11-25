@@ -1,7 +1,7 @@
 {
   "nota": "Política del caso de café (ficticio). La IA propone; despachos, contratos y pagos los aprueba una persona.",
   "nivel_autonomia": "confirmar_sensibles",
-  "tipos_sensibles": ["despachar_lote", "aprobar_contrato", "pago", "cambiar_cuenta"],
+  "tipos_sensibles": ["despachar_lote", "aprobar_contrato", "pago", "cambiar_cuenta", "gasto"],
   "tipos_solo_lectura": ["consulta", "reporte"],
   "umbral_aprobacion": 100000000,
   "tolerancia_monto": 0.05,
@@ -9,9 +9,10 @@
     "despachar_lote": "despach|embarc|envi|export",
     "aprobar_contrato": "contrat|aprob|cerr|firm",
     "pago": "pag|abon|transfi|consign|liquid",
-    "cambiar_cuenta": "cambi|actualiz|modific"
+    "cambiar_cuenta": "cambi|actualiz|modific",
+    "gasto": "gast|compr|invert|contrat|aprob|pag"
   },
-  "destino_requerido_para": ["despachar_lote", "aprobar_contrato", "pago"],
+  "destino_requerido_para": ["despachar_lote", "aprobar_contrato", "pago", "gasto"],
   "dias_cuenta_nueva": 30,
   "sesion_sospechosa": "confirmar",
   "segregacion_de_funciones": true,

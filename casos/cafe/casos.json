@@ -6,7 +6,9 @@
     {"pregunta": "¿Cuántos reclamos de calidad tuvimos?", "clave": "reclamos_calidad_anio"},
     {"pregunta": "¿Cuántos días tardan los documentos de un embarque?", "clave": "dias_documentos_embarque"},
     {"pregunta": "¿Qué porcentaje de lo exportado va a la Unión Europea?", "clave": "pct_destino_ue"},
-    {"pregunta": "¿Cuál es el puntaje de taza promedio?", "clave": "puntaje_sca_promedio"}
+    {"pregunta": "¿Cuál es el puntaje de taza promedio?", "clave": "puntaje_sca_promedio"},
+    {"pregunta": "¿Cuánto queda del presupuesto de cumplimiento para Europa?", "clave": "presupuesto_eudr_disponible_musd"},
+    {"pregunta": "¿Cuánto saldo queda para comprar cosecha?", "clave": "presupuesto_compras_disponible_musd"}
   ],
   "sin_dato": [
     "¿Cuánto exportó la finca El Paraíso?",

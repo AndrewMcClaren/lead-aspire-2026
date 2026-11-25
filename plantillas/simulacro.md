@@ -114,6 +114,8 @@ Datos escondidos (solo si preguntan):
 - Si preguntan cómo medirían el éxito: "Que el reporte de trazabilidad salga en un día, y que el área comercial
   tenga sus cifras sin pedírselas a nadie."
 - Si preguntan por precios de bolsa: "Eso lo maneja la mesa de coberturas; no es lo que más nos preocupa hoy."
+- Si preguntan por presupuesto: "Este año tenemos 2,4 millones de dólares para cumplir lo de Europa; ya gastamos
+  0,9. Cada área pide auditorías y software por su lado, y a veces aprobamos cosas que ya no caben en el saldo."
 
 **Lo que debería salir:** un asistente en Teams que responde con datos de Snowflake verificados (cuántos lotes tienen
 trazabilidad, cuáles faltan, reclamos, embarques) y que **no deja despachar a Europa un lote sin geolocalización**:

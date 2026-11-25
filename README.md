@@ -69,6 +69,7 @@ recorrido, no es inteligencia real y puede escoger mal una cifra.
 | `python -m kit.medir --modelo azure:<deployment>` | Antes y después con el modelo real: el número del pitch. Se compara solo con la medición anterior y avisa si algo empeoró |
 | `python -m kit.bitacora verificar` | Comprueba que nadie alteró la bitácora |
 | `python -m seguridad.pentest` | Intenta romper el kit por todos los frentes (`--modelo azure:demo` agrega ataques contra el modelo real) |
+| `python -m kit.snowflake traer` | Trae las cifras desde Snowflake (consulta de solo lectura), las sella y lo anota en la bitácora |
 | `python -m kit.integridad sellar` | Sella los datos del caso después de cargarlos (`revisar` dice si cambiaron) |
 | `python -m kit.mcp` | Servidor MCP para agentes (ver abajo) |
 | `KIT_DATOS=respaldo/dane python -m kit.servidor` | La demo con otro caso, sin tocar el código |
