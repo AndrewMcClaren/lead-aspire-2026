@@ -38,6 +38,9 @@ OBLIGATORIAS = {"clave", "descripcion", "valor", "unidad"}
 
 
 def conectar():
+    import warnings
+    # Aviso de la librería sobre un cambio futuro de su comportamiento al cerrar: no afecta y ensucia la demo.
+    warnings.filterwarnings("ignore", category=FutureWarning, module=r"snowflake\.connector")
     try:
         import snowflake.connector as sf
     except ImportError as e:
