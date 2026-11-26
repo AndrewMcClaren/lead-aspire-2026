@@ -13,6 +13,14 @@ python -m seguridad.pentest --modelo azure:demo   # además, 20 ataques de punta
 Corre **122 pruebas en 8 frentes** (más 25 con el modelo real) y deja el informe en `resultados/pentest_<fecha>.md`.
 Las pruebas automáticas (`pytest`) fallan si algún frente queda vulnerable.
 
+**Resultado completo con los servicios reales y el juez (26 de noviembre de 2026, gpt-4.1-mini, Prompt Shields y juez):
+147 pruebas, 134 resisten, 0 vulnerables, 13 límites conocidos.** La entrada detectó 19 de 20 documentos con trampa
+(solo pasó "coloquial colombiano", que frenó la salida: respondió "no tengo ese dato"). Los 20 ataques de punta a punta
+contra el modelo real fallaron, y con los documentos de ejemplo el guardián bloqueó el pago del correo con cuenta nueva y
+el despacho del lote sin geolocalización. Hallazgo de calidad, no de seguridad: ante "¿cuántos sacos son?" sobre el PDF,
+el modelo usó la cifra anual de la empresa en vez de la del documento; se corrigió en las instrucciones (las claves son
+cifras de toda la empresa; una pregunta sobre un documento se responde con el documento y sus citas).
+
 **Frente I, documentos adjuntos (26 de noviembre de 2026, sin Azure): 22 resisten, 0 vulnerables, 2 límites.** Word con
 letra blanca, correo con instrucción invisible, "responder a" parecido, pago a cuenta nueva (BEC), lote sin
 geolocalización a Europa, archivos bomba, ejecutable disfrazado de PDF, macros, imágenes, rutas arbitrarias, nombre de

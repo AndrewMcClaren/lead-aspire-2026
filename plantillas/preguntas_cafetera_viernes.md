@@ -117,7 +117,7 @@ Cada pregunta trae qué señal buscar y qué pieza nuestra responde. Las ★ son
 | ★ ¿Dónde viven hoy los datos de compras, inventario, contratos y calidad: ERP, Snowflake o Excel por área? | Si ya están en Snowflake, el piloto es de días | `kit.snowflake traer`: consulta de solo lectura, cifras selladas y registradas |
 | ¿Qué usan de Microsoft: Teams, Power BI, Power Automate, Copilot, Azure? | Encaje con lo que ya pagan | Aprobaciones en Teams, tablero en Power BI, modelo en Azure |
 | ¿Han probado IA generativa? ¿Qué salió bien y qué no? | Miedos y aprendizajes | Cifras con su fuente y juez que revisa |
-| ¿Quién en TI tendría que aprobar un piloto de dos semanas que solo lee datos? | Ruta de aprobación | Informe de pruebas de seguridad (118 ataques, 0 pasaron) |
+| ¿Quién en TI tendría que aprobar un piloto de dos semanas que solo lee datos? | Ruta de aprobación | Informe de pruebas de seguridad (147 ataques, 0 vulnerables) |
 
 ### I. Seguridad y fraude
 
