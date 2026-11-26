@@ -22,6 +22,7 @@ import io
 import json
 import re
 import sys
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import date, datetime
@@ -33,9 +34,30 @@ MESES = {m: i for i, m in enumerate(["enero", "febrero", "marzo", "abril", "mayo
 AGENTE = {"User-Agent": "lead-aspire-kit/1.0 (proyecto estudiantil)"}
 
 
+def _contexto_del_sistema():
+    """Los certificados del sistema operativo (en Windows, el almacén de Windows), con la librería truststore.
+    Hace falta cuando Python no trae un certificado intermedio que el sitio no envía (pasa con datos.gov.co en Windows).
+    Nunca se apaga la verificación: si no se puede verificar, falla."""
+    try:
+        import ssl
+        import truststore
+        return truststore.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    except ImportError:
+        return None
+
+
 def _get(url: str, timeout: int = 30) -> bytes:
-    with urllib.request.urlopen(urllib.request.Request(url, headers=AGENTE), timeout=timeout) as r:
-        return r.read()
+    import ssl
+    req = urllib.request.Request(url, headers=AGENTE)
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            return r.read()
+    except urllib.error.URLError as e:
+        contexto = _contexto_del_sistema() if isinstance(e.reason, ssl.SSLCertVerificationError) else None
+        if contexto is None:
+            raise
+        with urllib.request.urlopen(req, timeout=timeout, context=contexto) as r:
+            return r.read()
 
 
 # ------------------------------------------------------------------------------------------------ TRM
