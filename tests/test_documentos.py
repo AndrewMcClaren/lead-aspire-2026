@@ -183,8 +183,8 @@ def api(tmp_path):
                 return r.status, json.loads(r.read())
         except urllib.error.HTTPError as e:
             return e.code, json.loads(e.read() or b"{}")
-        except urllib.error.URLError:  # el servidor cortó la conexión antes de leer un cuerpo enorme
-            return 0, {}
+        except (urllib.error.URLError, ConnectionError, OSError):  # el servidor cortó la conexión ante un cuerpo enorme
+            return 0, {}  # (en Linux llega como URLError; en Windows, como ConnectionAbortedError)
     yield llamar
     srv.shutdown()
 
