@@ -117,3 +117,11 @@ Probablemente vengan como aliados, no como el cliente. Tres preguntas que valen 
 - "¿Qué ven que más le cuesta a una empresa como esta para sacarle valor a sus datos?"
 - "¿Qué combinación de Snowflake y Microsoft recomendarían para un piloto de dos semanas?"
 - "¿Qué haría que un jurado de ustedes diga 'esto se puede implementar el lunes'?"
+
+## 7. Banco de preguntas para el viernes y análisis del sector
+
+- **Preguntas para la cafetera, por bloque** (negocio, compras, precio y riesgo, compradores, reglamento europeo,
+  calidad, documentos, datos, seguridad y decisión), cada una con qué buscar y qué pieza nuestra responde: documento
+  del equipo "Preguntas para la cafetera del viernes" (Claude Docs; pídanle el enlace a Andrés).
+- **Análisis completo de la industria** con fuentes (FNC, DANE, MinCIT, SIC, Banco de la República, boletines
+  Central Cafetera 2026): `docs/INDUSTRIA_CAFE_2026.md`. Notas de cada investigación: `docs/investigacion_cafe/`.
