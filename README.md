@@ -33,6 +33,8 @@ instrucciones escondidas** y **sin ejecutar solo lo delicado**. Cada área tiene
 | Área | Qué hace |
 |---|---|
 | Datos personales | Cédulas, correos, teléfonos, cuentas y tarjetas se cambian por marcadores antes de llamar al modelo; la respuesta vuelve con los datos. El modelo ve el nombre de cada cifra, nunca su valor. |
+| Documentos | Adjuntan PDF, Word, correos (.eml), Excel o texto: se leen en el computador, lo escondido (letra blanca, HTML invisible, hojas ocultas) se marca, el escudo los revisa y reglas sin IA los cruzan con los datos maestros (cuenta no registrada, lote sin geolocalización a Europa, "responder a" de otro dominio). La IA responde citando la frase exacta y el código comprueba que la cita existe. "Analizar qué pide" extrae la solicitud, descarta lo que no está escrito en el documento y la manda a aprobación. |
+| Datos oficiales | `kit.mercado`: la TRM de la Superintendencia Financiera (API abierta de datos.gov.co) y el precio diario de la Federación Nacional de Cafeteros (contrato C y precio interno), con su fecha y su fuente, sellados. |
 | Entrada | Firmas locales en español retiran las oraciones con instrucciones para la IA; luego Prompt Shields y, opcional, un juez LLM con canario. Si un servicio falla, el documento no pasa. |
 | Salida | El modelo cita claves; el código pone cada cifra con su unidad y su fuente. Cifras escritas a mano (en dígitos o palabras) o claves inventadas: "No tengo ese dato verificado". Un canario detecta si intenta revelar sus instrucciones. |
 | Sesión | Al tercer documento con trampa la conversación se detiene: ninguna acción pasa hasta que una persona la revise y la reinicie. |
@@ -74,6 +76,7 @@ recorrido, no es inteligencia real y puede escoger mal una cifra.
 | `python -m kit.bitacora verificar` | Comprueba que nadie alteró la bitácora |
 | `python -m seguridad.pentest` | Intenta romper el kit por todos los frentes (`--modelo azure:demo` agrega ataques contra el modelo real) |
 | `python -m kit.snowflake traer` | Trae las cifras desde Snowflake (consulta de solo lectura), las sella y lo anota en la bitácora |
+| `KIT_DATOS=casos/cafe python -m kit.mercado actualizar` | Trae la TRM y el precio del café oficiales del día, los pone en las cifras del caso, los sella y lo anota en la bitácora |
 | `python -m kit.integridad sellar` | Sella los datos del caso después de cargarlos (`revisar` dice si cambiaron) |
 | `python -m kit.mcp` | Servidor MCP para agentes (ver abajo) |
 | `KIT_DATOS=respaldo/dane python -m kit.servidor` | La demo con otro caso, sin tocar el código |

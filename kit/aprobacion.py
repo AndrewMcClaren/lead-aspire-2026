@@ -85,7 +85,7 @@ def montos_pedidos(texto: str) -> list[float]:
 
 def revisar_accion(tipo: str, monto: float | None = None, destino: str = "", cuenta: str = "", peticion: str = "",
                    sesion: str = "limpia", politica: dict | None = None, maestros: dict | None = None,
-                   comprometido: float = 0) -> tuple[str, list[str]]:
+                   comprometido: float = 0, lote: str = "") -> tuple[str, list[str]]:
     """Función pura: (estado, motivos). La misma acción con la misma política siempre da lo mismo."""
     pol = politica or cargar_politica()
     maestros = maestros if maestros is not None else cargar_maestros()
@@ -134,6 +134,16 @@ def revisar_accion(tipo: str, monto: float | None = None, destino: str = "", cue
             corte = maestros.get("fecha_corte") or date.today().isoformat()
             if desde and (date.fromisoformat(corte) - date.fromisoformat(desde)).days < pol["dias_cuenta_nueva"]:
                 subir("pendiente", f"El destino se registró hace menos de {pol['dias_cuenta_nueva']} días")
+
+    if lote and tipo == "despachar_lote":
+        lotes = {_norm(n): (n, d) for n, d in maestros.get("lotes", {}).items()}
+        hallado = lotes.get(_norm(lote))
+        registro = {_norm(n): d for n, d in maestros.get("destinos", {}).items()}.get(_norm(destino)) or {}
+        if hallado is None:
+            subir("pendiente", f"El lote {lote} no está en los datos maestros")
+        elif not hallado[1].get("geolocalizado") and registro.get("region") == "UE":
+            subir("bloqueada", f"Reglamento europeo contra la deforestación: el lote {hallado[0]} no tiene la geolocalización "
+                               f"de sus fincas y '{destino}' está en la Unión Europea")
 
     if monto is not None and rubro is not None:
         nombre, datos_rubro = rubro
@@ -211,6 +221,9 @@ class Accion:
     comentario: str = ""     # lo que escribió quien decidió
     notificada: bool = False  # se avisó a Power Automate (NOTIFICAR_URL)
     token: str = field(default="", repr=False)  # código de un solo uso para aceptar la decisión desde Teams
+    lote: str = ""
+    documento: str = ""      # el documento de donde salió la acción (nombre y huella), si salió de uno
+    resumen: str = ""        # los datos crudos para quien aprueba en Teams (no el resumen de la IA)
 
     def publica(self) -> dict:
         """Lo que se muestra por la API: todo menos el token."""
@@ -228,16 +241,19 @@ class Bandeja:
         self.bitacora = bitacora
 
     def proponer(self, tipo: str, detalle: str, monto: float | None = None, destino: str = "", cuenta: str = "",
-                 peticion: str = "", solicitante: str = "asistente", sesion: str = "limpia") -> Accion:
+                 peticion: str = "", solicitante: str = "asistente", sesion: str = "limpia", lote: str = "",
+                 documento: str = "") -> Accion:
         # Lo ya comprometido con el mismo destino en esta sesión (para el saldo de un rubro con presupuesto)
         comprometido = sum(a.monto or 0 for a in self.acciones.values()
                            if _norm(a.destino) == _norm(destino) and a.estado in ("permitida", "pendiente", "aprobada"))
-        estado, motivos = revisar_accion(tipo, monto, destino, cuenta, peticion, sesion, comprometido=comprometido)
+        estado, motivos = revisar_accion(tipo, monto, destino, cuenta, peticion, sesion, comprometido=comprometido,
+                                         lote=lote)
         a = Accion(next(self._ids), tipo, detalle, monto, destino, cuenta, peticion, solicitante or "asistente",
-                   estado, motivos)
+                   estado, motivos, lote=lote, documento=documento)
+        a.resumen = resumen_para_aprobar(a)
         self.acciones[a.id] = a
         if self.bitacora:
-            datos = {k: v for k, v in asdict(a).items() if k not in ("creada", "token", "notificada", "canal", "comentario")}
+            datos = {k: v for k, v in asdict(a).items() if k not in ("creada", "token", "notificada", "canal", "comentario", "resumen")}
             self.bitacora.registrar("accion_propuesta", proteger(datos, ("detalle", "peticion", "cuenta")))
         if estado == "pendiente":
             a.token = secrets.token_urlsafe(16)
@@ -265,6 +281,36 @@ class Bandeja:
 
     def lista(self) -> list[dict]:
         return [a.publica() for a in sorted(self.acciones.values(), key=lambda x: -x.id)]
+
+
+def _monto(v: float) -> str:
+    return f"{v:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".").removesuffix(",00")
+
+
+def resumen_para_aprobar(a: Accion, maestros: dict | None = None) -> str:
+    """Lo que ve quien aprueba en Teams: los datos crudos y su contraste con los datos maestros, no un resumen de la IA
+    (OWASP: quien aprueba tiende a confiar en un resumen convincente). Markdown simple, que Teams muestra bien."""
+    maestros = maestros if maestros is not None else cargar_maestros()
+    registro = {_norm(n): d for n, d in maestros.get("destinos", {}).items()}.get(_norm(a.destino)) or {}
+    lineas = [f"**{a.tipo.replace('_', ' ').capitalize()}** · {a.detalle}"]
+    if a.monto is not None:
+        lineas.append(f"- Monto: {_monto(a.monto)}")
+    if a.destino:
+        lineas.append(f"- Destino: {a.destino}" + ("" if registro else " (NO está en los datos maestros)"))
+    if a.cuenta:
+        registrada = registro.get("cuenta", "")
+        igual = registrada and _norm(registrada) == _norm(a.cuenta)
+        lineas.append(f"- Cuenta pedida: {a.cuenta} · registrada: {registrada or 'ninguna'}"
+                      f"{' · coincide' if igual else ' · NO COINCIDE'}")
+    if a.lote:
+        datos = {_norm(n): d for n, d in maestros.get("lotes", {}).items()}.get(_norm(a.lote))
+        geo = "sin datos" if datos is None else ("sí" if datos.get("geolocalizado") else "NO")
+        lineas.append(f"- Lote: {a.lote} · geolocalización: {geo}" + (f" · destino en {registro['region']}" if registro.get("region") else ""))
+    if a.documento:
+        lineas.append(f"- Origen: {a.documento}")
+    lineas.append(f"- Lo pidió: {a.solicitante}" + (f" · «{a.peticion[:120]}»" if a.peticion else ""))
+    lineas.append(f"- Guardián: {a.estado} · {a.motivo}")
+    return "\n".join(lineas)
 
 
 def notificar(accion: Accion) -> bool:

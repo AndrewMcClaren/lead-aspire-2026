@@ -57,7 +57,8 @@ class Cifra:
         if self.unidad == "%":
             return f"{numero} %"
         if self.unidad.startswith("$") or self.unidad.lower().startswith("pesos"):
-            return f"$ {numero}"
+            resto = re.sub(r"^(\$|pesos)\s*", "", self.unidad, flags=re.I)  # "pesos por carga" -> "$ 2.180.000 por carga"
+            return f"$ {numero}" + (f" {resto}" if resto else "")
         return f"{numero} {self.unidad}".strip() if self.unidad not in ("", "unidades") else numero
 
 

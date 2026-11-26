@@ -37,7 +37,7 @@ def _nombres_propios(pregunta: str) -> set[str]:
     """Palabras con mayúscula que no están al inicio de la pregunta (por ejemplo, una ciudad)."""
     pregunta = re.sub(r"\[[A-Z]+_[A-Z]+\]", " ", pregunta)  # los marcadores de datos personales no son nombres
     palabras = re.findall(r"[\wÁÉÍÓÚÑáéíóúñ]+", pregunta)
-    return {_sin_tildes(p)[:5] for p in palabras[1:] if p[0].isupper() and p.lower() not in ("ia", "ai")}
+    return {_sin_tildes(p)[:5] for p in palabras[1:] if len(p) > 1 and p[0].isupper() and p.lower() not in ("ia", "ai")}
 
 
 class Simulado:
@@ -62,9 +62,30 @@ class Simulado:
             p = (len(q & (desc | sin)), peso)  # primero cuántas palabras distintas de la pregunta encajan
             if p > puntaje:
                 mejor, puntaje = c, p
+        frases = self._frases_de_documento(usuario, q)
+        if frases and (mejor is None or frases[0][0] >= puntaje[0] or puntaje[1] < self.minimo):
+            nombre = frases[0][2]
+            texto = f"Según {nombre}: " + " … ".join(f"«{f}»" for _, _, _, f in frases)
+            return {"texto": texto, "claves": [], "citas": [{"doc": n, "frase": f} for _, n, _, f in frases]}
         if mejor is None or puntaje[1] < self.minimo:
             return {"texto": "No tengo ese dato verificado.", "claves": []}
         return {"texto": f"{mejor.descripcion}: {{{mejor.clave}}}.", "claves": [mejor.clave]}
+
+    @staticmethod
+    def _frases_de_documento(usuario: str, q: set[str]) -> list:
+        """Las dos frases de un documento con más palabras en común con la pregunta: [(puntaje, n, nombre, frase)].
+        La primera necesita al menos 2 palabras en común; la segunda, al menos 1 y ser del mismo documento."""
+        candidatas = []
+        for n, nombre, cuerpo in re.findall(r'<documento n="(\d+)" nombre="([^"]*)">\n(.*?)\n</documento>', usuario, re.S):
+            for frase in re.split(r"(?<=[.!?])\s+|\n", cuerpo):
+                frase = frase.strip()
+                if 12 <= len(frase) <= 300:
+                    candidatas.append((len(q & _palabras(frase)), int(n), nombre, frase))
+        candidatas.sort(key=lambda c: -c[0])
+        if not candidatas or candidatas[0][0] < 2:
+            return []
+        segunda = next((c for c in candidatas[1:] if c[0] >= 1 and c[1] == candidatas[0][1] and c[3] != candidatas[0][3]), None)
+        return [candidatas[0]] + ([segunda] if segunda else [])
 
 
 class Ingenuo(Simulado):

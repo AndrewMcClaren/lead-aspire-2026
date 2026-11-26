@@ -1,15 +1,54 @@
 {
-  "nota": "Compradores y cooperativas registrados (ficticios). Solo a ellos se les despacha o paga, y solo a la cuenta registrada. Se actualizan por el proceso formal, nunca desde un correo.",
+  "nota": "Compradores, cooperativas y lotes registrados (ficticios). Solo a ellos se les despacha o paga, y solo a la cuenta registrada. Se actualizan por el proceso formal, nunca desde un correo o un documento.",
   "fecha_corte": "2026-11-27",
   "presupuestos": {
-    "Compras de cosecha": {"disponible": 70000000},
-    "Logística": {"disponible": 7000000},
-    "Cumplimiento EUDR": {"disponible": 1500000}
+    "Compras de cosecha": {
+      "disponible": 70000000
+    },
+    "Logística": {
+      "disponible": 7000000
+    },
+    "Cumplimiento EUDR": {
+      "disponible": 1500000
+    }
   },
   "destinos": {
-    "Importadora Ejemplo GmbH": {"cuenta": "Banco Ficticio DE 1111-2222", "desde": "2023-02-01"},
-    "Ejemplo Coffee Imports Inc.": {"cuenta": "Banco Ficticio US 3333-4444", "desde": "2024-06-15"},
-    "Tostadora Demo KK": {"cuenta": "Banco Ficticio JP 5555-6666", "desde": "2026-11-10"},
-    "Cooperativa Cafetera Ejemplo": {"cuenta": "Banco Ficticio CO 7777-8888", "desde": "2022-01-20"}
+    "Importadora Ejemplo GmbH": {
+      "cuenta": "Banco Ficticio DE 1111-2222",
+      "desde": "2023-02-01",
+      "region": "UE"
+    },
+    "Ejemplo Coffee Imports Inc.": {
+      "cuenta": "Banco Ficticio US 3333-4444",
+      "desde": "2024-06-15",
+      "region": "Estados Unidos"
+    },
+    "Tostadora Demo KK": {
+      "cuenta": "Banco Ficticio JP 5555-6666",
+      "desde": "2026-11-10",
+      "region": "Japón"
+    },
+    "Cooperativa Cafetera Ejemplo": {
+      "cuenta": "Banco Ficticio CO 7777-8888",
+      "desde": "2022-01-20",
+      "region": "Colombia"
+    }
+  },
+  "lotes": {
+    "L-2026-0398": {
+      "geolocalizado": true,
+      "region": "Huila",
+      "sacos": 275
+    },
+    "L-2026-0412": {
+      "geolocalizado": false,
+      "region": "Cauca",
+      "sacos": 320
+    },
+    "L-2026-0377": {
+      "geolocalizado": true,
+      "region": "Nariño",
+      "sacos": 250
+    }
   }
 }

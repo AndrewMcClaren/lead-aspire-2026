@@ -154,17 +154,39 @@ def main():
                          "comprador": e["comprador"], "destino_mercado": e["destino_mercado"], "motivo": elegir(motivos), "costo_usd": costos[i]})
     escribir("reclamos.csv", reclamos)
 
-    # Mercado diario (ficticio): contrato C en USD por libra y TRM en pesos por dólar, días hábiles del año.
-    # Sirve para practicar alertas y exposición; no es información real de la bolsa ni del Banco de la República.
-    mercado, c, trm, dia = [], 2.95, 4050.0, INICIO
+    # Mercado diario: contrato C en USD por libra y TRM en pesos por dólar, días hábiles del año.
+    # - TRM: la OFICIAL, de datos.gov.co (trm_oficial.csv, que trae python -m kit.mercado trm --csv ...). Sin ese archivo
+    #   se simula una que baja como bajó en 2026.
+    # - Contrato C: el camino día a día es simulado, pero termina en el cierre real del 25-nov-2026 (2,70 USD/lb), y el
+    #   precio interno se calibra con el de la Federación ese día (COP 2.180.000 por carga de 125 kg).
+    # Así el tablero y el asistente dicen lo mismo el día de la demo.
+    oficial = {}
+    ruta_trm = SALIDA / "trm_oficial.csv"
+    if ruta_trm.exists():
+        with open(ruta_trm, encoding="utf-8") as fh:
+            oficial = {f["fecha"]: float(f["trm"]) for f in csv.DictReader(fh)}
+    fechas_trm = sorted(oficial)
+    mercado, c, trm, dia = [], 2.95, 3900.0, INICIO
     while dia <= date(2026, 11, 25):  # hasta el día antes del evento
         if dia.weekday() < 5:
             objetivo = PRECIO_C[(dia.year - INICIO.year) * 12 + dia.month - INICIO.month]
             c = max(2.2, c + (objetivo - c) * 0.08 + rnd.gauss(0, 0.045))
-            trm = max(3500, trm + (4050 - trm) * 0.02 + rnd.gauss(0, 18))
-            mercado.append({"fecha": dia.isoformat(), "contrato_c_usd_lb": round(c, 4), "trm_cop_usd": round(trm, 2),
-                            "precio_ref_cop_kg": round((c + 0.22) * trm * 2.20462)})
+            avance = min(1.0, (dia - INICIO).days / (date(2026, 9, 15) - INICIO).days)
+            trm_objetivo = 3900 + (3180 - 3900) * avance
+            trm = max(2900, trm + (trm_objetivo - trm) * 0.05 + rnd.gauss(0, 18))
+            publicadas = [f for f in fechas_trm if f <= dia.isoformat()]  # la vigente: la última publicada hasta ese día
+            if publicadas:
+                trm = oficial[publicadas[-1]]
+            mercado.append({"fecha": dia.isoformat(), "contrato_c_usd_lb": c, "trm_cop_usd": round(trm, 2)})
         dia += timedelta(days=1)
+    ajuste, dias_ajuste = 2.70 - mercado[-1]["contrato_c_usd_lb"], 40  # el último cierre es el real: se corrige en 40 días
+    for k, fila in enumerate(mercado[-dias_ajuste:], 1):
+        fila["contrato_c_usd_lb"] += ajuste * k / dias_ajuste
+    ultimo = mercado[-1]
+    escala = (2180000 / 125) / ((2.70 + 0.22) * ultimo["trm_cop_usd"] * 2.20462)  # precio interno real del último día
+    for fila in mercado:
+        fila["contrato_c_usd_lb"] = round(fila["contrato_c_usd_lb"], 4)
+        fila["precio_ref_cop_kg"] = round((fila["contrato_c_usd_lb"] + 0.22) * fila["trm_cop_usd"] * 2.20462 * escala)
     escribir("mercado_diario.csv", mercado)
 
     escribir("presupuesto.csv", [

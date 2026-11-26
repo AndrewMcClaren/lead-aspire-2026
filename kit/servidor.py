@@ -10,7 +10,15 @@ Luego abre http://localhost:8000 en Chrome o Edge.
 Rutas:
   GET  /                      la página (web/index.html)
   GET  /api/estado            modelo, capas activas, sesión, preguntas sugeridas
-  POST /api/preguntar         {"pregunta": "...", "documentos": ["..."]} -> respuesta verificada
+  POST /api/preguntar         {"pregunta": "...", "documentos": ["..."], "documentos_ids": [1]} -> respuesta verificada
+                              (sin documentos_ids usa todos los documentos adjuntos de la sesión)
+  GET  /api/documentos        documentos adjuntos: escudo, señales y análisis
+  POST /api/documentos        {"nombre": "factura.pdf", "contenido": "<base64>"} -> lo lee, lo revisa y lo guarda
+  POST /api/documentos/<id>/analizar   qué pide el documento, cada dato comprobado, y qué diría el guardián
+  POST /api/documentos/<id>/proponer   envía esa solicitud a la bandeja de aprobación (y a Teams)
+  POST /api/documentos/<id>/quitar
+  GET  /api/ejemplos          documentos de ejemplo del caso (carpeta ejemplos/)
+  POST /api/ejemplos/<nombre> adjunta un documento de ejemplo
   POST /api/voz               {"texto": "..."} -> audio WAV de Azure Speech (404 si no está configurado)
   GET  /api/acciones          acciones propuestas y su estado
   POST /api/acciones          {"tipo", "detalle", "monto", "destino", "cuenta", "peticion", "solicitante"}
@@ -22,7 +30,7 @@ Rutas:
 Defensas de la API (probadas con python -m seguridad.pentest):
   - Toda solicitud POST debe ser JSON (Content-Type: application/json) y, si el navegador manda Origin, ser del
     mismo sitio: así una página maliciosa abierta en otra pestaña no puede aprobar acciones (CSRF).
-  - Cuerpo máximo de 64 KB, tipos validados (documentos es una lista de máximo 5 textos; monto, un número >= 0).
+  - Cuerpo máximo de 64 KB (8 MB solo para subir un documento), tipos validados (documentos es una lista de máximo 5 textos; monto, un número >= 0).
   - Cabeceras de seguridad: CSP, sin iframes de otros sitios (clickjacking), nosniff y sin caché en la API.
 
 Límite de uso: cada dirección puede hacer KIT_LIMITE_MINUTO solicitudes POST por minuto (60 por defecto);
@@ -30,7 +38,10 @@ la siguiente recibe 429. Frena a un script que intente miles de ataques o que ga
 """
 
 import argparse
+import base64
+import copy
 import hmac
+import itertools
 import json
 import os
 import threading
@@ -42,7 +53,8 @@ from urllib.parse import urlparse
 
 from . import integridad, modelos, privacidad
 from . import decisiones
-from .aprobacion import Bandeja, cargar_politica, nueva_sesion, registrar_incidentes
+from . import documentos as docmod
+from .aprobacion import Bandeja, cargar_maestros, cargar_politica, nueva_sesion, registrar_incidentes, revisar_accion
 from .asistente import responder
 from .bitacora import Bitacora, huella, proteger, verificar
 from .cifras import RAIZ, Tabla, carpeta_datos
@@ -51,6 +63,10 @@ from .voz import texto_a_voz, voz_disponible
 
 KIT = Path(__file__).resolve().parent
 MAX_CUERPO = 64 * 1024
+MAX_CUERPO_ARCHIVO = 8 * 1024 * 1024  # un archivo de 5 MB en base64 ocupa unos 6,7 MB
+MAX_ADJUNTOS = 5
+VERBO = {"pago": "Pagar", "despachar_lote": "Despachar", "cambiar_cuenta": "Cambiar la cuenta",
+         "aprobar_contrato": "Aprobar el contrato", "gasto": "Aprobar el gasto"}
 CABECERAS_SEGURIDAD = {
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",
@@ -79,6 +95,18 @@ def sugeridas() -> list[str]:
     return json.loads(ruta.read_text(encoding="utf-8")) if ruta.exists() else SUGERIDAS
 
 
+def ejemplos() -> list[str]:
+    carpeta = carpeta_datos() / "ejemplos"
+    if not carpeta.is_dir():
+        return []
+    return sorted(p.name for p in carpeta.iterdir() if p.is_file() and docmod._ext(p.name) in docmod.TIPOS)
+
+
+def accion_ejemplo() -> dict | None:
+    ruta = carpeta_datos() / "ejemplo_accion.json"
+    return json.loads(ruta.read_text(encoding="utf-8")) if ruta.exists() else None
+
+
 def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None):
     tabla = Tabla()
     modelo = modelos.crear(nombre_modelo, tabla)
@@ -104,8 +132,70 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
             cola.append(ahora)
             return True
 
+    adjuntos: dict[int, dict] = {}   # documentos adjuntos de la sesión (en memoria, nunca en disco)
+    ids_doc = itertools.count(1)
+    revisados: dict[str, dict] = {}  # huella del texto revisado -> informe del escudo (no se paga dos veces lo mismo)
+
     def escudo(docs, pregunta):
-        return revisar_documentos(docs, pregunta, modelo_juez=None if nombre_modelo.startswith(("simulado", "ingenuo")) else modelo)
+        faltan = [d for d in docs if huella(d) not in revisados]
+        if faltan:
+            juez = None if nombre_modelo.startswith(("simulado", "ingenuo")) else modelo
+            for d, inf in zip(faltan, revisar_documentos(faltan, pregunta, modelo_juez=juez)):
+                revisados[huella(d)] = inf
+        return [copy.deepcopy(revisados[huella(d)]) for d in docs]
+
+    def publico(doc: dict) -> dict:
+        return {k: doc[k] for k in ("id", "nombre", "tipo", "paginas", "caracteres", "bytes", "accion", "motivos", "capas",
+                                    "senales", "oculto", "cabeceras", "adjuntos", "avisos", "analisis")} | {
+            "huella": doc["huella"][:12], "vista": doc["texto"][:1500]}
+
+    def adjuntar(nombre: str, crudo: bytes) -> dict:
+        info = docmod.extraer(nombre, crudo)
+        seud = privacidad.Seudonimos() if privacidad.activa() else None
+        para_escudo = seud.ocultar(info["texto"]) if seud else info["texto"]
+        inf = escudo([para_escudo], "")[0]
+        doc = {**info, "id": next(ids_doc), "bytes": len(crudo), "huella": docmod.huella(crudo),
+               "caracteres": len(info["texto"]), "accion": inf["accion"], "motivos": inf["motivos"], "capas": inf["capas"],
+               "senales": docmod.senales(info, cargar_maestros()), "analisis": None}
+        adjuntos[doc["id"]] = doc
+        if registrar_incidentes(sesion, 1 if inf["accion"] in ("bloqueado", "saneado") else 0):
+            bitacora.registrar("sesion_detenida", {"incidentes": sesion["incidentes"]})
+        bitacora.registrar("documento_recibido", {
+            "nombre": doc["nombre"], "tipo": doc["tipo"], "bytes": doc["bytes"], "huella": doc["huella"],
+            "accion": doc["accion"], "motivos": doc["motivos"], "texto_oculto": bool(doc["oculto"]),
+            "senales": [x["tipo"] for x in doc["senales"] if x["nivel"] != "info"]})
+        return doc
+
+    def analizar_doc(doc: dict) -> dict:
+        maestros = cargar_maestros()
+        bloqueado = doc["accion"] == "bloqueado"
+        seud = privacidad.Seudonimos() if privacidad.activa() and not bloqueado else None
+        # Un documento bloqueado por el escudo no llega al modelo: se analiza solo con reglas, en este computador.
+        if bloqueado:
+            texto = doc["texto"]
+        else:
+            revisado = escudo([seud.ocultar(doc["texto"]) if seud else doc["texto"]], "")[0]
+            texto = revisado["texto"]
+        a = docmod.analizar(texto, maestros, None if bloqueado else modelo,
+                            original=seud.ocultar(doc["texto"]) if seud else doc["texto"])
+        if a["tipo_documento"] == "documento":  # sin IA no se sabe qué es: se usa el tipo de archivo
+            a["tipo_documento"] = doc["tipo"]
+        if seud:
+            for k in ("destino", "cuenta", "lote", "cita"):
+                a["solicitud"][k] = seud.restaurar(a["solicitud"][k])
+        s = a["solicitud"]
+        if s["tipo"] != "ninguna":
+            estado, motivos = revisar_accion(s["tipo"], s["monto"], s["destino"], s["cuenta"],
+                                             f"{VERBO.get(s['tipo'], s['tipo'])} según el documento {doc['nombre']}",
+                                             sesion["estado"], maestros=maestros, lote=s["lote"])
+            a["guardian"] = {"estado": estado, "motivos": motivos}
+        else:
+            a["guardian"] = None
+        doc["analisis"] = a
+        bitacora.registrar("documento_analizado", {"huella": doc["huella"], "solicitud": s["tipo"], "origen": a["origen"],
+                                                   "comprobados": a["comprobados"], "descartes": len(a["descartes"]),
+                                                   "guardian": (a["guardian"] or {}).get("estado")})
+        return a
 
     class Manejador(BaseHTTPRequestHandler):
         timeout = 30  # cierra conexiones que no envían nada (ataque slowloris)
@@ -125,7 +215,7 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
 
         def _leer(self) -> dict:
             n = int(self.headers.get("Content-Length") or 0)
-            if n > MAX_CUERPO:
+            if n > (MAX_CUERPO_ARCHIVO if self.path == "/api/documentos" else MAX_CUERPO):
                 raise ValueError("cuerpo demasiado grande")
             datos = json.loads(self.rfile.read(n) or b"{}") if n else {}
             if not isinstance(datos, dict):
@@ -171,7 +261,14 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                                    "tipos_accion": cargar_politica()["tipos_sensibles"] + cargar_politica()["tipos_solo_lectura"],
                                    "datos_personales": privacidad.activa(), "integridad": integridad.revisar()["estado"],
                                    "limite_minuto": limite, "teams": bool(os.environ.get("NOTIFICAR_URL")),
-                                   "decisiones_teams": decisiones.carpeta() is not None})
+                                   "decisiones_teams": decisiones.carpeta() is not None,
+                                   "documentos": {"tipos": sorted(docmod.TIPOS), "max_mb": docmod.MAX_BYTES // 1_000_000,
+                                                  "maximo": MAX_ADJUNTOS},
+                                   "ejemplos": ejemplos(), "accion_ejemplo": accion_ejemplo()})
+            if self.path == "/api/documentos":
+                return self._json([publico(d) for d in adjuntos.values()])
+            if self.path == "/api/ejemplos":
+                return self._json(ejemplos())
             if self.path == "/api/acciones":
                 return self._json(bandeja.lista())
             if self.path == "/api/bitacora":
@@ -203,17 +300,80 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                 documentos = datos.get("documentos") or []
                 if not isinstance(documentos, list) or len(documentos) > 5:
                     return self._json({"error": "documentos debe ser una lista de máximo 5 textos"}, 400)
-                docs = [str(d)[:10_000] for d in documentos if str(d).strip()]
-                r = responder(pregunta, modelo, tabla, docs, escudo)
-                if registrar_incidentes(sesion, len(r["bloqueados"]) + len(r["saneados"])):
+                ids = datos.get("documentos_ids")
+                if ids is None:
+                    ids = list(adjuntos)
+                if not isinstance(ids, list) or not all(isinstance(i, int) and not isinstance(i, bool) for i in ids):
+                    return self._json({"error": "documentos_ids debe ser una lista de números"}, 400)
+                guardados = [adjuntos[i] for i in ids if i in adjuntos][:MAX_ADJUNTOS]
+                pegados = [str(d)[:10_000] for d in documentos if str(d).strip()]
+                docs = [d["texto"] for d in guardados] + pegados
+                nombres = [d["nombre"] for d in guardados] + [f"texto pegado {i}" for i in range(1, len(pegados) + 1)]
+                r = responder(pregunta, modelo, tabla, docs, escudo, nombres=nombres)
+                # Los adjuntos ya contaron como incidente al subirlos: aquí solo cuentan los textos pegados.
+                nuevos = [x for i, x in enumerate(r["documentos"]) if i >= len(guardados) and x["accion"] != "pasa"]
+                if registrar_incidentes(sesion, len(nuevos)):
                     bitacora.registrar("sesion_detenida", {"incidentes": sesion["incidentes"]})
                 r["sesion"] = sesion
                 bitacora.registrar("pregunta", proteger({
                     "pregunta": r["pregunta_modelo"], "datos_personales": r.get("privacidad", {}).get("tipos", []),
                     "estado": r["estado"], "claves": r.get("claves", []), "capas": r.get("capas", []),
                     "problemas": r.get("problemas", []), "ms": r.get("ms"), "costo_usd": r.get("costo_usd"),
-                    "documentos": [{"huella": huella(d), **inf} for d, inf in zip(docs, r["documentos"])]}, ("pregunta",)))
+                    "documentos": [{"huella": huella(d), **inf} for d, inf in zip(docs, r["documentos"])],
+                    "citas": len(r.get("citas", []))}, ("pregunta",)))
                 return self._json(r)
+            if self.path == "/api/documentos":
+                if len(adjuntos) >= MAX_ADJUNTOS:
+                    return self._json({"error": f"Máximo {MAX_ADJUNTOS} documentos por sesión: quita uno"}, 400)
+                contenido = datos.get("contenido")
+                if not isinstance(contenido, str):
+                    return self._json({"error": "Falta el contenido del archivo (en base64)"}, 400)
+                try:
+                    crudo = base64.b64decode(contenido, validate=True)
+                except ValueError:
+                    return self._json({"error": "El contenido debe ir en base64"}, 400)
+                try:
+                    return self._json(publico(adjuntar(str(datos.get("nombre") or "documento.txt"), crudo)), 201)
+                except docmod.DocumentoInvalido as e:
+                    bitacora.registrar("documento_rechazado", {"nombre": str(datos.get("nombre"))[:120], "motivo": str(e)})
+                    return self._json({"error": str(e)}, 400)
+            if self.path.startswith("/api/ejemplos/"):
+                nombre = self.path.rsplit("/", 1)[1]
+                from urllib.parse import unquote
+                nombre = unquote(nombre)
+                if nombre not in ejemplos():  # solo los de la carpeta: nada de rutas arbitrarias
+                    return self._json({"error": "no existe"}, 404)
+                if len(adjuntos) >= MAX_ADJUNTOS:
+                    return self._json({"error": f"Máximo {MAX_ADJUNTOS} documentos por sesión: quita uno"}, 400)
+                try:
+                    return self._json(publico(adjuntar(nombre, (carpeta_datos() / "ejemplos" / nombre).read_bytes())), 201)
+                except docmod.DocumentoInvalido as e:
+                    return self._json({"error": str(e)}, 400)
+            if self.path.startswith("/api/documentos/"):
+                partes = self.path.split("/")
+                if len(partes) != 5 or not partes[3].isdigit() or int(partes[3]) not in adjuntos:
+                    return self._json({"error": "no existe"}, 404)
+                doc, orden = adjuntos[int(partes[3])], partes[4]
+                if orden == "quitar":
+                    adjuntos.pop(doc["id"])
+                    bitacora.registrar("documento_quitado", {"huella": doc["huella"]})
+                    return self._json({"id": doc["id"], "quitado": True})
+                if orden == "analizar":
+                    analizar_doc(doc)
+                    return self._json(publico(doc))
+                if orden == "proponer":
+                    a = doc["analisis"] or analizar_doc(doc)
+                    s = a["solicitud"]
+                    if s["tipo"] == "ninguna":
+                        return self._json({"error": "El documento no pide ninguna acción"}, 400)
+                    accion = bandeja.proponer(s["tipo"], f"{a['tipo_documento'][:1].upper()}{a['tipo_documento'][1:]}: "
+                                              f"{doc['nombre']}"[:300], s["monto"],
+                                              s["destino"], s["cuenta"],
+                                              f"{VERBO.get(s['tipo'], s['tipo'])} según el documento {doc['nombre']}",
+                                              "asistente", sesion["estado"], lote=s["lote"],
+                                              documento=f"{doc['nombre']} (huella {doc['huella'][:12]})")
+                    return self._json(accion.publica(), 201)
+                return self._json({"error": "no existe"}, 404)
             if self.path == "/api/voz":
                 if not voz_disponible():
                     return self._json({"error": "Azure Speech no está configurado"}, 404)
@@ -230,7 +390,7 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                 a = bandeja.proponer(str(datos.get("tipo", "otra")), str(datos.get("detalle", ""))[:300], monto,
                                      str(datos.get("destino", ""))[:120], str(datos.get("cuenta", ""))[:120],
                                      str(datos.get("peticion", ""))[:300], str(datos.get("solicitante", "asistente"))[:60],
-                                     sesion["estado"])
+                                     sesion["estado"], lote=str(datos.get("lote", ""))[:40])
                 return self._json(a.publica(), 201)
             if self.path.startswith("/api/acciones/"):
                 try:
@@ -247,6 +407,7 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                                                          "incidentes": sesion["incidentes"]})
                 sesion.clear()
                 sesion.update(nueva_sesion())
+                adjuntos.clear()  # una sesión nueva empieza sin documentos
                 return self._json(sesion)
             return self._json({"error": "no existe"}, 404)
 

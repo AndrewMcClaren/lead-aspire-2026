@@ -44,6 +44,22 @@ Debe decir "Todo lo obligatorio está listo". Las líneas `[--]` son opcionales 
 
 ## 4. Levantar la demo
 
+La mañana del evento, traigan los datos oficiales del día (TRM y precio del café). Si no hay internet, el kit sigue con
+los del día anterior:
+
+```bash
+KIT_DATOS=casos/cafe python -m kit.mercado actualizar
+```
+
+```bash
+KIT_DATOS=casos/cafe python -m kit.servidor --modelo azure:demo
+```
+
+Sin claves de Azure, `python -m kit.servidor` usa el modelo simulado. Para la demo de documentos: en **Control →
+Documentos** están los tres ejemplos del caso (instrucción de embarque limpia, lote sin geolocalización a Bélgica con
+texto escondido, y correo de una "cooperativa" que cambia la cuenta). También pueden arrastrar cualquier PDF, Word o
+correo a la conversación.
+
 ```bash
 python -m kit.servidor
 ```

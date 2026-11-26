@@ -104,8 +104,8 @@ promedio y hasta 6 % en un día). Sirve para cuatro cosas concretas, ninguna es 
    (1,3 millones de dólares por cada millón de sacos).
 2. **Alertas con decisión humana:** un flujo programado lee el precio cada mañana y avisa a la mesa de coberturas en Teams.
 3. **Precio justo al productor:** comparar lo que se paga en cada región con el precio de referencia del día.
-4. **Respuestas con fuente y fecha:** el asistente contesta "el contrato C cerró en 2,93 USD/lb el 25 de noviembre (fuente:
-   la tabla de mercado en Snowflake)", nunca un precio inventado.
+4. **Respuestas con fuente y fecha:** el asistente contesta "el contrato C cerró en 2,70 USD/lb el 25 de noviembre de 2026"
+   con la Federación Nacional de Cafeteros como fuente (dato real, ya está en el caso), nunca un precio inventado.
 
 Fuentes reales (para decirlo, no para usarlas el viernes sin permiso): el contrato C se publica en ICE Futures (redistribuir
 sus datos exige licencia; también hay proveedores en Snowflake Marketplace), la Federación Nacional de Cafeteros publica el

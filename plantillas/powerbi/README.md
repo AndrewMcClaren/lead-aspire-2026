@@ -10,7 +10,8 @@ contrato C más un diferencial por calidad y comprador: sirven para practicar, n
 |---|---|
 | `datos/*.csv` | Productores, lotes, embarques, reclamos y presupuesto (inventados, con semilla fija) |
 | `tema_cafe.json` | Los colores beige y café, iguales a la página del kit |
-| `datos/mercado_diario.csv` | El mercado de cada día hábil del año (contrato C y TRM ficticios): para alertas y exposición |
+| `datos/trm_oficial.csv` | La TRM **oficial** de cada día (Superintendencia Financiera, API abierta de datos.gov.co), traída con `python -m kit.mercado trm` |
+| `datos/mercado_diario.csv` | El mercado de cada día hábil del año: TRM oficial; contrato C simulado que termina en el cierre real del 25-nov-2026 (contrato C 2,70 USD/lb; precio interno COP 2.180.000 por carga) |
 | `medidas.dax` | Las 33 medidas para copiar y pegar (incluye precio, margen por comprador y entregas a tiempo) |
 | `snowflake.sql` | Las mismas tablas en Snowflake, para conectar Power BI a Snowflake |
 | `generar_datos.py` | Regenera los CSV (`python plantillas/powerbi/generar_datos.py`) |

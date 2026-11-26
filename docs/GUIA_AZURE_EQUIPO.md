@@ -241,7 +241,10 @@ Cómo funciona:
 1. **Create** → **Instant cloud flow** → disparador **When a Teams webhook request is received** → **Create**. En **Who can trigger the flow?**: **Anyone**.
 2. **+** → **Start and wait for an approval**: tipo *Aprobar o rechazar: primero en responder*, **Assigned to** el correo de quien aprueba, y en **Title** y **Details** estas expresiones (ícono **fx**):
     - Title: `concat('Acción #', string(triggerBody()?['id']), ': ', triggerBody()?['tipo'], ' a ', triggerBody()?['destino'])`
-    - Details: `concat('Monto: ', string(triggerBody()?['monto']), '. Lo pidió: ', triggerBody()?['solicitante'], '. Motivo del guardián: ', triggerBody()?['motivo'])`
+    - Details: `triggerBody()?['resumen']` — los datos crudos de la acción contrastados con los datos maestros (cuenta pedida
+      contra cuenta registrada, lote y geolocalización, documento de origen con su huella, motivos del guardián), en
+      formato que Teams muestra con viñetas. Quien aprueba ve los datos, no un resumen escrito por la IA. Si ya tienen el
+      flujo armado con la expresión anterior, solo cambien esta.
 3. **+** → busquen **Create file** de **OneDrive for Business**:
     - **Folder Path**: `/lead-aspire/decisiones` (o búsquenla con el ícono de carpeta)
     - **File Name** (fx): `concat('accion-', string(triggerBody()?['id']), '-', utcNow('yyyyMMddHHmmss'), '.json')`

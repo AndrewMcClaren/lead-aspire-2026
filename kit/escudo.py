@@ -21,8 +21,24 @@ def escudo_disponible() -> bool:
     return bool(os.environ.get("CONTENT_SAFETY_ENDPOINT") and os.environ.get("CONTENT_SAFETY_KEY"))
 
 
+TROZO = 9_000  # Prompt Shields acepta hasta 10.000 caracteres por solicitud: un documento largo va por trozos
+
+
 def prompt_shields(documentos: list[str], peticion: str = "") -> list[bool]:
-    """True por cada documento en el que Prompt Shields detecta un ataque. Si falla, lanza la excepción."""
+    """True por cada documento en el que Prompt Shields detecta un ataque. Si falla, lanza la excepción.
+
+    Los documentos cortos van juntos en una solicitud; uno largo (un PDF de varias páginas) se parte en trozos con un
+    poco de solape, para que una instrucción escondida no quede partida justo en el corte."""
+    if all(len(d) <= TROZO for d in documentos) and sum(map(len, documentos)) <= TROZO:
+        return _shield(documentos, peticion)
+    resultado = []
+    for d in documentos:
+        trozos = [d[i:i + TROZO] for i in range(0, max(len(d), 1), TROZO - 300)]
+        resultado.append(any(_shield([t], peticion[:1000])[0] for t in trozos))
+    return resultado
+
+
+def _shield(documentos: list[str], peticion: str) -> list[bool]:
     endpoint = os.environ["CONTENT_SAFETY_ENDPOINT"].rstrip("/")
     cuerpo = json.dumps({"userPrompt": peticion, "documents": documentos}).encode("utf-8")
     req = urllib.request.Request(f"{endpoint}/contentsafety/text:shieldPrompt?api-version={API_VERSION}", data=cuerpo,
