@@ -122,6 +122,6 @@ Probablemente vengan como aliados, no como el cliente. Tres preguntas que valen 
 
 - **Preguntas para la cafetera, por bloque** (negocio, compras, precio y riesgo, compradores, reglamento europeo,
   calidad, documentos, datos, seguridad y decisión), cada una con qué buscar y qué pieza nuestra responde: documento
-  del equipo "Preguntas para la cafetera del viernes" (Claude Docs; pídanle el enlace a Andrés).
+  del equipo `plantillas/preguntas_cafetera_viernes.md` (copia del documento "Preguntas para la cafetera del viernes" en Claude Docs).
 - **Análisis completo de la industria** con fuentes (FNC, DANE, MinCIT, SIC, Banco de la República, boletines
   Central Cafetera 2026): `docs/INDUSTRIA_CAFE_2026.md`. Notas de cada investigación: `docs/investigacion_cafe/`.
