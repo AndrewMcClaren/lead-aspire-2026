@@ -6,6 +6,8 @@ tabla del final antes de pedir ayuda. Comandos para **Git Bash** en Windows.
 **Prueba de fuego (23 de noviembre):** alguien que no construyó el kit hace los pasos 1 a 5 solo, con el
 cronómetro corriendo. Debe tardar menos de 20 minutos.
 
+En un computador prestado, sigan [`OTRO_PC.md`](OTRO_PC.md): trae el repositorio desde una USB, las claves y la demo.
+
 ## 1. Traer el repositorio (una sola vez)
 
 ```bash
