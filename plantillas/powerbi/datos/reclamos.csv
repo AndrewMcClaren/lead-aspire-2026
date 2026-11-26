@@ -1,58 +1,58 @@
 reclamo_id,fecha,mes,embarque_id,comprador,destino_mercado,motivo,costo_usd
-R001,2026-09-14,2026-09,E0353,Tostadores Demo BV,Unión Europea,Taza distinta a la muestra,73229
-R002,2026-06-06,2026-06,E0130,Importadora Ejemplo GmbH,Unión Europea,Defectos físicos,78795
-R003,2026-11-05,2026-11,E0028,Demo Roasters LLC,Estados Unidos,Humedad fuera de rango,40719
-R004,2026-10-29,2026-10,E0260,Demo Roasters LLC,Estados Unidos,Taza distinta a la muestra,39355
-R005,2026-10-02,2026-10,E0088,Importadora Ejemplo GmbH,Unión Europea,Taza distinta a la muestra,58453
-R006,2026-08-02,2026-08,E0501,Tostadores Demo BV,Unión Europea,Humedad fuera de rango,59830
-R007,2026-06-12,2026-06,E0419,Demo Roasters LLC,Estados Unidos,Humedad fuera de rango,50876
-R008,2026-06-15,2026-06,E0590,Comprador Demo Corea,Otros,Defectos físicos,68971
-R009,2026-03-27,2026-03,E0483,Comprador Demo Australia,Otros,Humedad fuera de rango,32163
-R010,2026-10-10,2026-10,E0067,Importadora Ejemplo GmbH,Unión Europea,Humedad fuera de rango,52161
-R011,2026-04-04,2026-04,E0259,Importadora Ejemplo GmbH,Unión Europea,Humedad fuera de rango,25664
-R012,2026-07-28,2026-07,E0739,Importadora Ejemplo GmbH,Unión Europea,Humedad fuera de rango,48623
-R013,2026-08-26,2026-08,E0770,Comprador Demo Australia,Otros,Humedad fuera de rango,86276
-R014,2026-02-24,2026-02,E0496,Importadora Ejemplo GmbH,Unión Europea,Taza distinta a la muestra,83221
-R015,2026-09-10,2026-09,E0841,Tostadores Demo BV,Unión Europea,Documentos incompletos,40519
-R016,2026-06-13,2026-06,E0904,Ejemplo Coffee Imports Inc.,Estados Unidos,Defectos físicos,22800
-R017,2026-10-17,2026-10,E0995,Importadora Ejemplo GmbH,Unión Europea,Defectos físicos,55306
-R018,2026-04-03,2026-04,E0208,Tostadora Demo KK,Japón,Humedad fuera de rango,35010
-R019,2025-12-15,2025-12,E0679,Tostadora Demo KK,Japón,Taza distinta a la muestra,51255
-R020,2026-11-10,2026-11,E0338,Tostadores Demo BV,Unión Europea,Taza distinta a la muestra,38847
-R021,2026-01-02,2026-01,E0107,Ejemplo Coffee Imports Inc.,Estados Unidos,Humedad fuera de rango,64404
-R022,2026-11-01,2026-11,E0039,Importadora Ejemplo GmbH,Unión Europea,Humedad fuera de rango,75304
-R023,2026-11-08,2026-11,E0433,Ejemplo Coffee Imports Inc.,Estados Unidos,Humedad fuera de rango,49464
-R024,2026-09-13,2026-09,E0704,Importadora Ejemplo GmbH,Unión Europea,Defectos físicos,83000
-R025,2026-10-25,2026-10,E0317,Comprador Demo Australia,Otros,Humedad fuera de rango,56243
-R026,2026-10-24,2026-10,E0938,Importadora Ejemplo GmbH,Unión Europea,Diferencia de peso,26200
-R027,2026-07-22,2026-07,E0603,Comprador Demo Australia,Otros,Documentos incompletos,40611
-R028,2026-10-09,2026-10,E0713,Demo Roasters LLC,Estados Unidos,Taza distinta a la muestra,50196
-R029,2026-07-30,2026-07,E0141,Demo Roasters LLC,Estados Unidos,Taza distinta a la muestra,67871
-R030,2026-08-30,2026-08,E0712,Tostadores Demo BV,Unión Europea,Defectos físicos,55900
-R031,2026-04-27,2026-04,E0905,Comprador Demo Corea,Otros,Defectos físicos,22726
-R032,2026-02-18,2026-02,E0072,Demo Roasters LLC,Estados Unidos,Diferencia de peso,24700
-R033,2026-10-04,2026-10,E0619,Ejemplo Coffee Imports Inc.,Estados Unidos,Documentos incompletos,58794
-R034,2026-01-06,2026-01,E0478,Importadora Ejemplo GmbH,Unión Europea,Defectos físicos,83806
-R035,2026-10-04,2026-10,E0899,Importadora Ejemplo GmbH,Unión Europea,Humedad fuera de rango,53277
-R036,2026-09-20,2026-09,E0816,Tostadores Demo BV,Unión Europea,Taza distinta a la muestra,64253
-R037,2026-01-12,2026-01,E0235,Tostadora Demo KK,Japón,Taza distinta a la muestra,27026
-R038,2026-11-16,2026-11,E0773,Comprador Demo Corea,Otros,Humedad fuera de rango,41822
-R039,2026-07-30,2026-07,E0141,Demo Roasters LLC,Estados Unidos,Taza distinta a la muestra,79770
-R040,2026-10-09,2026-10,E0265,Ejemplo Coffee Imports Inc.,Estados Unidos,Taza distinta a la muestra,67982
-R041,2026-07-28,2026-07,E0965,Ejemplo Coffee Imports Inc.,Estados Unidos,Humedad fuera de rango,51484
-R042,2026-02-20,2026-02,E0053,Demo Roasters LLC,Estados Unidos,Taza distinta a la muestra,32119
-R043,2026-03-23,2026-03,E0831,Demo Roasters LLC,Estados Unidos,Taza distinta a la muestra,82030
-R044,2025-12-10,2025-12,E0802,Comprador Demo Australia,Otros,Diferencia de peso,64020
-R045,2026-09-05,2026-09,E0420,Tostadores Demo BV,Unión Europea,Documentos incompletos,53491
-R046,2026-02-21,2026-02,E0726,Comprador Demo Australia,Otros,Documentos incompletos,78337
-R047,2026-08-27,2026-08,E0398,Importadora Ejemplo GmbH,Unión Europea,Documentos incompletos,30040
-R048,2026-06-14,2026-06,E0291,Comprador Demo Australia,Otros,Taza distinta a la muestra,38303
-R049,2025-12-20,2025-12,E0767,Comprador Demo Australia,Otros,Humedad fuera de rango,87895
-R050,2026-02-02,2026-02,E0745,Tostadora Demo KK,Japón,Taza distinta a la muestra,31860
-R051,2026-02-08,2026-02,E0162,Importadora Ejemplo GmbH,Unión Europea,Humedad fuera de rango,61501
-R052,2026-10-27,2026-10,E0448,Tostadores Demo BV,Unión Europea,Diferencia de peso,75971
-R053,2026-01-28,2026-01,E0743,Ejemplo Coffee Imports Inc.,Estados Unidos,Humedad fuera de rango,73370
-R054,2025-12-27,2025-12,E0055,Importadora Ejemplo GmbH,Unión Europea,Taza distinta a la muestra,46749
-R055,2025-12-24,2025-12,E0110,Comprador Demo Corea,Otros,Diferencia de peso,34133
-R056,2026-04-25,2026-04,E0198,Importadora Ejemplo GmbH,Unión Europea,Defectos físicos,76620
-R057,2026-08-24,2026-08,E0926,Comprador Demo Australia,Otros,Humedad fuera de rango,46655
+R001,2026-10-07,2026-10,E0351,Ejemplo Coffee Imports Inc.,Estados Unidos,Diferencia de peso,83655
+R002,2026-09-14,2026-09,E0098,Ejemplo Coffee Imports Inc.,Estados Unidos,Humedad fuera de rango,74975
+R003,2026-08-19,2026-08,E0140,Tostadora Demo KK,Japón,Taza distinta a la muestra,44271
+R004,2026-04-24,2026-04,E0467,Demo Roasters LLC,Estados Unidos,Documentos incompletos,42545
+R005,2026-10-17,2026-10,E0238,Importadora Ejemplo GmbH,Unión Europea,Taza distinta a la muestra,81598
+R006,2026-05-22,2026-05,E0084,Tostadora Demo KK,Japón,Defectos físicos,43605
+R007,2026-06-26,2026-06,E0800,Tostadores Demo BV,Unión Europea,Diferencia de peso,38495
+R008,2026-07-30,2026-07,E0441,Tostadores Demo BV,Unión Europea,Taza distinta a la muestra,87985
+R009,2026-10-10,2026-10,E0850,Comprador Demo Australia,Otros,Taza distinta a la muestra,29186
+R010,2026-11-07,2026-11,E0568,Importadora Ejemplo GmbH,Unión Europea,Humedad fuera de rango,49548
+R011,2025-12-18,2025-12,E0019,Tostadores Demo BV,Unión Europea,Defectos físicos,83387
+R012,2026-03-24,2026-03,E0169,Importadora Ejemplo GmbH,Unión Europea,Defectos físicos,50292
+R013,2026-11-13,2026-11,E0583,Comprador Demo Corea,Otros,Humedad fuera de rango,27798
+R014,2026-05-23,2026-05,E0061,Tostadores Demo BV,Unión Europea,Diferencia de peso,83076
+R015,2026-03-10,2026-03,E0947,Comprador Demo Corea,Otros,Defectos físicos,65360
+R016,2026-01-21,2026-01,E0998,Demo Roasters LLC,Estados Unidos,Taza distinta a la muestra,62850
+R017,2026-05-21,2026-05,E0230,Comprador Demo Australia,Otros,Taza distinta a la muestra,53893
+R018,2026-01-02,2026-01,E0552,Ejemplo Coffee Imports Inc.,Estados Unidos,Documentos incompletos,63222
+R019,2026-11-19,2026-11,E0333,Importadora Ejemplo GmbH,Unión Europea,Defectos físicos,40334
+R020,2026-10-17,2026-10,E0867,Importadora Ejemplo GmbH,Unión Europea,Defectos físicos,42943
+R021,2026-10-16,2026-10,E0862,Tostadores Demo BV,Unión Europea,Humedad fuera de rango,54825
+R022,2026-08-14,2026-08,E0043,Comprador Demo Australia,Otros,Taza distinta a la muestra,62462
+R023,2026-06-09,2026-06,E0673,Tostadores Demo BV,Unión Europea,Taza distinta a la muestra,56820
+R024,2026-08-23,2026-08,E0643,Importadora Ejemplo GmbH,Unión Europea,Humedad fuera de rango,88343
+R025,2026-09-22,2026-09,E0273,Ejemplo Coffee Imports Inc.,Estados Unidos,Defectos físicos,52997
+R026,2026-06-08,2026-06,E0450,Demo Roasters LLC,Estados Unidos,Humedad fuera de rango,67330
+R027,2026-11-29,2026-11,E0893,Tostadora Demo KK,Japón,Humedad fuera de rango,88085
+R028,2026-10-12,2026-10,E0812,Importadora Ejemplo GmbH,Unión Europea,Documentos incompletos,28524
+R029,2026-04-24,2026-04,E0013,Demo Roasters LLC,Estados Unidos,Taza distinta a la muestra,76972
+R030,2026-01-27,2026-01,E0914,Tostadora Demo KK,Japón,Humedad fuera de rango,32369
+R031,2026-09-13,2026-09,E0041,Demo Roasters LLC,Estados Unidos,Documentos incompletos,35245
+R032,2026-04-19,2026-04,E0150,Comprador Demo Corea,Otros,Taza distinta a la muestra,38366
+R033,2026-05-06,2026-05,E0158,Tostadora Demo KK,Japón,Defectos físicos,54607
+R034,2026-08-11,2026-08,E0404,Tostadora Demo KK,Japón,Defectos físicos,34016
+R035,2026-11-20,2026-11,E0234,Tostadores Demo BV,Unión Europea,Humedad fuera de rango,63415
+R036,2026-01-28,2026-01,E0339,Comprador Demo Australia,Otros,Defectos físicos,43841
+R037,2026-07-26,2026-07,E0017,Tostadores Demo BV,Unión Europea,Diferencia de peso,63694
+R038,2026-07-05,2026-07,E0373,Importadora Ejemplo GmbH,Unión Europea,Taza distinta a la muestra,35803
+R039,2026-06-07,2026-06,E0030,Tostadora Demo KK,Japón,Humedad fuera de rango,83135
+R040,2026-01-05,2026-01,E0168,Tostadores Demo BV,Unión Europea,Defectos físicos,83947
+R041,2026-08-13,2026-08,E0024,Ejemplo Coffee Imports Inc.,Estados Unidos,Humedad fuera de rango,30694
+R042,2026-08-30,2026-08,E0946,Importadora Ejemplo GmbH,Unión Europea,Taza distinta a la muestra,26458
+R043,2026-02-06,2026-02,E0669,Tostadores Demo BV,Unión Europea,Taza distinta a la muestra,85016
+R044,2025-12-31,2025-12,E0551,Tostadora Demo KK,Japón,Defectos físicos,54896
+R045,2026-04-07,2026-04,E0889,Tostadora Demo KK,Japón,Taza distinta a la muestra,33396
+R046,2025-12-12,2025-12,E0134,Tostadora Demo KK,Japón,Defectos físicos,70362
+R047,2026-06-13,2026-06,E0534,Tostadores Demo BV,Unión Europea,Defectos físicos,47618
+R048,2026-09-13,2026-09,E0041,Demo Roasters LLC,Estados Unidos,Diferencia de peso,25528
+R049,2026-05-29,2026-05,E0871,Tostadora Demo KK,Japón,Taza distinta a la muestra,52984
+R050,2026-06-30,2026-06,E0997,Tostadores Demo BV,Unión Europea,Humedad fuera de rango,71566
+R051,2026-07-21,2026-07,E0274,Importadora Ejemplo GmbH,Unión Europea,Defectos físicos,39472
+R052,2026-10-13,2026-10,E0379,Tostadores Demo BV,Unión Europea,Humedad fuera de rango,45847
+R053,2026-10-17,2026-10,E0293,Demo Roasters LLC,Estados Unidos,Humedad fuera de rango,38095
+R054,2026-09-27,2026-09,E0135,Demo Roasters LLC,Estados Unidos,Humedad fuera de rango,67460
+R055,2026-02-05,2026-02,E0618,Importadora Ejemplo GmbH,Unión Europea,Taza distinta a la muestra,22675
+R056,2026-04-13,2026-04,E0189,Comprador Demo Corea,Otros,Documentos incompletos,35826
+R057,2026-09-29,2026-09,E0248,Importadora Ejemplo GmbH,Unión Europea,Documentos incompletos,58293

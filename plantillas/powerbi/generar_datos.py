@@ -3,7 +3,11 @@
 Los totales coinciden con casos/cafe/cifras.csv: 1.250.000 sacos, 71 % de lotes con geolocalización, 42 % del
 volumen a la Unión Europea y 31 % a Estados Unidos, 57 reclamos que suman 3,1 millones de dólares, 6 días
 promedio de documentos por embarque y los presupuestos de compras, logística y cumplimiento europeo.
-Así el tablero y el asistente dicen los mismos números.
+Así el tablero y el asistente dicen los mismos números. También suman 520 millones de dólares en ventas.
+
+Precios: una serie mensual ficticia del contrato C (centavos de dólar por libra, convertida a dólares) más un
+diferencial por lote que depende de la calidad y del comprador. Es un ejemplo para practicar el tablero, no un
+precio real del mercado.
 
 Uso: python plantillas/powerbi/generar_datos.py   (siempre da los mismos datos: semilla fija)
 """
@@ -22,6 +26,12 @@ COOPERATIVAS = ["Cooperativa Cafetera Ejemplo", "Asociación Productores del Sur
 MERCADOS = [("Unión Europea", 42), ("Estados Unidos", 31), ("Japón", 12), ("Otros", 15)]
 COMPRADORES = {"Unión Europea": ["Importadora Ejemplo GmbH", "Tostadores Demo BV"], "Estados Unidos": ["Ejemplo Coffee Imports Inc.", "Demo Roasters LLC"],
                "Japón": ["Tostadora Demo KK"], "Otros": ["Comprador Demo Corea", "Comprador Demo Australia"]}
+# Contrato C ficticio, en USD por libra, de diciembre de 2025 a noviembre de 2026
+PRECIO_C = [2.95, 3.05, 2.88, 2.80, 2.92, 3.10, 3.02, 2.84, 2.76, 2.70, 2.82, 2.90]
+# Prima o descuento que paga cada comprador sobre el diferencial (USD por libra)
+PRIMA_COMPRADOR = {"Importadora Ejemplo GmbH": 0.06, "Tostadores Demo BV": 0.02, "Ejemplo Coffee Imports Inc.": -0.02,
+                   "Demo Roasters LLC": 0.04, "Tostadora Demo KK": 0.10, "Comprador Demo Corea": 0.00, "Comprador Demo Australia": 0.03}
+LIBRAS_POR_SACO = 60 * 2.20462
 PUERTOS = [("Buenaventura", .55), ("Cartagena", .35), ("Santa Marta", .10)]
 
 
@@ -80,11 +90,15 @@ def main():
         estado = "Exportado"
         if puntaje < 80 and rnd.random() < .5:
             estado = "Rechazado por calidad"
-        lotes.append({"lote_id": f"L{i + 1:05d}", "fecha_compra": dia.isoformat(), "mes": dia.strftime("%Y-%m"), "productor_id": prod["productor_id"],
+        comprador = rnd.choice(COMPRADORES[mercado_de[i]])
+        mes_idx = (dia.year - INICIO.year) * 12 + dia.month - INICIO.month
+        diferencial = round(0.22 + (puntaje - 83) * 0.07 + PRIMA_COMPRADOR[comprador] + rnd.gauss(0, 0.03), 3)
+        lotes.append({"lote_id": f"L{i + 1:05d}", "fecha_compra": dia.isoformat(), "mes": dia.strftime("%Y-%m"),
+                      "mes_fecha": dia.replace(day=1).isoformat(), "productor_id": prod["productor_id"],
                       "region": prod["region"], "sacos_60kg": sacos[i], "puntaje_sca": puntaje,
                       "factor_rendimiento": round(rnd.gauss(92.8, 1.2), 1), "especial_prima": "Sí" if puntaje >= 85 else "No",
                       "geolocalizado": "Sí" if i in geo else "No", "destino_mercado": mercado_de[i],
-                      "comprador": rnd.choice(COMPRADORES[mercado_de[i]]), "estado": estado})
+                      "comprador": comprador, "estado": estado, "precio_c_usd_lb": PRECIO_C[mes_idx], "diferencial_usd_lb": diferencial})
     # Exactamente 23 lotes rechazados en el último mes (cifra del caso)
     for l in lotes:
         if l["fecha_compra"] >= ultimo_mes.isoformat() and l["estado"] == "Rechazado por calidad":
@@ -92,6 +106,20 @@ def main():
     candidatos = [l for l in lotes if l["fecha_compra"] >= ultimo_mes.isoformat()]
     for l in rnd.sample(candidatos, 23):
         l["estado"] = "Rechazado por calidad"
+    # Ventas: precio = contrato C + diferencial; se escala para que el total sea exactamente 520 millones de dólares.
+    # Costos: compra al productor (según bolsa y calidad) y logística por libra; de ahí sale el margen de cada lote.
+    brutos = [(l["precio_c_usd_lb"] + l["diferencial_usd_lb"]) * l["sacos_60kg"] * LIBRAS_POR_SACO for l in lotes]
+    escala = 520_000_000 / sum(brutos)
+    for l, b in zip(lotes, brutos):
+        precio = (l["precio_c_usd_lb"] + l["diferencial_usd_lb"]) * escala
+        l["precio_venta_usd_lb"] = round(precio, 3)
+        l["ventas_usd"] = round(b * escala)
+        # Al productor se le paga por bolsa y calidad, no según a quién se le vende: la prima del comprador va al margen
+        costo_lb = (l["precio_c_usd_lb"] + 0.22 + (l["puntaje_sca"] - 83) * 0.06) * escala * rnd.uniform(0.835, 0.865)
+        compra = costo_lb * l["sacos_60kg"] * LIBRAS_POR_SACO
+        logistica = l["sacos_60kg"] * LIBRAS_POR_SACO * rnd.uniform(0.07, 0.11)
+        l["margen_usd"] = round(l["ventas_usd"] - compra - logistica)
+    lotes[-1]["ventas_usd"] += 520_000_000 - sum(l["ventas_usd"] for l in lotes)
     escribir("lotes.csv", lotes)
 
     # Embarques: días de documentos con promedio exacto de 6
@@ -101,7 +129,8 @@ def main():
         dia = INICIO + timedelta(days=rnd.randint(0, 364))
         embarques.append({"embarque_id": f"E{i:04d}", "fecha": dia.isoformat(), "mes": dia.strftime("%Y-%m"), "puerto": elegir(PUERTOS),
                           "destino_mercado": mercado, "comprador": rnd.choice(COMPRADORES[mercado]), "contenedores": rnd.randint(2, 8),
-                          "dias_documentos": rnd.randint(2, 10), "retraso_dias": max(0, int(rnd.gauss(1.5, 2.5)))})
+                          "dias_documentos": rnd.randint(2, 10), "retraso_dias": max(0, int(rnd.gauss(-0.5, 2.5))),
+                          "fecha_prometida": (dia + timedelta(days=rnd.randint(20, 45))).isoformat()})
     dif = 6 * len(embarques) - sum(e["dias_documentos"] for e in embarques)
     paso = 1 if dif > 0 else -1
     while dif:
@@ -125,11 +154,24 @@ def main():
                          "comprador": e["comprador"], "destino_mercado": e["destino_mercado"], "motivo": elegir(motivos), "costo_usd": costos[i]})
     escribir("reclamos.csv", reclamos)
 
+    # Mercado diario (ficticio): contrato C en USD por libra y TRM en pesos por dólar, días hábiles del año.
+    # Sirve para practicar alertas y exposición; no es información real de la bolsa ni del Banco de la República.
+    mercado, c, trm, dia = [], 2.95, 4050.0, INICIO
+    while dia <= date(2026, 11, 25):  # hasta el día antes del evento
+        if dia.weekday() < 5:
+            objetivo = PRECIO_C[(dia.year - INICIO.year) * 12 + dia.month - INICIO.month]
+            c = max(2.2, c + (objetivo - c) * 0.08 + rnd.gauss(0, 0.045))
+            trm = max(3500, trm + (4050 - trm) * 0.02 + rnd.gauss(0, 18))
+            mercado.append({"fecha": dia.isoformat(), "contrato_c_usd_lb": round(c, 4), "trm_cop_usd": round(trm, 2),
+                            "precio_ref_cop_kg": round((c + 0.22) * trm * 2.20462)})
+        dia += timedelta(days=1)
+    escribir("mercado_diario.csv", mercado)
+
     escribir("presupuesto.csv", [
         {"rubro": "Compras de cosecha", "asignado_musd": 450, "ejecutado_musd": 380},
         {"rubro": "Logística", "asignado_musd": 38, "ejecutado_musd": 31},
         {"rubro": "Cumplimiento EUDR", "asignado_musd": 2.4, "ejecutado_musd": 0.9}])
-    print(f"Datos en {SALIDA}: 600 productores, {n} lotes, 1.000 embarques, 57 reclamos, 3 rubros.")
+    print(f"Datos en {SALIDA}: 600 productores, {n} lotes, 1.000 embarques, 57 reclamos, 3 rubros, {len(mercado)} días de mercado.")
 
 
 if __name__ == "__main__":

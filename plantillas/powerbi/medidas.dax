@@ -43,3 +43,44 @@ Presupuesto ejecutado (M USD) = SUM ( presupuesto[ejecutado_musd] )
 Saldo disponible (M USD) = [Presupuesto asignado (M USD)] - [Presupuesto ejecutado (M USD)]
 
 % ejecución del presupuesto = DIVIDE ( [Presupuesto ejecutado (M USD)], [Presupuesto asignado (M USD)] )
+
+// --- Precio, compradores y tiempos (las preguntas del experto en relaciones económicas internacionales) ---
+
+Ventas (USD) = SUM ( lotes[ventas_usd] )
+
+Margen (USD) = SUM ( lotes[margen_usd] )
+
+% margen = DIVIDE ( [Margen (USD)], [Ventas (USD)] )
+
+Precio promedio (USD/lb) = DIVIDE ( [Ventas (USD)], [Sacos] * 60 * 2.20462 )
+
+Diferencial promedio (USD/lb) = AVERAGE ( lotes[diferencial_usd_lb] )
+
+Contrato C promedio (USD/lb) = AVERAGE ( lotes[precio_c_usd_lb] )
+
+Margen por saco (USD) = DIVIDE ( [Margen (USD)], [Sacos] )
+
+% embarques a tiempo =
+DIVIDE ( CALCULATE ( COUNTROWS ( embarques ), embarques[retraso_dias] = 0 ), COUNTROWS ( embarques ) )
+
+Retraso promedio (días) = AVERAGE ( embarques[retraso_dias] )
+
+// --- Mercado diario (mercado_diario.csv): el precio cambia todos los días ---
+
+Contrato C último (USD/lb) =
+VAR ultimo = MAX ( mercado_diario[fecha] )
+RETURN CALCULATE ( MAX ( mercado_diario[contrato_c_usd_lb] ), mercado_diario[fecha] = ultimo )
+
+Contrato C hace 5 días hábiles (USD/lb) =
+VAR fechas = TOPN ( 6, ALL ( mercado_diario[fecha] ), mercado_diario[fecha], DESC )
+VAR hace5 = MINX ( fechas, mercado_diario[fecha] )
+RETURN CALCULATE ( MAX ( mercado_diario[contrato_c_usd_lb] ), mercado_diario[fecha] = hace5 )
+
+Cambio semanal del contrato C = DIVIDE ( [Contrato C último (USD/lb)] - [Contrato C hace 5 días hábiles (USD/lb)], [Contrato C hace 5 días hábiles (USD/lb)] )
+
+TRM última =
+VAR ultimo = MAX ( mercado_diario[fecha] )
+RETURN CALCULATE ( MAX ( mercado_diario[trm_cop_usd] ), mercado_diario[fecha] = ultimo )
+
+// Cuánto cambia el valor de un millón de sacos si el contrato C se mueve 1 centavo de dólar por libra
+Sensibilidad por centavo (USD por millón de sacos) = 0.01 * 1000000 * 60 * 2.20462

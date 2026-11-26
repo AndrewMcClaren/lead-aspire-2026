@@ -83,6 +83,34 @@ unas horas. No prometan predecir el precio del café.
 | "No sabemos cuánto nos cuesta" | Dolor sin medir | "Si tuviera que adivinar: ¿más o menos de 100 millones al año? ¿Más o menos de 500?" |
 | "La IA se equivoca, no confiamos" | Miedo legítimo, no un no | "¿Qué tendría que pasar para confiar? ¿Que cada cifra muestre su fuente y que nada se apruebe sin una persona?" (ahí entra el kit) |
 
+## 6. Las cinco preguntas de comercio exterior (con respuesta honesta)
+
+Las planteó un experto en relaciones económicas internacionales. Son las que un gerente comercial o financiero de una
+exportadora se hace todos los días. Para cada una: qué puede hacer la IA de verdad, qué no, y qué pieza del kit o del
+tablero lo muestra. **Regla de oro: nadie predice el precio de la bolsa de forma consistente; quien prometa eso pierde
+credibilidad ante un jurado que conoce el negocio.**
+
+| Pregunta | Qué sí se puede hacer | Qué no | Cómo lo mostramos |
+|---|---|---|---|
+| 1. ¿Cómo tener los mejores precios del mercado? | El precio de exportación = contrato C de Nueva York + **diferencial**. El C no lo controla nadie; el diferencial sí: calidad (puntaje de taza), trazabilidad para Europa y cumplimiento de entregas suben la prima. La IA muestra qué lotes y regiones ganan más diferencial | Garantizar vender "al precio más alto" | Power BI página 5: `Diferencial promedio (USD/lb)` por comprador y puntaje |
+| 2. ¿Cómo sacar ventaja de las bolsas internacionales? | Ver el mercado **a diario** con reglas fijadas de antemano: alerta cuando el C cruza el precio objetivo o se mueve más de 3 % en una semana, y la mesa de coberturas decide si fija precio. Medir la exposición: cuánto vale cada centavo de movimiento | Que la IA opere o "adivine" la bolsa | Power BI página 7 (mercado del día) + alerta de Power Automate con aprobación humana |
+| 3. ¿Cuál es el mejor comprador para tener más rentabilidad? | Comparar compradores por **margen por saco**, no por precio: uno que paga parecido puede dejar 3 puntos más de margen porque premia la calidad, reclama menos y paga a tiempo | Elegir comprador solo con datos de un año | Página 5: dispersión precio contra margen; en el ejemplo, 14,9 % frente a 11,6 % |
+| 4. ¿Se puede predecir la venta con históricos para dimensionar la producción? | Una proyección de tendencia con banda de incertidumbre (pronóstico de Power BI). Con 2 o 3 años de historia capta la cosecha principal y la mitaca | Predecir la cosecha sin datos de clima y floración; dar un número sin su margen de error | Página 6: pronóstico a 3 meses con intervalo de 95 % |
+| 5. ¿Cómo llegar a tiempo con lo que el cliente necesita? | Medir `% embarques a tiempo` por cliente contra la fecha prometida, ver dónde se pierde el tiempo (documentos: 6 días por embarque) y bloquear antes lo que no va a pasar en destino (lote sin geolocalización a Europa) | Controlar navieras o puertos | Página 6 + flujo de despacho con regla automática y aprobación en Teams |
+
+**Si preguntan "¿y el precio de todos los días?"** El valor del saco cambia cada día (en los datos de práctica, 1,2 % en
+promedio y hasta 6 % en un día). Sirve para cuatro cosas concretas, ninguna es adivinar:
+1. **Exposición:** cuántos sacos están comprados o vendidos sin precio fijado, y cuánto se gana o pierde por centavo
+   (1,3 millones de dólares por cada millón de sacos).
+2. **Alertas con decisión humana:** un flujo programado lee el precio cada mañana y avisa a la mesa de coberturas en Teams.
+3. **Precio justo al productor:** comparar lo que se paga en cada región con el precio de referencia del día.
+4. **Respuestas con fuente y fecha:** el asistente contesta "el contrato C cerró en 2,93 USD/lb el 25 de noviembre (fuente:
+   la tabla de mercado en Snowflake)", nunca un precio inventado.
+
+Fuentes reales (para decirlo, no para usarlas el viernes sin permiso): el contrato C se publica en ICE Futures (redistribuir
+sus datos exige licencia; también hay proveedores en Snowflake Marketplace), la Federación Nacional de Cafeteros publica el
+precio interno de referencia y el Banco de la República la TRM.
+
 ## Si quien presenta es Snowflake o Microsoft
 
 Probablemente vengan como aliados, no como el cliente. Tres preguntas que valen oro:

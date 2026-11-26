@@ -88,3 +88,4 @@ El mismo esqueleto (formulario → regla → aprobación → registro) sirve par
 | Compras | El monto supera el saldo del rubro | Jefe del área |
 | Ingreso de contratistas a obra | Un documento vencido | Seguridad y salud en el trabajo |
 | Publicaciones en redes | Menciona precios o promociones no aprobadas | Mercadeo |
+| **Alerta de mercado** (flujo programado cada día) | El contrato C cruza el precio objetivo o se mueve más de 3 % en una semana | Mesa de coberturas: decide si fija precio; la IA no opera |
