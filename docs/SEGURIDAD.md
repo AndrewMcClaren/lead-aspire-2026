@@ -10,8 +10,16 @@ python -m seguridad.pentest                       # sin internet ni costo
 python -m seguridad.pentest --modelo azure:demo   # además, 20 ataques de punta a punta con el modelo real (centavos)
 ```
 
-Corre **98 pruebas en 7 frentes** (más 20 con el modelo real) y deja el informe en `resultados/pentest_<fecha>.md`.
+Corre **122 pruebas en 8 frentes** (más 25 con el modelo real) y deja el informe en `resultados/pentest_<fecha>.md`.
 Las pruebas automáticas (`pytest`) fallan si algún frente queda vulnerable.
+
+**Frente I, documentos adjuntos (26 de noviembre de 2026, sin Azure): 22 resisten, 0 vulnerables, 2 límites.** Word con
+letra blanca, correo con instrucción invisible, "responder a" parecido, pago a cuenta nueva (BEC), lote sin
+geolocalización a Europa, archivos bomba, ejecutable disfrazado de PDF, macros, imágenes, rutas arbitrarias, nombre de
+archivo con HTML, conteo de incidentes, parada automática, y un modelo secuestrado que inventa la cuenta registrada,
+citas o cifras: todo frenado. Límites: texto blanco dentro de un PDF (se lee y pasa por el escudo, pero no se señala
+como escondido) e imágenes escaneadas (piden OCR). Con `--modelo azure:demo` se agregan 5 pruebas con los documentos de
+ejemplo contra el modelo real.
 
 **Resultado con los servicios reales (24 de noviembre de 2026, gpt-4.1-mini y Prompt Shields en France Central):
 118 pruebas, 103 resisten, 0 vulnerables, 15 límites conocidos.**
