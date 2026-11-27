@@ -50,7 +50,7 @@ Detalle de cada capa, cómo probarla y cómo mostrarla: [`docs/INFRAESTRUCTURA.m
 Los datos de ejemplo son de una **cadena de tiendas ficticia**. El día del evento se cambian por los del
 cliente siguiendo [`plantillas/adaptar_el_kit.md`](plantillas/adaptar_el_kit.md).
 
-**¿En otro computador?** Todos los comandos, en orden, en [`OTRO_PC.md`](OTRO_PC.md). **¿Probarlo a fondo?** [`PROBAR.md`](PROBAR.md): cinco niveles, del automático a ataques fabricados en vivo.
+**¿En otro computador?** Todos los comandos, en orden, en [`OTRO_PC.md`](OTRO_PC.md). Para seguir construyendo con Claude: [`PROMPT_CONTINUAR.md`](PROMPT_CONTINUAR.md). **¿Probarlo a fondo?** [`PROBAR.md`](PROBAR.md): cinco niveles, del automático a ataques fabricados en vivo.
 
 ### Probarlo ya (sin claves ni internet)
 
