@@ -136,19 +136,19 @@ def revisar_accion(tipo: str, monto: float | None = None, destino: str = "", cue
                 subir("pendiente", f"El destino se registró hace menos de {pol['dias_cuenta_nueva']} días")
 
     if lote and tipo == "despachar_lote":
-        lotes = {_norm(n): (n, d) for n, d in maestros.get("lotes", {}).items()}
-        hallado = lotes.get(_norm(lote))
+        hallado = estado_lote(lote, maestros)
         registro = {_norm(n): d for n, d in maestros.get("destinos", {}).items()}.get(_norm(destino)) or {}
         if hallado is None:
             subir("pendiente", f"El lote {lote} no está en los datos maestros")
-        elif not hallado[1].get("geolocalizado") and registro.get("region") == "UE":
-            subir("bloqueada", f"Reglamento europeo contra la deforestación: el lote {hallado[0]} no tiene la geolocalización "
-                               f"de sus fincas y '{destino}' está en la Unión Europea. Segunda opción: un comprador "
-                               "en Estados Unidos, que no exige el polígono por finca")
+        elif not hallado["geolocalizado"] and registro.get("region") == "UE":
+            sin = f" (sin polígono: {', '.join(hallado['faltantes'])})" if hallado.get("faltantes") else ""
+            subir("bloqueada", f"Reglamento europeo contra la deforestación: el lote {hallado['nombre']} no tiene la "
+                               f"geolocalización de sus fincas{sin} y '{destino}' está en la Unión Europea. Segunda "
+                               "opción: un comprador en Estados Unidos, que no exige el polígono por finca")
         elif registro.get("region") == "Estados Unidos":
             subir("pendiente", f"Destino en Estados Unidos: no exige el polígono por finca, pero antes de despachar el "
-                               f"lote {hallado[0]} hay que tener el registro de la instalación ante la FDA y enviar el "
-                               "aviso previo (Prior Notice) del embarque")
+                               f"lote {hallado['nombre']} hay que tener el registro de la instalación ante la FDA y "
+                               "enviar el aviso previo (Prior Notice) del embarque")
 
     if monto is not None and rubro is not None:
         nombre, datos_rubro = rubro
@@ -175,6 +175,28 @@ def revisar_accion(tipo: str, monto: float | None = None, destino: str = "", cue
     if not motivos:
         motivos.append("Acción de bajo riesgo")
     return estado, motivos
+
+
+def estado_lote(lote: str, maestros: dict | None = None) -> dict | None:
+    """La geolocalización de un lote, de la fuente más viva que haya.
+
+    Si el lote tiene fincas en el registro del acopio (fincas.json), manda el expediente real: si se registra el
+    polígono que falta, el lote se desbloquea solo. Si no, se usa el campo "geolocalizado" de los datos maestros.
+    Devuelve None si el lote no está en ninguna de las dos fuentes.
+    """
+    try:
+        from . import acopio
+        exp = acopio.expediente(lote.strip())
+        if exp.get("fincas"):
+            return {"nombre": exp["lote"], "geolocalizado": bool(exp["apto_ue"]), "fuente": "acopio",
+                    "fincas": len(exp["fincas"]), "faltantes": list(exp["faltantes"]), "kg": exp["kg_registrados"]}
+    except (FileNotFoundError, KeyError, ValueError, OSError):
+        pass  # este caso no tiene registro de fincas: quedan los datos maestros
+    maestros = maestros if maestros is not None else cargar_maestros()
+    hallado = {_norm(n): (n, d) for n, d in maestros.get("lotes", {}).items()}.get(_norm(lote))
+    if hallado is None:
+        return None
+    return {"nombre": hallado[0], "geolocalizado": bool(hallado[1].get("geolocalizado")), "fuente": "maestros"}
 
 
 def _norm_texto(texto: str) -> str:
@@ -308,9 +330,15 @@ def resumen_para_aprobar(a: Accion, maestros: dict | None = None) -> str:
         lineas.append(f"- Cuenta pedida: {a.cuenta} · registrada: {registrada or 'ninguna'}"
                       f"{' · coincide' if igual else ' · NO COINCIDE'}")
     if a.lote:
-        datos = {_norm(n): d for n, d in maestros.get("lotes", {}).items()}.get(_norm(a.lote))
-        geo = "sin datos" if datos is None else ("sí" if datos.get("geolocalizado") else "NO")
-        lineas.append(f"- Lote: {a.lote} · geolocalización: {geo}" + (f" · destino en {registro['region']}" if registro.get("region") else ""))
+        datos = estado_lote(a.lote, maestros)
+        geo = "sin datos" if datos is None else ("sí" if datos["geolocalizado"] else "NO")
+        acopio_ = ""
+        if datos and datos["fuente"] == "acopio":
+            acopio_ = (f" · fincas: {datos['fincas']}"
+                       + (f" · sin polígono: {', '.join(datos['faltantes'])}" if datos["faltantes"] else "")
+                       + f" · kg: {datos['kg']:g}".replace(".", ","))
+        lineas.append(f"- Lote: {a.lote} · geolocalización: {geo}{acopio_}"
+                      + (f" · destino en {registro['region']}" if registro.get("region") else ""))
     if a.documento:
         lineas.append(f"- Origen: {a.documento}")
     lineas.append(f"- Lo pidió: {a.solicitante}" + (f" · «{a.peticion[:120]}»" if a.peticion else ""))

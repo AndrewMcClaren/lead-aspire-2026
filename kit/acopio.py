@@ -17,6 +17,7 @@ Prueba rápida:  KIT_DATOS=casos/cafe python -m kit.acopio "Finca La Loma, 3 arr
 """
 
 import json
+import os
 import re
 import sys
 import threading
@@ -31,6 +32,7 @@ from .cifras import carpeta_datos
 KG_POR_SACO = 60
 FACTOR_PERGAMINO = 1.25  # kilos de pergamino seco por kilo de café verde, aproximado (supuesto editable)
 EVENTOS = RAIZ / "resultados" / "eventos_acopio.jsonl"
+_EVENTOS_DEFECTO = EVENTOS
 _lock = threading.Lock()
 
 SISTEMA = (
@@ -80,6 +82,36 @@ def _cantidades_en_texto(texto: str) -> list[float]:
     return vistos
 
 
+_FINCA_ESCRITA = r"\bfinca ([a-z ]+?)(?=\s*[,.;:]|\s+\d|\s+(?:con|de|y|e)\b|$)"
+
+
+def _patron_cantidad(registro: dict) -> str:
+    unidades = "|".join(sorted(registro["unidades_kg"], key=len, reverse=True))
+    return rf"\b(\d+(?:[.,]\d+)?|{'|'.join(_NUMEROS)})\s*({unidades})\b"
+
+
+def varias_entregas(texto: str, registro: dict) -> list[str]:
+    """Si el mensaje trae más de una entrega, los nombres de las fincas que se ven (o ["?", "?"] si solo se ven
+    varias cantidades). Lista vacía si es una sola entrega. El modelo propone una sola, así que las demás se
+    perderían sin aviso: el código las detecta y no registra ninguna."""
+    t = _norm(texto)
+    vistas: list[tuple[int, str]] = []
+    for f in registro["fincas"].values():
+        i = t.find(_norm(f["nombre"]))
+        if i >= 0:
+            vistas.append((i, f["nombre"]))
+    for m in re.finditer(_FINCA_ESCRITA, t):
+        nombre = m.group(1).strip()
+        if nombre and not any(nombre.startswith(_norm(n)) or _norm(n).startswith(nombre) for _, n in vistas):
+            vistas.append((m.start(1), nombre.title()))
+    nombres = [n for _, n in sorted(vistas)]
+    veces_finca = len(re.findall(r"\bfinca\b", t))
+    cantidades = len(re.findall(_patron_cantidad(registro), t))
+    if len(nombres) > 1 or veces_finca > 1 or cantidades > 1:
+        return nombres if len(nombres) > 1 else ["?", "?"]
+    return []
+
+
 def proponer_simple(texto: str, registro: dict) -> dict:
     """Sin modelo de IA: reglas simples. También sirve de respaldo si el modelo falla."""
     t = _norm(texto)
@@ -112,6 +144,12 @@ def verificar(propuesta: dict, texto: str, registro: dict | None = None) -> dict
     registro = registro or cargar_registro()
     problemas, alertas = [], []
     t = _norm(texto)
+
+    varias = varias_entregas(texto, registro)
+    if varias:  # el modelo propone una sola entrega: las demás se perderían sin aviso
+        cuales = f" ({', '.join(varias)})" if "?" not in varias else ""
+        problemas.append(f"El mensaje trae varias entregas{cuales} y no registré ninguna. "
+                         "Mande una entrega por mensaje, por favor.")
 
     nombre = str(propuesta.get("finca") or "")
     finca_id = next((i for i, f in registro["fincas"].items()
@@ -173,15 +211,22 @@ def evento_epcis(entrega: dict, registro: dict, canal: str, huella_remitente: st
     }
 
 
+def ruta_eventos() -> Path:
+    """KIT_EVENTOS si está definida (en Azure, una carpeta persistente como /home/datos); si no, resultados/."""
+    if EVENTOS == _EVENTOS_DEFECTO and os.environ.get("KIT_EVENTOS"):
+        return Path(os.environ["KIT_EVENTOS"])
+    return EVENTOS
+
+
 def registrar(evento: dict, ruta: Path | None = None) -> None:
-    ruta = Path(ruta or EVENTOS)
+    ruta = Path(ruta or ruta_eventos())
     ruta.parent.mkdir(parents=True, exist_ok=True)
     with _lock, ruta.open("a", encoding="utf-8") as fh:
         fh.write(json.dumps(evento, ensure_ascii=False) + "\n")
 
 
 def eventos(ruta: Path | None = None) -> list[dict]:
-    ruta = Path(ruta or EVENTOS)
+    ruta = Path(ruta or ruta_eventos())
     if not ruta.exists():
         return []
     return [json.loads(x) for x in ruta.read_text(encoding="utf-8").splitlines() if x.strip()]
@@ -241,6 +286,19 @@ def expediente(lote: str, registro: dict | None = None, ruta: Path | None = None
                   "epcisBody": {"eventList": entregas}},
         "nota": "La verificación de no deforestación (por ejemplo, alertas GFW/GLAD) y la legalidad las revisa y aprueba una persona.",
     }
+
+
+def resumen_lotes(registro: dict | None = None, ruta: Path | None = None) -> list[dict]:
+    """Un renglón por lote del registro de fincas: lo que la exportadora ve primero en la pestaña Acopio."""
+    registro = registro or cargar_registro()
+    lotes = sorted({f["lote"] for f in registro["fincas"].values()})
+    salida = []
+    for lote in lotes:
+        e = expediente(lote, registro, ruta)
+        salida.append({"lote": lote, "apto_ue": e["apto_ue"], "motivo": e["motivo"], "faltantes": e["faltantes"],
+                       "kg_registrados": e["kg_registrados"], "entregas": len(e["epcis"]["epcisBody"]["eventList"]),
+                       "fincas": len(e["fincas"]), "destinos": e["destinos"]})
+    return salida
 
 
 def main(argv: list[str]) -> int:

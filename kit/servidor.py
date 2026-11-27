@@ -26,11 +26,13 @@ Rutas:
   GET  /api/acciones          acciones propuestas y su estado
   POST /api/acciones          {"tipo", "detalle", "monto", "destino", "cuenta", "peticion", "solicitante"}
   POST /api/acciones/<id>     {"aprobar": true, "aprobador": "nombre"} -> la decisión de una persona
+  POST /api/decisiones        {"id", "token", "resultado": "Approve"|"Reject", "aprobador", "comentario"} desde Power Automate
   POST /api/sesion/reiniciar  {"revisor": "nombre"} -> vuelve la sesión a "limpia" (también una detenida)
   GET  /api/bitacora          verificación de la bitácora y sus últimas entradas
   GET  /swagger.json          definición OpenAPI 2.0 para un conector de Power Platform o Copilot Studio
   POST /api/whatsapp          webhook de Twilio (formulario firmado con X-Twilio-Signature, no JSON): entrega al acopio
   GET  /api/acopio/eventos    entregas registradas (eventos EPCIS)
+  GET  /api/acopio/lotes      un renglón por lote: kilos, entregas, fincas con polígono y veredicto por destino
   GET  /api/acopio/expediente/<lote>   debida diligencia del lote para la UE (bloqueado si falta un polígono)
 
 Defensas de la API (probadas con python -m seguridad.pentest):
@@ -58,7 +60,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from . import integridad, modelos, privacidad
-from . import acopio, decisiones, whatsapp
+from . import acopio, decisiones, sqlazure, whatsapp
 from . import documentos as docmod
 from . import exportar
 from .aprobacion import Bandeja, cargar_maestros, cargar_politica, nueva_sesion, registrar_incidentes, revisar_accion
@@ -298,6 +300,11 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                 return self._json(bandeja.lista())
             if self.path == "/api/acopio/eventos":
                 return self._json(acopio.eventos()[-50:][::-1])
+            if self.path == "/api/acopio/lotes":
+                try:
+                    return self._json(acopio.resumen_lotes())
+                except FileNotFoundError as e:
+                    return self._json({"error": str(e)}, 404)
             if self.path.startswith("/api/acopio/expediente/"):
                 try:
                     return self._json(acopio.expediente(self.path.rsplit("/", 1)[1]))
@@ -334,10 +341,12 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                                          self.headers.get("X-Twilio-Signature", "")):
                 bitacora.registrar("whatsapp_rechazado", {"motivo": "firma inválida o sin TWILIO_AUTH_TOKEN"})
                 return self._json({"error": "Firma de Twilio inválida"}, 403)
-            guardar = None
+            guardar = guardar_sql = None
             if os.environ.get("SNOWFLAKE_TABLA_EVENTOS"):
                 from .snowflake import guardar_eventos as guardar
-            whatsapp.atender_en_segundo_plano(params, modelo, bitacora, guardar)
+            if sqlazure.configurado():
+                guardar_sql = sqlazure.guardar_eventos
+            whatsapp.atender_en_segundo_plano(params, modelo, bitacora, guardar, guardar_sql)
             return self._enviar(b"<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response></Response>", "text/xml")
 
         def do_POST(self):
@@ -486,6 +495,11 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                     return self._json({"id": a.id, "estado": a.estado, "decidida_por": a.decidida_por})
                 except (KeyError, ValueError) as e:
                     return self._json({"error": str(e).strip("'")}, 400)
+            if self.path == "/api/decisiones":
+                # Power Automate manda la decisión de Teams directo al kit (en Azure no hay carpeta de OneDrive)
+                h = decisiones.aplicar(datos, bandeja, bitacora)
+                codigo = {"aplicado": 200, "ignorado": 409}.get(h["resultado"], 400)
+                return self._json({k: v for k, v in h.items() if k != "origen"}, codigo)
             if self.path == "/api/sesion/reiniciar":
                 revisor = str(datos.get("revisor") or "persona")[:60]
                 bitacora.registrar("sesion_reiniciada", {"revisor": revisor, "estado_anterior": sesion["estado"],
@@ -518,6 +532,9 @@ def main():
     bitacora.registrar("inicio", {"modelo": a.modelo, "caso": nombre_caso(), "datos": integridad.huellas(),
                                   "integridad": revision["estado"], "datos_personales": privacidad.activa(),
                                   "prompt_shields": escudo_disponible(), "juez": juez_activo()})
+    aviso_sql = sqlazure.preparar_al_arrancar()
+    if aviso_sql:
+        print(aviso_sql, flush=True)
     servidor = ThreadingHTTPServer((a.host, a.puerto), crear_app(a.modelo, bitacora))
     print(f"Demo lista en http://localhost:{a.puerto}  (caso: {nombre_caso()} · modelo: {a.modelo} · "
           f"voz Azure: {voz_disponible()} · Prompt Shields: {escudo_disponible()} · juez: {juez_activo()})  Ctrl+C para salir.")

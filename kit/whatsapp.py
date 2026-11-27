@@ -99,7 +99,8 @@ def respuesta(v: dict) -> str:
 
 
 def procesar(params: dict[str, str], modelo=None, bitacora=None, guardar_snowflake: Callable | None = None,
-             transcribir: Callable[[bytes, str], str] | None = None, descargar: Callable[[str], bytes] | None = None) -> dict:
+             transcribir: Callable[[bytes, str], str] | None = None, descargar: Callable[[str], bytes] | None = None,
+             guardar_sql: Callable | None = None) -> dict:
     """Todo el flujo para un mensaje. Devuelve lo que se respondió y lo que se registró."""
     remitente = huella(params.get("From", ""))
     texto = (params.get("Body") or "").strip()
@@ -131,6 +132,12 @@ def procesar(params: dict[str, str], modelo=None, bitacora=None, guardar_snowfla
             except Exception as e:  # noqa: BLE001 - Snowflake caído no detiene el acopio
                 if bitacora:
                     bitacora.registrar("snowflake_error", {"error": type(e).__name__})
+        if guardar_sql:
+            try:
+                guardar_sql([evento])
+            except Exception as e:  # noqa: BLE001 - Azure SQL caído no detiene el acopio
+                if bitacora:
+                    bitacora.registrar("sql_error", {"error": type(e).__name__})
     if bitacora:
         bitacora.registrar("entrega_whatsapp", {
             "remitente": remitente, "origen": origen, "texto": f"huella:{huella(texto)}",
@@ -140,10 +147,11 @@ def procesar(params: dict[str, str], modelo=None, bitacora=None, guardar_snowfla
     return {"respuesta": respuesta(v), "entrega": v, "evento": evento}
 
 
-def atender_en_segundo_plano(params: dict[str, str], modelo, bitacora, guardar_snowflake=None) -> threading.Thread:
+def atender_en_segundo_plano(params: dict[str, str], modelo, bitacora, guardar_snowflake=None,
+                             guardar_sql=None) -> threading.Thread:
     def tarea():
         try:
-            r = procesar(params, modelo, bitacora, guardar_snowflake)
+            r = procesar(params, modelo, bitacora, guardar_snowflake, guardar_sql=guardar_sql)
             enviar(params["From"], r["respuesta"])
         except Exception as e:  # noqa: BLE001
             if bitacora:

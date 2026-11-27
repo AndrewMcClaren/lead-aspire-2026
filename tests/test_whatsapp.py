@@ -77,6 +77,43 @@ def test_guardian_bloquea_europa_y_deja_estados_unidos_para_aprobacion():
     assert estado == "pendiente" and any("Prior Notice" in m for m in motivos)  # una persona decide; no se despacha solo
 
 
+def test_guardian_usa_el_expediente_real_del_acopio(monkeypatch):
+    from kit.aprobacion import Accion, resumen_para_aprobar, revisar_accion
+    europa = ("despachar_lote", None, "Importadora Ejemplo GmbH", "",
+              "Despacha el lote L-2026-0412 a Importadora Ejemplo GmbH")
+    whatsapp.procesar({"From": TELEFONO, "Body": "Finca La Loma, 3 arrobas, humedad 11"})
+    whatsapp.procesar({"From": TELEFONO, "Body": "Finca Buenavista, 2 cargas"})
+    estado, motivos = revisar_accion(*europa, lote="L-2026-0412")
+    assert estado == "bloqueada" and any("sin polígono: Buenavista" in m for m in motivos)
+    a = Accion(1, "despachar_lote", "Despacho a Nueva York", destino="Ejemplo Coffee Imports Inc.", lote="L-2026-0412")
+    resumen = resumen_para_aprobar(a)
+    assert "fincas: 3" in resumen and "sin polígono: Buenavista" in resumen and "kg: 287,5 " in resumen
+
+    # Llega el polígono de Buenavista por el registro del acopio: el lote se desbloquea solo para Europa
+    registro = acopio.cargar_registro()
+    registro["fincas"]["F-CAU-003"]["poligono"] = [[-76.6, 2.6], [-76.5, 2.6], [-76.5, 2.5], [-76.6, 2.5], [-76.6, 2.6]]
+    monkeypatch.setattr(acopio, "cargar_registro", lambda carpeta=None: registro)
+    estado, motivos = revisar_accion(*europa, lote="L-2026-0412")
+    assert not any("deforestación" in m for m in motivos) and estado == "pendiente"  # lo decide una persona
+
+
+def test_resumen_de_lotes_para_la_pestana_acopio():
+    whatsapp.procesar({"From": TELEFONO, "Body": "Finca Buenavista, 2 cargas"})
+    lotes = {l["lote"]: l for l in acopio.resumen_lotes()}
+    assert set(lotes) == {"L-2026-0412", "L-2026-0398"}
+    l = lotes["L-2026-0412"]
+    assert not l["apto_ue"] and l["faltantes"] == ["Buenavista"] and l["kg_registrados"] == 250 and l["entregas"] == 1
+    assert l["fincas"] == 3 and l["destinos"]["estados_unidos"]["apto"]
+    assert lotes["L-2026-0398"]["apto_ue"] and lotes["L-2026-0398"]["entregas"] == 0
+
+
+def test_lote_fuera_del_acopio_usa_los_datos_maestros():
+    from kit.aprobacion import estado_lote
+    maestros = {"lotes": {"L-OTRO-1": {"geolocalizado": True}}}
+    assert estado_lote("L-OTRO-1", maestros) == {"nombre": "L-OTRO-1", "geolocalizado": True, "fuente": "maestros"}
+    assert estado_lote("L-NO-EXISTE", maestros) is None
+
+
 def test_finca_no_registrada_y_sin_cantidad():
     assert "no está registrada" in " ".join(registrar("Finca El Dorado, 4 arrobas")["problemas"])
     assert "cuánto" in " ".join(registrar("Finca La Loma, ya le traje el café")["problemas"])
@@ -91,6 +128,46 @@ def test_cifras_imposibles_y_humedad_fuera_de_rango():
 def test_numeros_en_palabras():
     v = registrar("finca los naranjos tres arrobas")
     assert v["ok"] and v["kg"] == 37.5
+
+
+@pytest.mark.parametrize("texto,nombres", [
+    ("Finca Buenavista, 2 cargas\nFinca El Mirador, 10 arrobas, humedad 16\nFinca El Dorado, 4 arrobas",
+     ["Buenavista", "El Mirador", "El Dorado"]),
+    ("Le traigo 3 arrobas de La Loma y 2 cargas de El Mirador", ["La Loma", "El Mirador"]),
+    ("Finca La Loma 3 arrobas. Finca Los Naranjos una carga", ["La Loma", "Los Naranjos"]),
+    ("Finca La Loma, 3 arrobas y 2 cargas", None),  # dos cantidades: no se sabe cuál es
+])
+def test_varias_entregas_en_un_mensaje_no_registra_ninguna(texto, nombres):
+    v = registrar(texto)
+    problema = " ".join(v["problemas"])
+    assert not v["ok"] and "varias entregas" in problema and "una entrega por mensaje" in problema
+    for n in nombres or []:
+        assert n in problema
+    assert "❌" in whatsapp.respuesta(v)
+
+
+def test_varias_entregas_por_whatsapp_no_deja_eventos(tmp_path):
+    b = Bitacora(tmp_path / "b.jsonl")
+    r = whatsapp.procesar({"From": TELEFONO, "Body": "Finca Buenavista, 2 cargas\nFinca El Mirador, 10 arrobas"},
+                          None, b)
+    assert r["evento"] is None and acopio.eventos() == [] and "una entrega por mensaje" in r["respuesta"]
+    voz = whatsapp.procesar({"From": TELEFONO, "NumMedia": "1", "MediaContentType0": "audio/ogg",
+                             "MediaUrl0": "https://api.twilio.com/2010-04-01/Accounts/AC1/Messages/MM1/Media/ME1"},
+                            descargar=lambda url: b"OggS...",
+                            transcribir=lambda a, t: "Finca La Loma tres arrobas y finca Los Naranjos una carga.")
+    assert voz["evento"] is None and acopio.eventos() == []
+
+
+@pytest.mark.parametrize("texto", [
+    "Finca La Loma, 3 arrobas, humedad 11",
+    "Buenas, le traigo de la finca La Loma 3 arrobas, humedad 11",
+    "finca los naranjos tres arrobas",
+    "Finca Los Naranjos, una carga.",
+    "Finca El Mirador, 10 arrobas, humedad 16",
+])
+def test_una_sola_entrega_no_se_confunde_con_varias(texto):
+    registro = acopio.cargar_registro()
+    assert acopio.varias_entregas(texto, registro) == [] and registrar(texto)["ok"]
 
 
 @pytest.mark.parametrize("propuesta,error", [

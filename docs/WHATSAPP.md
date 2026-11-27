@@ -93,6 +93,7 @@ Desde el celular que ya hizo `join` en el sandbox:
 | `Finca El Mirador, 10 arrobas, humedad 16` | ✅ Recibido… ⚠️ revisen el secado |
 | `Finca El Mirador, 5000 cargas` | ❌ más de lo que la finca produce en un año |
 | `Finca El Dorado, 4 arrobas` | ❌ no está registrada |
+| Dos fincas en un mismo mensaje | ❌ "trae varias entregas… mande una entrega por mensaje" (no registra ninguna) |
 | Nota de voz: "Finca Los Naranjos, una carga" | ✅ Recibido: 1 carga (125 kg)… |
 
 Ver el expediente del lote (en otra ventana):
@@ -118,6 +119,11 @@ opción: el mismo lote a Estados Unidos"** pasa a aprobación humana con el avis
 
 **Sin probar con una cuenta real de Snowflake** (en las pruebas se simula). Usen un rol con permiso solo de
 INSERT en esa tabla.
+
+### 7. Sin túnel: el kit en Azure, con base de datos SQL
+
+Para la demo pública el kit corre en Azure App Service (https://lead-aspire-kit.azurewebsites.net) y cada entrega
+verificada queda también en la tabla `dbo.EventosAcopio` de Azure SQL. Guía: `docs/DESPLIEGUE_AZURE.md`.
 
 ## Seguridad
 

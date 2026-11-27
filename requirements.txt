@@ -4,3 +4,4 @@ pytest>=8.0      # pruebas
 pypdf>=5.0       # leer PDF adjuntos y el precio diario de la Federación
 openpyxl>=3.1    # leer Excel adjuntos (opcional)
 truststore>=0.9   # en Windows: usa los certificados del sistema para verificar datos.gov.co (sin apagar la verificación)
+pyodbc>=5.1      # Azure SQL: guarda las entregas del acopio (opcional; usa el controlador ODBC 18)

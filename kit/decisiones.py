@@ -60,9 +60,13 @@ def _apartar(archivo: Path, subcarpeta: str):
 def leer(archivo: Path) -> dict:
     if archivo.stat().st_size > MAX_BYTES:
         raise ValueError("archivo demasiado grande")
-    datos = json.loads(archivo.read_text(encoding="utf-8-sig"))
+    return interpretar(json.loads(archivo.read_text(encoding="utf-8-sig")))
+
+
+def interpretar(datos) -> dict:
+    """Valida una decisión (del archivo de OneDrive o del POST /api/decisiones) y la normaliza."""
     if not isinstance(datos, dict):
-        raise ValueError("el archivo no es un objeto JSON")
+        raise ValueError("la decisión no es un objeto JSON")
     resultado = str(datos.get("resultado", "")).strip().lower()
     if resultado not in APROBAR | RECHAZAR:
         raise ValueError(f"resultado desconocido: {datos.get('resultado')!r}")
@@ -102,6 +106,33 @@ def procesar(dir_: Path, bandeja, bitacora=None) -> list[dict]:
             if h["resultado"] != "aplicado":  # lo aplicado ya lo registra la bandeja
                 bitacora.registrar("decision_teams_rechazada", h)
     return hechos
+
+
+def aplicar(datos, bandeja, bitacora=None) -> dict:
+    """Una decisión que llega por HTTP (POST /api/decisiones), por ejemplo desde Power Automate al kit en Azure.
+
+    Mismas reglas que la carpeta: token de un solo uso, solo acciones pendientes y segregación de funciones.
+    Devuelve {"resultado": "aplicado" | "ignorado" | "rechazado", ...}.
+    """
+    try:
+        d = interpretar(datos)
+    except Exception as e:  # noqa: BLE001
+        h = {"origen": "http", "resultado": "rechazado", "motivo": f"{type(e).__name__}: {e}"}
+    else:
+        accion = bandeja.acciones.get(d["id"])
+        if accion is None or not accion.token or d["token"] != accion.token:
+            h = {"origen": "http", "resultado": "rechazado", "motivo": "token o acción desconocidos"}
+        elif accion.estado != "pendiente":
+            h = {"origen": "http", "resultado": "ignorado", "motivo": f"la acción ya estaba {accion.estado}"}
+        else:
+            try:
+                bandeja.decidir(d["id"], d["aprobar"], d["aprobador"] or "persona", canal="Teams", comentario=d["comentario"])
+                return {"origen": "http", "resultado": "aplicado", "id": d["id"], "estado": accion.estado}
+            except ValueError as e:
+                h = {"origen": "http", "resultado": "rechazado", "motivo": str(e)}
+    if bitacora:
+        bitacora.registrar("decision_teams_rechazada", h)
+    return h
 
 
 def vigilar(bandeja, bitacora=None, cada: float = 2.0) -> threading.Thread | None:

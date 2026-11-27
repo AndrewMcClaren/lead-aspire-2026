@@ -215,6 +215,8 @@
   .tabla{border-collapse:collapse;font-size:13px;width:100%}
   .tabla td,.tabla th{padding:6px;border-bottom:1px solid var(--fill);text-align:left;vertical-align:top;overflow-wrap:anywhere}
   .tabla th{color:var(--muted);font-weight:600;font-size:12px}
+  .desliza{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .desliza .tabla td,.desliza .tabla th{overflow-wrap:normal;white-space:nowrap}
   .tabla td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
   .tabla tr.total td{font-weight:700;border-top:2px solid var(--line)}
   .analisis .tabla td:first-child{width:auto;color:var(--fg)}
@@ -272,6 +274,7 @@
     <div class="seg" role="tablist" aria-label="Paneles">
       <button role="tab" aria-selected="false" aria-controls="v-doc" data-vista="v-doc">Documentos <span class="cuenta azul" id="cuentaDocs" hidden>0</span></button>
       <button role="tab" aria-selected="true" aria-controls="v-acc" data-vista="v-acc">Acciones <span class="cuenta" id="cuentaPend" hidden>0</span></button>
+      <button role="tab" aria-selected="false" aria-controls="v-aco" data-vista="v-aco" hidden>Acopio <span class="cuenta azul" id="cuentaEntregas" hidden>0</span></button>
       <button role="tab" aria-selected="false" aria-controls="v-exp" data-vista="v-exp">Exportar</button>
       <button role="tab" aria-selected="false" aria-controls="v-bit" data-vista="v-bit">Bitácora</button>
     </div>
@@ -317,6 +320,16 @@
       </form>
       <p class="error" id="accError" hidden></p>
       <div id="acciones" class="lista"></div>
+    </div>
+
+    <div class="vista" id="v-aco" role="tabpanel" hidden>
+      <p class="nota">Lo que entregan los caficultores por WhatsApp (texto o nota de voz). La IA propone el registro y el código lo
+        verifica contra el registro de fincas. Cada lote muestra si puede ir a Europa (todas sus fincas con polígono) o a Estados Unidos.</p>
+      <div id="lotes" class="lista"></div>
+      <div class="doc">
+        <div class="titulo"><b>Entregas recientes</b><span class="datos" id="acoActualizado"></span></div>
+        <div id="entregas"></div>
+      </div>
     </div>
 
     <div class="vista" id="v-exp" role="tabpanel" hidden>
@@ -692,6 +705,76 @@ async function pintarBitacora() {
     `<div class="bit">#${e.n} ${esc(e.fecha.slice(11))} ${esc(e.tipo)} · ${esc(JSON.stringify(e.datos).slice(0, 110))} · ${esc(e.sello.slice(0, 10))}…</div>`).join("");
 }
 
+// ------------------------------------------------------------------ acopio (la vista de la exportadora)
+const kg = n => Number(n || 0).toLocaleString("es-CO", {maximumFractionDigits: 1}) + " kg";
+let vistosEntregas = null, ultimoAcopio = "";
+const expAbiertos = new Set();
+async function pintarAcopio() {
+  const [{ok, datos: lotes}, {datos: ev}] = await Promise.all([api("/api/acopio/lotes"), api("/api/acopio/eventos")]);
+  if (!ok) return false;
+  $("#acoActualizado").textContent = "se actualiza solo · " + new Date().toLocaleTimeString("es-CO");
+  const firma = JSON.stringify([lotes, ev]);
+  if (firma === ultimoAcopio) return true;  // nada cambió: no se redibuja (así no se cierra lo que está abierto)
+  ultimoAcopio = firma;
+  $("#lotes").innerHTML = lotes.map(l => {
+    const d = l.destinos || {};
+    const ue = d.union_europea || {}, us = d.estados_unidos || {};
+    return `<div class="doc"><div class="titulo"><b>Lote ${esc(l.lote)}</b>` +
+      `<span class="sello ${l.apto_ue ? "aprobada" : "bloqueada"}">Europa: ${l.apto_ue ? "apto" : "bloqueado"}</span>` +
+      `<span class="sello ${us.apto === false ? "bloqueada" : "aprobada"}">EE. UU.: ${us.apto === false ? "no" : "apto"}</span></div>` +
+      `<div class="kpis"><div class="kpi"><div class="grande">${kg(l.kg_registrados)}</div><div class="datos">recibidos</div></div>` +
+      `<div class="kpi"><div class="grande">${l.entregas}</div><div class="datos">entregas</div></div>` +
+      `<div class="kpi"><div class="grande">${l.fincas - l.faltantes.length}/${l.fincas}</div><div class="datos">fincas con polígono</div></div></div>` +
+      `<div class="senal ${l.apto_ue ? "info" : "alta"}">${esc(l.motivo)}</div>` +
+      `<div class="fila"><button type="button" class="sec chico" style="flex:0 0 auto" data-expediente="${esc(l.lote)}">Ver expediente</button>` +
+      `<button type="button" class="sec chico" style="flex:0 0 auto" data-descargar="${esc(l.lote)}">Descargar EPCIS (JSON)</button></div>` +
+      `<div id="exp-${esc(l.lote)}"></div></div>`;
+  }).join("") || `<p class="nota">Este caso no tiene lotes registrados.</p>`;
+  const lista = Array.isArray(ev) ? ev : [];
+  $("#entregas").innerHTML = lista.length ? `<div class="desliza"><table class="tabla"><tr><th>Hora</th><th>Finca</th><th>Lote</th><th>Peso</th><th>Humedad</th><th>Canal</th><th>Europa</th></tr>` +
+    lista.slice(0, 20).map(e => { const i = e.ilmd || {}, q = (e.quantityList || [{}])[0];
+      return `<tr><td>${esc(new Date(e.eventTime).toLocaleString("es-CO", {dateStyle: "short", timeStyle: "short"}))}</td>` +
+        `<td>${esc(i.finca)}<div class="datos">${esc(i.cantidad_reportada)}</div></td><td>${esc(i.lote)}</td><td class="num">${kg(q.quantity)}</td>` +
+        `<td class="num">${i.humedad_pct == null ? "—" : String(i.humedad_pct).replace(".", ",") + " %"}</td>` +
+        `<td>${esc(String(i.canal || "").replace("whatsapp:", "WhatsApp · ").replace("nota_de_voz", "voz"))}</td>` +
+        `<td><span class="sello ${i.apto_ue ? "aprobada" : "bloqueada"}">${i.apto_ue ? "sí" : "no"}</span></td></tr>`; }).join("") + `</table></div>`
+    : `<p class="nota">Todavía no hay entregas. Escriban al número de WhatsApp: «Finca La Loma, 3 arrobas, humedad 11».</p>`;
+  for (const lote of expAbiertos) mostrarExpediente(lote);
+  const nuevas = vistosEntregas === null ? 0 : Math.max(0, lista.length - vistosEntregas);
+  if ($("#v-aco").hidden) { if (nuevas) { $("#cuentaEntregas").textContent = nuevas; $("#cuentaEntregas").hidden = false; } }
+  else { vistosEntregas = lista.length; $("#cuentaEntregas").hidden = true; }
+  if (vistosEntregas === null) vistosEntregas = lista.length;
+  return true;
+}
+$("#lotes").onclick = async ev => {
+  const ver = ev.target.dataset.expediente, bajar = ev.target.dataset.descargar;
+  if (ver) {
+    if (expAbiertos.has(ver)) { expAbiertos.delete(ver); document.getElementById("exp-" + ver).innerHTML = ""; }
+    else { expAbiertos.add(ver); mostrarExpediente(ver); }
+    return;
+  }
+  if (!bajar) return;
+  const {ok, datos: x} = await api("/api/acopio/expediente/" + encodeURIComponent(bajar));
+  if (!ok) return;
+  // el expediente completo, con los eventos EPCIS, para mandarlo al comprador
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(x, null, 2)], {type: "application/json"}));
+  a.download = `expediente_${bajar}.json`; a.click(); URL.revokeObjectURL(a.href);
+};
+async function mostrarExpediente(ver) {
+  const {ok, datos: x} = await api("/api/acopio/expediente/" + encodeURIComponent(ver));
+  const caja = document.getElementById("exp-" + ver);
+  if (!ok || !caja || !expAbiertos.has(ver)) return;
+  const req = ((x.destinos || {}).estados_unidos || {}).requisitos || [];
+  caja.innerHTML = `<div class="desliza"><table class="tabla"><tr><th>Finca</th><th>Municipio</th><th>Hectáreas</th><th>Polígono</th><th>Entregó</th><th>Consentimiento</th></tr>` +
+    x.fincas.map(f => `<tr><td>${esc(f.nombre)}<div class="datos">${esc(f.id)}</div></td><td>${esc(f.municipio)}</td><td class="num">${String(f.hectareas).replace(".", ",")}</td>` +
+      `<td><span class="sello ${f.poligono ? "aprobada" : "bloqueada"}">${f.poligono ? "sí" : "falta"}</span></td>` +
+      `<td>${f.con_entregas ? "sí" : "—"}</td><td>${esc(f.consentimiento || "—")}</td></tr>`).join("") + `</table></div>` +
+    (req.length ? `<details class="texto"><summary>Requisitos para Estados Unidos</summary><ul style="font-size:13px;padding-left:18px">${req.map(r => `<li>${esc(r)}</li>`).join("")}</ul></details>` : "") +
+    `<div class="datos">${esc(x.nota || "")}</div>`;
+};
+setInterval(() => { if (!document.hidden && !$('[data-vista="v-aco"]').hidden) pintarAcopio(); }, 5000);
+
 // ------------------------------------------------------------------ exportar
 const usd = n => "USD " + Number(n).toLocaleString("es-CO", {maximumFractionDigits: 0});
 async function cargarMercados() {
@@ -783,6 +866,7 @@ setInterval(() => { if (hayPendientes && !document.hidden) { pintarAcciones(); p
   }
   docs = (await api("/api/documentos")).datos || []; pintarChips(); pintarDocs();
   cargarMercados();
+  if (await pintarAcopio()) $('[data-vista="v-aco"]').hidden = false;  // solo en casos con registro de fincas
   for (const q of e.sugeridas) {
     const b = document.createElement("button"); b.className = "sec"; b.textContent = q; b.onclick = () => preguntar(q);
     $("#sug").appendChild(b);
