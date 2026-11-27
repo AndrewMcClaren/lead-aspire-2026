@@ -156,7 +156,7 @@ Recorrido de la demo (2 minutos):
 
 - El **aviso** a Teams funciona en cualquier computador (es la dirección `NOTIFICAR_URL` del `.env`).
 - La **respuesta** vuelve por una carpeta de OneDrive. En el computador prestado:
-    1. Inicien sesión en OneDrive con su cuenta de la universidad y esperen a que aparezca `lead-aspire/decisiones`.
+    1. Inicien sesión en OneDrive con su cuenta de la universidad y esperen a que aparezca la carpeta donde el flujo deja las decisiones. Es la del campo **Folder Path** de la acción "Create file" del flujo: en la guía es `lead-aspire/decisiones`; en el OneDrive del equipo quedó `lead-aspire-decisiones`, en la raíz.
     2. Entren a esa carpeta en Git Bash y copien su ruta:
 
        ```bash
