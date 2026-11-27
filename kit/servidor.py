@@ -226,6 +226,19 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                 raise ValueError("el cuerpo debe ser un objeto JSON")
             return datos
 
+        def _descartar_cuerpo(self):
+            """Antes de rechazar, lee el cuerpo pequeño que nadie va a usar. Si se cierra la conexión con datos sin
+            leer, Windows corta con un reinicio y el cliente no alcanza a ver el 401, 403 o 429 (ve "conexión
+            abortada"). Un cuerpo grande no se lee: se cierra la conexión."""
+            try:
+                n = int(self.headers.get("Content-Length") or 0)
+            except ValueError:
+                n = -1
+            if 0 < n <= MAX_CUERPO:
+                self.rfile.read(n)
+            elif n:
+                self.close_connection = True
+
         def _rechazo_de_origen(self) -> str | None:
             """CSRF: exige JSON (un formulario de otro sitio no puede mandarlo sin permiso del navegador) y, si hay
             Origin, que sea este mismo servidor."""
@@ -289,11 +302,14 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
 
         def do_POST(self):
             if not self._autorizado():
+                self._descartar_cuerpo()
                 return self._json({"error": "Falta la clave de API (encabezado X-API-Key)"}, 401)
             rechazo = self._rechazo_de_origen()
             if rechazo:
+                self._descartar_cuerpo()
                 return self._json({"error": rechazo}, 415 if "JSON" in rechazo else 403)
             if not permitido(self.client_address[0]):
+                self._descartar_cuerpo()
                 bitacora.registrar("limite_excedido", {"ruta": self.path})
                 return self._json({"error": f"Demasiadas solicitudes: máximo {limite} por minuto"}, 429)
             try:
