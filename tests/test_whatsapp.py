@@ -56,6 +56,27 @@ def test_finca_sin_poligono_se_registra_pero_no_va_a_europa():
     assert v["ok"] and not v["apto_ue"] and any("Unión Europea" in a for a in v["alertas"])
 
 
+def test_sin_poligono_la_segunda_opcion_es_estados_unidos():
+    v = registrar("Finca Buenavista, 2 cargas")
+    assert v["destinos"] == {"union_europea": False, "estados_unidos": True}
+    assert "Estados Unidos" in whatsapp.respuesta(v) and "Unión Europea" in whatsapp.respuesta(v)
+    assert registrar("Finca La Loma, 3 arrobas")["destinos"] == {"union_europea": True, "estados_unidos": True}
+    d = acopio.expediente("L-2026-0412")["destinos"]
+    assert not d["union_europea"]["apto"] and "Buenavista" in d["union_europea"]["motivo"]
+    assert d["estados_unidos"]["apto"] and any("FDA" in r for r in d["estados_unidos"]["requisitos"])
+    assert acopio.expediente("L-2026-0398")["destinos"]["union_europea"]["apto"]
+
+
+def test_guardian_bloquea_europa_y_deja_estados_unidos_para_aprobacion():
+    from kit.aprobacion import revisar_accion
+    estado, motivos = revisar_accion("despachar_lote", None, "Importadora Ejemplo GmbH", "",
+                                     "Despacha el lote L-2026-0412 a Importadora Ejemplo GmbH", lote="L-2026-0412")
+    assert estado == "bloqueada" and any("Estados Unidos" in m for m in motivos)
+    estado, motivos = revisar_accion("despachar_lote", None, "Ejemplo Coffee Imports Inc.", "",
+                                     "Despacha el lote L-2026-0412 a Ejemplo Coffee Imports Inc.", lote="L-2026-0412")
+    assert estado == "pendiente" and any("Prior Notice" in m for m in motivos)  # una persona decide; no se despacha solo
+
+
 def test_finca_no_registrada_y_sin_cantidad():
     assert "no está registrada" in " ".join(registrar("Finca El Dorado, 4 arrobas")["problemas"])
     assert "cuánto" in " ".join(registrar("Finca La Loma, ya le traje el café")["problemas"])

@@ -143,7 +143,12 @@ def revisar_accion(tipo: str, monto: float | None = None, destino: str = "", cue
             subir("pendiente", f"El lote {lote} no está en los datos maestros")
         elif not hallado[1].get("geolocalizado") and registro.get("region") == "UE":
             subir("bloqueada", f"Reglamento europeo contra la deforestación: el lote {hallado[0]} no tiene la geolocalización "
-                               f"de sus fincas y '{destino}' está en la Unión Europea")
+                               f"de sus fincas y '{destino}' está en la Unión Europea. Segunda opción: un comprador "
+                               "en Estados Unidos, que no exige el polígono por finca")
+        elif registro.get("region") == "Estados Unidos":
+            subir("pendiente", f"Destino en Estados Unidos: no exige el polígono por finca, pero antes de despachar el "
+                               f"lote {hallado[0]} hay que tener el registro de la instalación ante la FDA y enviar el "
+                               "aviso previo (Prior Notice) del embarque")
 
     if monto is not None and rubro is not None:
         nombre, datos_rubro = rubro

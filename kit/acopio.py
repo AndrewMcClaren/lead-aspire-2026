@@ -150,10 +150,12 @@ def verificar(propuesta: dict, texto: str, registro: dict | None = None) -> dict
 
     apto_ue = bool(finca and finca.get("poligono"))
     if finca and not apto_ue:
-        alertas.append("La finca no tiene polígono registrado: este café no puede ir a la Unión Europea.")
+        alertas.append("La finca no tiene polígono registrado: este café no puede ir a la Unión Europea. "
+                       "Segunda opción: Estados Unidos, que no exige el polígono por finca.")
     return {"ok": not problemas, "problemas": problemas, "alertas": alertas, "finca_id": finca_id,
             "finca": finca["nombre"] if finca else None, "lote": finca["lote"] if finca else None,
-            "cantidad": cantidad, "unidad": unidad, "kg": kg, "humedad": humedad, "apto_ue": apto_ue}
+            "cantidad": cantidad, "unidad": unidad, "kg": kg, "humedad": humedad, "apto_ue": apto_ue,
+            "destinos": {"union_europea": apto_ue, "estados_unidos": bool(finca)}}
 
 
 def evento_epcis(entrega: dict, registro: dict, canal: str, huella_remitente: str) -> dict:
@@ -185,8 +187,36 @@ def eventos(ruta: Path | None = None) -> list[dict]:
     return [json.loads(x) for x in ruta.read_text(encoding="utf-8").splitlines() if x.strip()]
 
 
+def requisitos_eeuu(carpeta: Path | None = None) -> list[str]:
+    """Los requisitos de Estados Unidos que ya tiene el cotizador del caso (mercados.json); vacío si no están."""
+    ruta = (carpeta or carpeta_datos()) / "mercados.json"
+    try:
+        return list(json.loads(ruta.read_text(encoding="utf-8"))["destinos"]["estados_unidos"]["requisitos"])
+    except (OSError, ValueError, KeyError, TypeError):
+        return []
+
+
+def destinos_del_lote(faltantes: list[str]) -> dict:
+    """Veredicto por destino. La UE exige el polígono de cada finca; Estados Unidos no (segunda opción)."""
+    return {
+        "union_europea": {
+            "apto": not faltantes,
+            "motivo": ("Completo: todas las fincas del lote tienen polígono." if not faltantes else
+                       "BLOQUEADO: faltan polígonos de " + ", ".join(faltantes) + " (reglamento europeo contra la "
+                       "deforestación, UE 2023/1115)."),
+        },
+        "estados_unidos": {
+            "apto": True,
+            "motivo": ("Disponible como segunda opción: Estados Unidos no exige el polígono por finca para el café "
+                       "(la norma de trazabilidad de la FDA, FSMA 204, no incluye el café). Antes de despachar se "
+                       "cumplen sus requisitos."),
+            "requisitos": requisitos_eeuu(),
+        },
+    }
+
+
 def expediente(lote: str, registro: dict | None = None, ruta: Path | None = None) -> dict:
-    """Debida diligencia del lote: fincas con polígono, entregas en EPCIS y el veredicto para la UE."""
+    """Debida diligencia del lote: fincas con polígono, entregas en EPCIS y el veredicto por destino (UE y EE. UU.)."""
     registro = registro or cargar_registro()
     fincas = {i: f for i, f in registro["fincas"].items() if f["lote"] == lote}
     if not fincas:
@@ -197,7 +227,9 @@ def expediente(lote: str, registro: dict | None = None, ruta: Path | None = None
     return {
         "lote": lote, "apto_ue": not faltantes,
         "motivo": ("Completo: todas las fincas del lote tienen polígono." if not faltantes else
-                   "BLOQUEADO para la UE: faltan polígonos de " + ", ".join(faltantes) + "."),
+                   "BLOQUEADO para la UE: faltan polígonos de " + ", ".join(faltantes) + ". "
+                   "Segunda opción: Estados Unidos, que no exige el polígono por finca."),
+        "destinos": destinos_del_lote(faltantes),
         "faltantes": faltantes, "kg_registrados": round(sum(e["quantityList"][0]["quantity"] for e in entregas), 1),
         "fincas": [{"id": i, "nombre": f["nombre"], "municipio": f["municipio"], "hectareas": f["hectareas"],
                     "consentimiento": f.get("consentimiento"), "con_entregas": i in con_entregas,

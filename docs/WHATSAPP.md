@@ -13,7 +13,12 @@ WhatsApp → Twilio → POST /api/whatsapp (firmado) → el kit responde de inme
 ```
 
 Si la finca no tiene polígono, la entrega se registra pero **ese café no puede ir a la UE**, y el expediente del
-lote queda **bloqueado** (`/api/acopio/expediente/<lote>`).
+lote queda **bloqueado para la UE** (`/api/acopio/expediente/<lote>`). **Segunda opción: Estados Unidos**, el
+primer comprador (39 % en el primer semestre de 2026, informe de Asoexport), que no exige el polígono por finca
+para el café (la norma de trazabilidad de la FDA, FSMA 204, no incluye el café: `docs/INDUSTRIA_CAFE_2026.md`).
+El expediente trae el veredicto por destino (`destinos`) con los requisitos de EE. UU. del cotizador
+(`casos/cafe/mercados.json`: registro FDA, aviso previo, FSVP). El guardián bloquea el despacho a Europa y deja el
+despacho a EE. UU. en aprobación humana.
 
 Las fincas de ejemplo están en `casos/cafe/fincas.json` (ficticias): La Loma, El Mirador y Buenavista (Cauca,
 lote L-2026-0412; Buenavista **sin polígono**) y Los Naranjos (Huila, lote L-2026-0398).
@@ -27,12 +32,16 @@ Consola de Twilio → **Account Info**:
 ```
 TWILIO_ACCOUNT_SID=AC...
 TWILIO_AUTH_TOKEN=...
-TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
-KIT_API_KEY=<una clave larga inventada por ustedes>
+TWILIO_WHATSAPP_FROM=whatsapp:+1XXXXXXXXXX
+KIT_API_KEY=<una clave larga: python -c "import secrets; print(secrets.token_urlsafe(32))">
 ```
 
-`TWILIO_WHATSAPP_FROM` es el número del sandbox que aparece en **Messaging → Try it out → Send a WhatsApp
-message**. `KIT_API_KEY` es obligatoria aquí: el túnel publica la página en internet y la clave evita que
+`TWILIO_WHATSAPP_FROM` es el número del sandbox que aparece en **Try out WhatsApp** (antes, **Messaging → Try it
+out → Send a WhatsApp message**). **Cambia según la cuenta**: cópienlo de la consola, no de esta guía.
+
+WhatsApp solo deja responder con texto libre durante las **24 horas** siguientes al último mensaje de la persona.
+Si el kit responde con el error 21654 ("ContentSid Required"), escríbanle `hola` al número del sandbox desde el
+celular y repitan. `KIT_API_KEY` es obligatoria aquí: el túnel publica la página en internet y la clave evita que
 cualquiera use la API (la página la pide al abrir).
 
 ### 2. Abrir un túnel HTTPS
@@ -80,7 +89,7 @@ Desde el celular que ya hizo `join` en el sandbox:
 |---|---|
 | `hola` | La ayuda con un ejemplo |
 | `Finca La Loma, 3 arrobas, humedad 11` | ✅ Recibido: 3 arrobas (37,5 kg)… lote L-2026-0412 |
-| `Finca Buenavista, 2 cargas` | ✅ Recibido… ⚠️ sin polígono: no puede ir a la Unión Europea |
+| `Finca Buenavista, 2 cargas` | ✅ Recibido… ⚠️ sin polígono: no puede ir a la Unión Europea; segunda opción: Estados Unidos |
 | `Finca El Mirador, 10 arrobas, humedad 16` | ✅ Recibido… ⚠️ revisen el secado |
 | `Finca El Mirador, 5000 cargas` | ❌ más de lo que la finca produce en un año |
 | `Finca El Dorado, 4 arrobas` | ❌ no está registrada |
@@ -92,7 +101,12 @@ Ver el expediente del lote (en otra ventana):
 curl -s -H "X-API-Key: <su KIT_API_KEY>" http://localhost:8000/api/acopio/expediente/L-2026-0412
 ```
 
-Debe decir **BLOQUEADO para la UE: faltan polígonos de Buenavista**. El de `L-2026-0398` sale completo.
+Debe decir **BLOQUEADO para la UE: faltan polígonos de Buenavista. Segunda opción: Estados Unidos…**, y en
+`destinos`, la UE con `"apto": false` y Estados Unidos con `"apto": true` y sus requisitos. El de `L-2026-0398`
+sale completo para los dos.
+
+En la página (Control → Acciones), **"Ejemplo: lote sin geolocalización a Europa"** termina bloqueado, y **"Segunda
+opción: el mismo lote a Estados Unidos"** pasa a aprobación humana con el aviso de los requisitos de la FDA.
 
 ### 6. Snowflake (opcional)
 

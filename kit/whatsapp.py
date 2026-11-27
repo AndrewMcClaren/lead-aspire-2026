@@ -14,7 +14,7 @@ Seguridad:
     cambian por marcadores antes de llegar al modelo.
 
 Variables (.env): TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_WHATSAPP_FROM (el número del sandbox, por
-ejemplo whatsapp:+14155238886) y KIT_URL_PUBLICA (la dirección https del túnel o de Azure, sin / al final).
+ejemplo whatsapp:+1XXXXXXXXXX: se copia de la consola) y KIT_URL_PUBLICA (la dirección https del túnel o de Azure, sin / al final).
 Guía paso a paso: docs/WHATSAPP.md
 """
 

@@ -312,6 +312,7 @@
         <div class="fila">
           <button>Proponer acción</button>
           <button type="button" class="sec" id="accTrampa">Ejemplo: cuenta cambiada</button>
+          <button type="button" class="sec" id="accAlterna" hidden>Segunda opción</button>
         </div>
       </form>
       <p class="error" id="accError" hidden></p>
@@ -676,6 +677,10 @@ $("#accTrampa").onclick = () => {
   $("#accCuenta").value = "Banco Nuevo 4410-778899-03";
   $("#accDetalle").value = "Pago factura FE-0001 (el correo dice que cambiaron de cuenta)";
 };
+$("#accAlterna").onclick = () => {  // otro destino para el mismo caso (en café: Estados Unidos)
+  const t = estado.accion_ejemplo && estado.accion_ejemplo.alternativa;
+  if (t) for (const [k, id] of Object.entries(CAMPOS)) if (t[k] !== undefined) $(id).value = t[k];
+};
 const CAMPOS = {tipo: "#accTipo", monto: "#accMonto", destino: "#accDestino", cuenta: "#accCuenta", lote: "#accLote",
                 peticion: "#accPeticion", detalle: "#accDetalle", solicitante: "#accSolicitante", aprobador: "#aprobador"};
 
@@ -767,6 +772,9 @@ setInterval(() => { if (hayPendientes && !document.hidden) { pintarAcciones(); p
   if (e.accion_ejemplo) {  // el ejemplo de acción también sale del caso
     for (const [k, id] of Object.entries(CAMPOS)) if (e.accion_ejemplo[k] !== undefined && typeof e.accion_ejemplo[k] !== "object") $(id).value = e.accion_ejemplo[k];
     if (e.accion_ejemplo.trampa && e.accion_ejemplo.trampa.nombre) $("#accTrampa").textContent = e.accion_ejemplo.trampa.nombre;
+    if (e.accion_ejemplo.alternativa && e.accion_ejemplo.alternativa.nombre) {
+      $("#accAlterna").textContent = e.accion_ejemplo.alternativa.nombre; $("#accAlterna").hidden = false;
+    }
   }
   for (const nombre of e.ejemplos || []) {
     const b = document.createElement("button"); b.type = "button"; b.className = "sec chico"; b.title = nombre;
