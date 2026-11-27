@@ -313,14 +313,23 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
         def _whatsapp(self):
             """Webhook de Twilio: no usa X-API-Key ni JSON; lo protege la firma de Twilio (falla cerrada)."""
             if not permitido(self.client_address[0]):
+                self._descartar_cuerpo()
                 return self._json({"error": "Demasiadas solicitudes"}, 429)
-            n = int(self.headers.get("Content-Length") or 0)
-            if n > MAX_CUERPO:
+            try:
+                n = int(self.headers.get("Content-Length") or 0)
+            except ValueError:
+                n = -1
+            if n < 0 or n > MAX_CUERPO:
+                self.close_connection = True
                 return self._json({"error": "cuerpo demasiado grande"}, 413)
             tipo = self.headers.get("Content-Type", "").split(";")[0].strip().lower()
             if tipo != "application/x-www-form-urlencoded":
+                self._descartar_cuerpo()
                 return self._json({"error": "Se espera el formulario de Twilio"}, 415)
-            params = whatsapp.leer_formulario(self.rfile.read(n))
+            try:
+                params = whatsapp.leer_formulario(self.rfile.read(n))
+            except UnicodeDecodeError:
+                return self._json({"error": "El formulario no es UTF-8"}, 400)
             if not whatsapp.firma_valida(whatsapp.url_publica(self.headers.get("Host", "")), params,
                                          self.headers.get("X-Twilio-Signature", "")):
                 bitacora.registrar("whatsapp_rechazado", {"motivo": "firma inválida o sin TWILIO_AUTH_TOKEN"})

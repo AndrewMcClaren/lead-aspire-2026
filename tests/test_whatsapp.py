@@ -185,6 +185,7 @@ def test_webhook_en_el_servidor(monkeypatch, tmp_path):
         assert post(form, "application/x-www-form-urlencoded")[0] == 403
         assert post(form, "application/x-www-form-urlencoded", "firma-falsa")[0] == 403
         assert post(json.dumps(params).encode(), "application/json", buena)[0] == 415
+        assert post(b"Body=\xff\xfe", "application/x-www-form-urlencoded", buena)[0] == 400  # no es UTF-8
         alterado = urllib.parse.urlencode({**params, "Body": "Finca La Loma, 300 arrobas"}).encode()
         assert post(alterado, "application/x-www-form-urlencoded", buena)[0] == 403
         codigo, cuerpo = post(form, "application/x-www-form-urlencoded", buena)
