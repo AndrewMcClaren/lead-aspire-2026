@@ -19,6 +19,7 @@ subcarpeta "rechazadas" y queda en la bitácora.
 
 import json
 import os
+import sys
 import threading
 import time
 from pathlib import Path
@@ -31,6 +32,20 @@ MAX_BYTES = 8 * 1024
 def carpeta() -> Path | None:
     valor = os.environ.get("KIT_DECISIONES", "").strip().strip('"')
     return Path(valor) if valor else None
+
+
+def revisar_carpeta() -> str | None:
+    """None si KIT_DECISIONES no está definida o la carpeta sirve; si no, el problema en palabras simples."""
+    dir_ = carpeta()
+    if dir_ is None:
+        return None
+    if not dir_.parent.is_dir():
+        return f"KIT_DECISIONES apunta a {dir_}, que no existe en este computador (¿el .env viene de otro?)"
+    try:
+        dir_.mkdir(exist_ok=True)
+    except OSError as e:
+        return f"no se pudo usar la carpeta de KIT_DECISIONES ({dir_}): {type(e).__name__}"
+    return None
 
 
 def _apartar(archivo: Path, subcarpeta: str):
@@ -94,7 +109,13 @@ def vigilar(bandeja, bitacora=None, cada: float = 2.0) -> threading.Thread | Non
     dir_ = carpeta()
     if dir_ is None:
         return None
-    dir_.mkdir(parents=True, exist_ok=True)
+    problema = revisar_carpeta()
+    if problema:
+        # Falla cerrada: la demo arranca, pero ninguna decisión de Teams se aplica; las acciones quedan pendientes
+        # y se pueden aprobar en la página. Pasa cuando el .env viene de otro computador.
+        print(f"AVISO: {problema}. Las decisiones de Teams no volverán al kit hasta corregir KIT_DECISIONES en el .env.",
+              file=sys.stderr)
+        return None
 
     def ciclo():
         while True:

@@ -42,9 +42,16 @@ Configuración avanzada de aplicaciones → Alias de ejecución de aplicaciones 
 
 ## 2. Traer el repositorio desde la USB
 
+**No lo pongan dentro de OneDrive.** En muchos computadores el Escritorio está en OneDrive
+(`~/OneDrive/Desktop`): todo lo que quede ahí, incluido el `.env` con las claves, se sube a la nube de la persona
+dueña del computador. Usen una carpeta fuera de OneDrive, por ejemplo `C:\lead`:
+
 ```bash
-cd ~/Desktop
+mkdir -p /c/lead && cd /c/lead
 ```
+
+Si ya lo clonaron en `~/OneDrive/Desktop`, muevan la carpeta a `C:\lead` antes de copiar el `.env` (o, si el `.env`
+ya está ahí, bórrenlo también de la papelera de OneDrive en la web y regeneren las claves al terminar).
 
 ```bash
 git clone /e/lead-aspire-2026.bundle lead-aspire-2026
@@ -72,7 +79,10 @@ python -m pip install snowflake-connector-python
 cp /e/.env .env
 ```
 
-Abran el `.env` con el Bloc de notas y revisen `KIT_DECISIONES` (sección 8): apunta a una carpeta de **su** computador.
+Abran el `.env` con el Bloc de notas y revisen `KIT_DECISIONES` (sección 8): apunta a una carpeta de **su**
+computador (por ejemplo `C:\Users\<su usuario>\OneDrive\...`), que no existe en el prestado. Déjenla **vacía**
+(`KIT_DECISIONES=`) hasta hacer la sección 8. Si la dejan con la ruta vieja, `kit.verificar` lo avisa y el servidor
+arranca sin recibir decisiones de Teams.
 
 ```bash
 notepad .env
@@ -84,13 +94,23 @@ notepad .env
 python -m pytest -q
 ```
 
-Debe decir **79 passed** (o más).
+Debe decir **92 passed** (o más).
 
 ```bash
 python -m kit.verificar --modelo azure:demo --escudo --voz
 ```
 
-Debe decir "Todo lo obligatorio está listo" y probar Azure OpenAI, Prompt Shields y Speech.
+Debe decir "Todo lo obligatorio está listo" y probar Azure OpenAI, Prompt Shields y Speech. Si aparece la línea
+"Carpeta de decisiones de Teams ... no existe en este computador", corrijan `KIT_DECISIONES` (secciones 4 y 8).
+
+La prueba de seguridad con el modelo real (unos minutos; no manda avisos a Teams):
+
+```bash
+KIT_JUEZ=1 python -m seguridad.pentest --modelo azure:demo
+```
+
+Debe decir **0 vulnerables**. Si aparece "(error de la prueba)" en algún frente, ese frente no se probó: lean el
+detalle en la tabla.
 
 ## 6. Datos del día (la mañana del evento)
 
@@ -151,7 +171,7 @@ Recorrido de la demo (2 minutos):
 | Para qué | Comando |
 |---|---|
 | Medir antes y después con el modelo real (el número del pitch) | `KIT_DATOS=casos/cafe python -m kit.medir --modelo azure:demo` |
-| Prueba de seguridad completa | `python -m seguridad.pentest` |
+| Prueba de seguridad completa | `python -m seguridad.pentest` (con el modelo real: `KIT_JUEZ=1 python -m seguridad.pentest --modelo azure:demo`) |
 | Revisar que nadie alteró la bitácora | `python -m kit.bitacora verificar` |
 | Revisar que nadie alteró las cifras | `KIT_DATOS=casos/cafe python -m kit.integridad revisar` |
 | Volver a sellar después de cambiar cifras a mano | `KIT_DATOS=casos/cafe python -m kit.integridad sellar` |
@@ -170,19 +190,16 @@ Power BI Desktop es gratis en la Microsoft Store; la plantilla y sus pasos está
 | `Address already in use` o el puerto 8000 ocupado | Ya hay un servidor abierto en otra ventana: ciérrenlo con Ctrl+C, o usen `--puerto 8001` y abran http://localhost:8001 |
 | "Prompt Shields: False" o "voz: False" al arrancar | Falta esa variable en el `.env` o está mal copiada: `python -m kit.verificar --escudo --voz` dice cuál |
 | Error 401 o 403 de Azure | La clave del `.env` no corresponde al recurso, o el recurso está en otra región: revisen el portal de Azure |
+| `PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\...'` | `KIT_DECISIONES` apunta a la carpeta del otro computador: déjenla vacía o pongan la ruta de la sección 8 |
 | La página no carga los cambios | Ctrl+F5 en el navegador |
 | Sin internet en el evento | `KIT_DATOS=casos/cafe python -m kit.servidor` (simulado) y el video de respaldo |
 
 ## 11. Al terminar (en el computador prestado)
 
 ```bash
-cd ~/Desktop
+rm /c/lead/lead-aspire-2026/.env
 ```
 
-```bash
-rm lead-aspire-2026/.env
-```
-
-Después borren la carpeta `lead-aspire-2026` desde el Explorador de archivos, cierren su sesión de OneDrive y de
+Después borren la carpeta `C:\lead` desde el Explorador de archivos, cierren su sesión de OneDrive y de
 Teams, y si quieren más tranquilidad, regeneren las claves en el portal de Azure (recurso → Claves y punto de
 conexión → Regenerar) y actualícenlas en el `.env` de su computador.

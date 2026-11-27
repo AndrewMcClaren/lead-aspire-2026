@@ -65,6 +65,10 @@ def main():
                              ("Azure Speech", ("SPEECH_KEY", "SPEECH_REGION"))):
         faltan = [v for v in variables if not os.environ.get(v)]
         marca(f"Variables de {grupo}", not faltan, "faltan " + ", ".join(faltan) if faltan else "listas", opcional=True)
+    from .decisiones import carpeta as carpeta_decisiones, revisar_carpeta
+    if carpeta_decisiones() is not None:
+        problema = revisar_carpeta()
+        marca("Carpeta de decisiones de Teams (KIT_DECISIONES)", not problema, problema or "existe", opcional=True)
     if a.modelo:
         try:
             r = responder(pregunta, modelos.crear(a.modelo, tabla), tabla)

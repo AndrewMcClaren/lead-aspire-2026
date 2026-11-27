@@ -673,6 +673,20 @@ def test_decisiones_desde_teams_con_token(tmp_path, monkeypatch):
     assert '"canal": "Teams"' in texto and "decision_teams_rechazada" in texto and a2.token not in texto
 
 
+def test_carpeta_de_decisiones_de_otro_computador_no_tumba_la_demo(tmp_path, monkeypatch, capsys):
+    # El .env copiado de otro computador apunta a la carpeta de OneDrive de otra persona: la demo debe arrancar igual
+    from kit import decisiones
+    from kit.servidor import crear_app
+    monkeypatch.setenv("KIT_DECISIONES", str(tmp_path / "no_existe" / "OneDrive" / "decisiones"))
+    assert "no existe en este computador" in decisiones.revisar_carpeta()
+    assert decisiones.vigilar(Bandeja(Bitacora(tmp_path / "b.jsonl"))) is None
+    assert "KIT_DECISIONES" in capsys.readouterr().err
+    assert crear_app("simulado", Bitacora(tmp_path / "c.jsonl")) is not None
+    assert not (tmp_path / "no_existe").exists()  # no inventa carpetas en el computador
+    monkeypatch.setenv("KIT_DECISIONES", str(tmp_path / "decisiones"))  # carpeta válida: se crea y se vigila
+    assert decisiones.revisar_carpeta() is None and (tmp_path / "decisiones").is_dir()
+
+
 def test_aviso_a_power_automate_lleva_el_token(monkeypatch):
     from kit import aprobacion
     enviados = []
