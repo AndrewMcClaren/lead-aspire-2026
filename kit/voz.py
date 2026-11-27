@@ -44,6 +44,23 @@ def voz_a_texto(wav: bytes, idioma: str = "es-CO") -> str:
     return r.get("DisplayText", "") if r.get("RecognitionStatus") == "Success" else f"[{r.get('RecognitionStatus')}]"
 
 
+FORMATOS_AUDIO = {"audio/ogg": "audio/ogg; codecs=opus", "audio/wav": "audio/wav; codecs=audio/pcm; samplerate=16000"}
+
+
+def voz_a_texto_audio(audio: bytes, tipo: str, idioma: str = "es-CO") -> str:
+    """Transcribe una nota de voz de WhatsApp (OGG con Opus) o un WAV. Máximo unos 60 segundos con esta API."""
+    formato = FORMATOS_AUDIO.get(tipo.split(";")[0].strip().lower())
+    if formato is None:
+        raise ValueError(f"Formato de audio no soportado: {tipo}")
+    region = os.environ["SPEECH_REGION"]
+    url = (f"https://{region}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1"
+           f"?language={idioma}&format=simple")
+    r = json.loads(_pedir(url, audio, {"Content-Type": formato}))
+    if r.get("RecognitionStatus") != "Success":
+        raise ValueError(f"Speech no reconoció el audio: {r.get('RecognitionStatus')}")
+    return r.get("DisplayText", "")
+
+
 if __name__ == "__main__":
     from . import cargar_env
     cargar_env()

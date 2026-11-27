@@ -1,0 +1,20 @@
+{
+  "nota": "Registro de fincas del centro de acopio piloto (ficticio). Cada finca se registra una vez, con su polígono capturado en campo y el consentimiento del productor. Ninguna finca ni productor es real; los polígonos son de ejemplo.",
+  "acopio": {"id": "acopio:cauca-piloto-01", "nombre": "Centro de acopio piloto (ejemplo)", "municipio": "Cauca"},
+  "humedad_aceptada": [10, 12],
+  "unidades_kg": {"kg": 1, "kilo": 1, "kilos": 1, "arroba": 12.5, "arrobas": 12.5, "carga": 125, "cargas": 125},
+  "productividad_sacos_ha": 20.88,
+  "fincas": {
+    "F-CAU-001": {"nombre": "La Loma", "municipio": "Piendamó", "hectareas": 0.9, "lote": "L-2026-0412",
+                  "consentimiento": "2026-11-20",
+                  "poligono": [[-76.5281, 2.6412], [-76.5269, 2.6412], [-76.5269, 2.6401], [-76.5281, 2.6401], [-76.5281, 2.6412]]},
+    "F-CAU-002": {"nombre": "El Mirador", "municipio": "Morales", "hectareas": 0.7, "lote": "L-2026-0412",
+                  "consentimiento": "2026-11-21",
+                  "poligono": [[-76.6302, 2.7551], [-76.6291, 2.7551], [-76.6291, 2.7542], [-76.6302, 2.7542], [-76.6302, 2.7551]]},
+    "F-CAU-003": {"nombre": "Buenavista", "municipio": "Cajibío", "hectareas": 0.8, "lote": "L-2026-0412",
+                  "consentimiento": "2026-11-22", "poligono": null},
+    "F-HUI-001": {"nombre": "Los Naranjos", "municipio": "Pitalito", "hectareas": 1.4, "lote": "L-2026-0398",
+                  "consentimiento": "2026-11-18",
+                  "poligono": [[-76.0471, 1.8532], [-76.0455, 1.8532], [-76.0455, 1.8519], [-76.0471, 1.8519], [-76.0471, 1.8532]]}
+  }
+}

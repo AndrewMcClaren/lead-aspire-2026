@@ -120,6 +120,32 @@ def traer(consulta: str, sellar: bool = True, conexion=None) -> dict:
     return {"filas": n, "ruta": ruta, "huella": huella, "sellado": sellar}
 
 
+TABLA_EVENTOS = re.compile(r"^[A-Za-z_][A-Za-z0-9_$]*(\.[A-Za-z_][A-Za-z0-9_$]*){0,2}$")
+
+
+def guardar_eventos(eventos: list[dict], conexion=None) -> int:
+    """Escribe eventos del acopio (EPCIS) en la tabla SNOWFLAKE_TABLA_EVENTOS. La escribe el código, nunca el modelo.
+
+    Tabla: casos/cafe/snowflake_eventos.sql. Usen un usuario con permiso solo de INSERT en esa tabla.
+    """
+    tabla = os.environ.get("SNOWFLAKE_TABLA_EVENTOS", "")
+    if not TABLA_EVENTOS.match(tabla):
+        raise ValueError("SNOWFLAKE_TABLA_EVENTOS no está definida o no es un nombre de tabla válido")
+    import json
+    filas = [(e["eventID"], e["eventTime"], e["ilmd"]["lote"], e["quantityList"][0]["epcClass"].removeprefix("finca:"),
+              e["quantityList"][0]["quantity"], e["ilmd"]["humedad_pct"], e["ilmd"]["apto_ue"], e["ilmd"]["canal"],
+              json.dumps(e, ensure_ascii=False)) for e in eventos]
+    con = conexion or conectar()
+    try:
+        cur = con.cursor()
+        cur.executemany(f"INSERT INTO {tabla} (EVENT_ID, EVENT_TIME, LOTE, FINCA_ID, KG, HUMEDAD_PCT, APTO_UE, CANAL, "
+                        "EVENTO_JSON) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)", filas)
+    finally:
+        if conexion is None:
+            con.close()
+    return len(filas)
+
+
 def main(argv: list[str]) -> int:
     from . import cargar_env
     cargar_env()

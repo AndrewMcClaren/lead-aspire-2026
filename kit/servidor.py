@@ -29,6 +29,9 @@ Rutas:
   POST /api/sesion/reiniciar  {"revisor": "nombre"} -> vuelve la sesión a "limpia" (también una detenida)
   GET  /api/bitacora          verificación de la bitácora y sus últimas entradas
   GET  /swagger.json          definición OpenAPI 2.0 para un conector de Power Platform o Copilot Studio
+  POST /api/whatsapp          webhook de Twilio (formulario firmado con X-Twilio-Signature, no JSON): entrega al acopio
+  GET  /api/acopio/eventos    entregas registradas (eventos EPCIS)
+  GET  /api/acopio/expediente/<lote>   debida diligencia del lote para la UE (bloqueado si falta un polígono)
 
 Defensas de la API (probadas con python -m seguridad.pentest):
   - Toda solicitud POST debe ser JSON (Content-Type: application/json) y, si el navegador manda Origin, ser del
@@ -55,7 +58,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from . import integridad, modelos, privacidad
-from . import decisiones
+from . import acopio, decisiones, whatsapp
 from . import documentos as docmod
 from . import exportar
 from .aprobacion import Bandeja, cargar_maestros, cargar_politica, nueva_sesion, registrar_incidentes, revisar_accion
@@ -293,6 +296,13 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                     return self._json({"error": str(e)}, 404)
             if self.path == "/api/acciones":
                 return self._json(bandeja.lista())
+            if self.path == "/api/acopio/eventos":
+                return self._json(acopio.eventos()[-50:][::-1])
+            if self.path.startswith("/api/acopio/expediente/"):
+                try:
+                    return self._json(acopio.expediente(self.path.rsplit("/", 1)[1]))
+                except FileNotFoundError as e:
+                    return self._json({"error": str(e)}, 404)
             if self.path == "/api/bitacora":
                 ok, n, problema = verificar(bitacora.ruta)
                 lineas = bitacora.ruta.read_text(encoding="utf-8").splitlines() if bitacora.ruta.exists() else []
@@ -300,7 +310,30 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                                    "ultimas": [json.loads(x) for x in lineas[-8:]][::-1]})
             return self._json({"error": "no existe"}, 404)
 
+        def _whatsapp(self):
+            """Webhook de Twilio: no usa X-API-Key ni JSON; lo protege la firma de Twilio (falla cerrada)."""
+            if not permitido(self.client_address[0]):
+                return self._json({"error": "Demasiadas solicitudes"}, 429)
+            n = int(self.headers.get("Content-Length") or 0)
+            if n > MAX_CUERPO:
+                return self._json({"error": "cuerpo demasiado grande"}, 413)
+            tipo = self.headers.get("Content-Type", "").split(";")[0].strip().lower()
+            if tipo != "application/x-www-form-urlencoded":
+                return self._json({"error": "Se espera el formulario de Twilio"}, 415)
+            params = whatsapp.leer_formulario(self.rfile.read(n))
+            if not whatsapp.firma_valida(whatsapp.url_publica(self.headers.get("Host", "")), params,
+                                         self.headers.get("X-Twilio-Signature", "")):
+                bitacora.registrar("whatsapp_rechazado", {"motivo": "firma inválida o sin TWILIO_AUTH_TOKEN"})
+                return self._json({"error": "Firma de Twilio inválida"}, 403)
+            guardar = None
+            if os.environ.get("SNOWFLAKE_TABLA_EVENTOS"):
+                from .snowflake import guardar_eventos as guardar
+            whatsapp.atender_en_segundo_plano(params, modelo, bitacora, guardar)
+            return self._enviar(b"<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response></Response>", "text/xml")
+
         def do_POST(self):
+            if self.path == whatsapp.RUTA:
+                return self._whatsapp()
             if not self._autorizado():
                 self._descartar_cuerpo()
                 return self._json({"error": "Falta la clave de API (encabezado X-API-Key)"}, 401)
