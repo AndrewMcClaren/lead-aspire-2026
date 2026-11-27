@@ -22,7 +22,7 @@ from pathlib import Path
 
 from .cifras import carpeta_datos
 
-ARCHIVOS = ("cifras.csv", "contexto.md", "politica.json", "maestros.json", "casos.json", "sugeridas.json")
+ARCHIVOS = ("cifras.csv", "contexto.md", "politica.json", "maestros.json", "casos.json", "sugeridas.json", "mercados.json")
 SELLO = "huellas.json"
 
 

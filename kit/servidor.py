@@ -18,6 +18,9 @@ Rutas:
   POST /api/documentos/<id>/proponer   envía esa solicitud a la bandeja de aprobación (y a Teams)
   POST /api/documentos/<id>/quitar
   GET  /api/ejemplos          documentos de ejemplo del caso (carpeta ejemplos/)
+  GET  /api/mercados          pasos para exportar y mercados (demanda, arancel, tránsito, requisitos)
+  POST /api/cotizar           {"destino": "china", "sacos": 10, "tipo": "excelso", "produccion_sacos_mes": null}
+  POST /api/comprador         {"nombre": "...", "cuenta": "..."} -> conocimiento del cliente contra los datos maestros
   POST /api/ejemplos/<nombre> adjunta un documento de ejemplo
   POST /api/voz               {"texto": "..."} -> audio WAV de Azure Speech (404 si no está configurado)
   GET  /api/acciones          acciones propuestas y su estado
@@ -54,6 +57,7 @@ from urllib.parse import urlparse
 from . import integridad, modelos, privacidad
 from . import decisiones
 from . import documentos as docmod
+from . import exportar
 from .aprobacion import Bandeja, cargar_maestros, cargar_politica, nueva_sesion, registrar_incidentes, revisar_accion
 from .asistente import responder
 from .bitacora import Bitacora, huella, proteger, verificar
@@ -269,6 +273,11 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                 return self._json([publico(d) for d in adjuntos.values()])
             if self.path == "/api/ejemplos":
                 return self._json(ejemplos())
+            if self.path == "/api/mercados":
+                try:
+                    return self._json(exportar.mercados())
+                except FileNotFoundError as e:
+                    return self._json({"error": str(e)}, 404)
             if self.path == "/api/acciones":
                 return self._json(bandeja.lista())
             if self.path == "/api/bitacora":
@@ -337,6 +346,24 @@ def crear_app(nombre_modelo: str = "simulado", bitacora: Bitacora | None = None)
                 except docmod.DocumentoInvalido as e:
                     bitacora.registrar("documento_rechazado", {"nombre": str(datos.get("nombre"))[:120], "motivo": str(e)})
                     return self._json({"error": str(e)}, 400)
+            if self.path == "/api/cotizar":
+                sacos, prod = datos.get("sacos"), datos.get("produccion_sacos_mes")
+                try:
+                    sacos = float(sacos)
+                    prod = float(prod) if prod not in (None, "") else None
+                    r = exportar.cotizar(str(datos.get("destino", "")), sacos, str(datos.get("tipo", "excelso")), prod, tabla)
+                except (TypeError, ValueError, FileNotFoundError) as e:
+                    return self._json({"error": str(e)}, 400)
+                bitacora.registrar("cotizacion", {"destino": r["destino"], "sacos": r["sacos"], "total_usd": r["total_usd"],
+                                                  "alertas": [a["nivel"] for a in r["alertas"]]})
+                return self._json(r)
+            if self.path == "/api/comprador":
+                nombre = str(datos.get("nombre", "")).strip()[:120]
+                if not nombre:
+                    return self._json({"error": "Falta el nombre del comprador"}, 400)
+                r = exportar.conocer_comprador(nombre, str(datos.get("cuenta", ""))[:120])
+                bitacora.registrar("conocimiento_cliente", proteger({"nombre": nombre, "estado": r["estado"]}, ()))
+                return self._json(r)
             if self.path.startswith("/api/ejemplos/"):
                 nombre = self.path.rsplit("/", 1)[1]
                 from urllib.parse import unquote

@@ -1,0 +1,160 @@
+{
+  "nota": "Supuestos del cotizador de exportación. Lo que tiene fuente es dato verificado; lo marcado 'ejemplo' es un valor de referencia para practicar que se debe reemplazar por la cotización de una naviera o agente de carga. Editen este archivo, no el código.",
+  "colombia": {
+    "produccion_sacos_60kg_anio": 12650000,
+    "produccion_fuente": "Federación Nacional de Cafeteros: año cafetero 2025/26, 12,65 millones de sacos de 60 kg (El Universal, 9-oct-2026)",
+    "area_ha": 833060,
+    "productividad_sacos_ha_anio": 21,
+    "estructura_fuente": "FNC, Informe de Gestión 2025: 833.060 ha y 21 sacos por hectárea",
+    "contribucion_usd_lb": 0.06,
+    "contribucion_fuente": "Contribución cafetera de unos 6 centavos de dólar por libra de café verde exportado (Vanguardia, 14-nov-2026; Ley 1337 de 2009). Confirmar el valor vigente con la FNC"
+  },
+  "pasos": [
+    {"paso": "Registrarse como exportador de café ante la Federación Nacional de Cafeteros (en línea desde 2023)", "fuente": "FNC, Plataforma Digital para la Administración del Registro de Exportadores"},
+    {"paso": "Tener el RUT con la responsabilidad de exportador ante la DIAN (usuario aduanero)", "fuente": "DIAN"},
+    {"paso": "Conseguir el comprador y firmar el contrato: calidad, cantidad, precio (contrato C más diferencial o precio fijo), Incoterm, fecha de embarque y forma de pago", "fuente": "Práctica comercial"},
+    {"paso": "Validar al comprador y asegurar el pago: carta de crédito irrevocable y confirmada, o pago anticipado con un comprador nuevo", "fuente": "Práctica comercial (UCP 600 de la Cámara de Comercio Internacional)"},
+    {"paso": "Hacer el anuncio de exportación de cada embarque ante la FNC (Portal Cafetero)", "fuente": "FNC"},
+    {"paso": "Pagar antes de exportar la contribución cafetera", "fuente": "Resolución 05 de 2015 del Comité Nacional; Ley 1337 de 2009"},
+    {"paso": "Trillar, empacar (sacos de 70 kg) y llevar a puerto; Almacafé revisa la calidad y emite el certificado al entrar a puerto", "fuente": "Resolución 2 de 2016 del Comité Nacional; Circular 007 de la FNC (15-dic-2025)"},
+    {"paso": "Certificado de origen del café colombiano (lo tramita la FNC para cada embarque) y los requisitos del país de destino (ver cada mercado)", "fuente": "FNC"},
+    {"paso": "Declaración de exportación ante la DIAN (directamente o con una agencia de aduanas), reserva con la naviera y conocimiento de embarque", "fuente": "DIAN"},
+    {"paso": "Enviar los documentos al comprador o al banco y cobrar: factura, lista de empaque, conocimiento de embarque, certificados de origen y calidad", "fuente": "Práctica comercial"}
+  ],
+  "supuestos": {
+    "kg_por_saco_exportacion": 70,
+    "sacos_por_contenedor_20": 275,
+    "m3_por_saco": 0.11,
+    "transporte_interno_usd_saco": 6,
+    "tramites_por_embarque_usd": 350,
+    "seguro_pct_cif": 0.35,
+    "diferenciales_usd_lb": {"excelso": 0.45, "especial": 1.2},
+    "diferencial_referencia": "Diferencial del café colombiano: cerca de 0,72 USD/lb en septiembre-octubre de 2026 (FNC, informes mensuales). Los dos valores del cotizador son ejemplos editables",
+    "dias_preparacion": [5, 10],
+    "dias_consolidacion_lcl": [5, 12],
+    "maximo_sacos_aereo": 15,
+    "minimo_sacos_contenedor": 200,
+    "nota_valores": "Transporte interno, trámites, fletes y seguro son VALORES DE EJEMPLO para practicar. Cambian cada semana: pidan cotización a una naviera o agente de carga."
+  },
+  "destinos": {
+    "estados_unidos": {
+      "nombre": "Estados Unidos",
+      "puerto_origen": "Cartagena o Santa Marta",
+      "puerto_destino": "Nueva York o Houston",
+      "transito_dias": [7, 12],
+      "transito_aereo_dias": [2, 4],
+      "arancel_verde_pct": 0,
+      "arancel_fuente": "Café verde y tostado excluidos del recargo de 12,5 % a Colombia vigente desde el 24-jul-2026 (El Colombiano); arancel general del café verde: 0 %",
+      "participacion_pct": 40.9,
+      "participacion_fuente": "FNC, exportaciones enero-octubre de 2026",
+      "requisitos": [
+        "Registro ante la FDA de la instalación que empaca o almacena el café (el exportador o la trilladora)",
+        "Aviso previo (Prior Notice) a la FDA para cada embarque",
+        "El importador responde por el programa de verificación de proveedores (FSVP)",
+        "Revisar la clasificación arancelaria de cada producto: la exclusión del recargo es por línea arancelaria"
+      ],
+      "certificaciones_frecuentes": "Orgánico USDA, Rainforest Alliance, Fairtrade, comercio directo para cafés especiales",
+      "flete_contenedor_20_usd": 1500,
+      "lcl_usd_m3": 95,
+      "aereo_usd_kg": 4.5
+    },
+    "union_europea": {
+      "nombre": "Unión Europea (Hamburgo o Amberes)",
+      "puerto_origen": "Cartagena",
+      "puerto_destino": "Hamburgo (Alemania) o Amberes (Bélgica)",
+      "transito_dias": [18, 25],
+      "transito_aereo_dias": [3, 5],
+      "arancel_verde_pct": 0,
+      "arancel_fuente": "Acuerdo comercial UE-Colombia, aplicado desde el 1-ago-2013: café verde sin arancel",
+      "participacion_pct": 16.5,
+      "participacion_fuente": "FNC, enero-octubre de 2026: Alemania 6,5 %, Bélgica 5,5 %, España 2,3 %, Países Bajos 2,2 %",
+      "requisitos": [
+        "Reglamento europeo contra la deforestación (EUDR): debida diligencia con la geolocalización de cada finca y prueba de legalidad. Aplica desde el 30-dic-2026 a empresas grandes y medianas y desde el 30-jun-2027 a micro y pequeñas (Reglamento UE 2025/2650)",
+        "Límites máximos de residuos de plaguicidas de la UE",
+        "Prueba de origen (EUR.1 o declaración) solo si el producto paga arancel sin el acuerdo, por ejemplo el tostado"
+      ],
+      "certificaciones_frecuentes": "Orgánico UE, Rainforest Alliance, Fairtrade, 4C; trazabilidad EUDR",
+      "flete_contenedor_20_usd": 2200,
+      "lcl_usd_m3": 110,
+      "aereo_usd_kg": 5
+    },
+    "china": {
+      "nombre": "China (Shanghái)",
+      "puerto_origen": "Buenaventura",
+      "puerto_destino": "Shanghái",
+      "transito_dias": [30, 40],
+      "transito_aereo_dias": [4, 7],
+      "arancel_verde_pct": 8,
+      "arancel_fuente": "Arancel de nación más favorecida del café verde (sin tratado con Colombia). VERIFICAR la tarifa vigente con ProColombia antes de cotizar",
+      "participacion_pct": 3.1,
+      "participacion_fuente": "FNC, enero-octubre de 2026; mercado en crecimiento",
+      "requisitos": [
+        "La trilladora debe estar registrada ante la FNC y el ICA para exportar a China, con verificación de instalaciones (ICA, instructivo de registro de trilladoras)",
+        "Registro del establecimiento ante la aduana china (GACC) cuando aplica a la categoría: confirmar con el ICA y ProColombia",
+        "Certificado fitosanitario del ICA según los requisitos acordados para China",
+        "Etiquetado en chino a cargo del importador"
+      ],
+      "certificaciones_frecuentes": "Trazabilidad y calidad de taza; marca de origen 'Café de Colombia'",
+      "flete_contenedor_20_usd": 2500,
+      "lcl_usd_m3": 120,
+      "aereo_usd_kg": 6
+    },
+    "japon": {
+      "nombre": "Japón (Yokohama)",
+      "puerto_origen": "Buenaventura",
+      "puerto_destino": "Yokohama o Kobe",
+      "transito_dias": [25, 35],
+      "transito_aereo_dias": [4, 6],
+      "arancel_verde_pct": 0,
+      "arancel_fuente": "Café verde sin arancel en Japón (tarifa general). Confirmar con ProColombia",
+      "participacion_pct": 5.2,
+      "participacion_fuente": "FNC, enero-octubre de 2026",
+      "requisitos": [
+        "Notificación de importación bajo la Ley de Sanidad Alimentaria (la hace el importador)",
+        "Lista positiva de residuos de plaguicidas: es de las más estrictas, pidan análisis de laboratorio antes de embarcar"
+      ],
+      "certificaciones_frecuentes": "Calidad muy consistente, análisis de residuos, Rainforest Alliance",
+      "flete_contenedor_20_usd": 2300,
+      "lcl_usd_m3": 115,
+      "aereo_usd_kg": 6
+    },
+    "corea": {
+      "nombre": "Corea del Sur (Busan)",
+      "puerto_origen": "Buenaventura",
+      "puerto_destino": "Busan",
+      "transito_dias": [25, 35],
+      "transito_aereo_dias": [4, 6],
+      "arancel_verde_pct": 0,
+      "arancel_fuente": "Tratado de libre comercio Colombia-Corea (vigente desde 2016): confirmar la tarifa con ProColombia",
+      "participacion_pct": 4.2,
+      "participacion_fuente": "FNC, enero-octubre de 2026; mercado en crecimiento",
+      "requisitos": [
+        "El importador registra el producto y lo inspecciona ante la autoridad de alimentos de Corea (MFDS)",
+        "Prueba de origen para usar el tratado"
+      ],
+      "certificaciones_frecuentes": "Cafés especiales con puntaje de taza, trazabilidad",
+      "flete_contenedor_20_usd": 2300,
+      "lcl_usd_m3": 115,
+      "aereo_usd_kg": 6
+    },
+    "canada": {
+      "nombre": "Canadá (Montreal)",
+      "puerto_origen": "Cartagena",
+      "puerto_destino": "Montreal o Vancouver",
+      "transito_dias": [12, 20],
+      "transito_aereo_dias": [3, 5],
+      "arancel_verde_pct": 0,
+      "arancel_fuente": "Tratado de libre comercio Canadá-Colombia (vigente desde 2011): confirmar con ProColombia",
+      "participacion_pct": 6.8,
+      "participacion_fuente": "FNC, enero-octubre de 2026",
+      "requisitos": [
+        "El importador necesita licencia bajo las normas de alimentos seguros de Canadá (SFCR)",
+        "Prueba de origen para usar el tratado"
+      ],
+      "certificaciones_frecuentes": "Orgánico, Fairtrade",
+      "flete_contenedor_20_usd": 1800,
+      "lcl_usd_m3": 100,
+      "aereo_usd_kg": 5
+    }
+  }
+}

@@ -87,7 +87,7 @@
   .leer{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px;margin:0}
 
   /* Panel derecho con control segmentado */
-  .seg{margin:0 26px 6px;display:grid;grid-template-columns:repeat(3,1fr);background:var(--fill);border-radius:10px;padding:2px;gap:2px}
+  .seg{margin:0 26px 6px;display:grid;grid-template-columns:repeat(4,1fr);background:var(--fill);border-radius:10px;padding:2px;gap:2px}
   .seg button{background:transparent;color:var(--fg);font-size:14px;font-weight:500;padding:7px 8px;border-radius:8px;min-height:0}
   .seg button:hover{background:transparent;opacity:.8}
   .seg button[aria-selected="true"]{background:var(--card);box-shadow:0 2px 6px rgba(0,0,0,.12);font-weight:600;opacity:1}
@@ -212,6 +212,16 @@
   .ok-txt{color:var(--ok);font-size:12px;font-weight:600;white-space:nowrap}
   .ejemplos{display:flex;flex-wrap:wrap;gap:8px}
   .cuenta.azul{background:var(--blue)}
+  .tabla{border-collapse:collapse;font-size:13px;width:100%}
+  .tabla td,.tabla th{padding:6px;border-bottom:1px solid var(--fill);text-align:left;vertical-align:top;overflow-wrap:anywhere}
+  .tabla th{color:var(--muted);font-weight:600;font-size:12px}
+  .tabla td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .tabla tr.total td{font-weight:700;border-top:2px solid var(--line)}
+  .analisis .tabla td:first-child{width:auto;color:var(--fg)}
+  .grande{font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+  .kpi{background:var(--card);border-radius:12px;padding:10px 12px}
+  .kpi .datos{margin-top:2px}
   .msg .fila{margin-top:10px}
   footer{padding:8px max(22px,4vw) 12px;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 </style>
@@ -262,6 +272,7 @@
     <div class="seg" role="tablist" aria-label="Paneles">
       <button role="tab" aria-selected="false" aria-controls="v-doc" data-vista="v-doc">Documentos <span class="cuenta azul" id="cuentaDocs" hidden>0</span></button>
       <button role="tab" aria-selected="true" aria-controls="v-acc" data-vista="v-acc">Acciones <span class="cuenta" id="cuentaPend" hidden>0</span></button>
+      <button role="tab" aria-selected="false" aria-controls="v-exp" data-vista="v-exp">Exportar</button>
       <button role="tab" aria-selected="false" aria-controls="v-bit" data-vista="v-bit">Bitácora</button>
     </div>
 
@@ -305,6 +316,37 @@
       </form>
       <p class="error" id="accError" hidden></p>
       <div id="acciones" class="lista"></div>
+    </div>
+
+    <div class="vista" id="v-exp" role="tabpanel" hidden>
+      <p class="nota">Cuánto cuesta y cuánto tarda poner café en otro país, qué pide cada mercado y si el comprador es confiable.
+        Lo calcula el código con supuestos visibles: lo que tiene fuente es dato real; fletes y trámites son ejemplos editables.</p>
+      <form id="formCot" class="lista">
+        <div class="fila">
+          <label class="campo">Destino<select id="cotDestino"></select></label>
+          <label class="campo">Sacos de 70 kg<input id="cotSacos" value="10" inputmode="numeric"></label>
+        </div>
+        <div class="fila">
+          <label class="campo">Café<select id="cotTipo"><option value="excelso">Excelso (estándar)</option><option value="especial">Especial (prima por calidad)</option></select></label>
+          <label class="campo">Producción de la finca, sacos al mes (opcional)<input id="cotProd" placeholder="ej. 50" inputmode="numeric"></label>
+        </div>
+        <div class="fila"><button>Cotizar</button></div>
+      </form>
+      <p class="error" id="cotError" hidden></p>
+      <div id="cotizacion" class="lista"></div>
+      <div class="doc">
+        <div class="titulo"><b>Validar comprador</b><span class="datos">conocimiento del cliente contra los datos maestros</span></div>
+        <form id="formKyc" class="lista">
+          <div class="fila">
+            <label class="campo">Comprador<input id="kycNombre" value="Tostadores Nuevos Shanghai Co. Ltd."></label>
+            <label class="campo">Cuenta que dio (opcional)<input id="kycCuenta"></label>
+          </div>
+          <div class="fila"><button class="sec chico" style="flex:0 0 auto">Validar comprador</button></div>
+        </form>
+        <div id="kyc"></div>
+      </div>
+      <details class="texto"><summary>Mercados con más demanda del café colombiano</summary><div id="mercados"></div></details>
+      <details class="texto"><summary>Los pasos para exportar café desde Colombia</summary><div id="pasos"></div></details>
     </div>
 
     <div class="vista" id="v-bit" role="tabpanel" hidden>
@@ -644,6 +686,54 @@ async function pintarBitacora() {
   $("#bitacora").innerHTML = (b.ultimas || []).map(e =>
     `<div class="bit">#${e.n} ${esc(e.fecha.slice(11))} ${esc(e.tipo)} · ${esc(JSON.stringify(e.datos).slice(0, 110))} · ${esc(e.sello.slice(0, 10))}…</div>`).join("");
 }
+
+// ------------------------------------------------------------------ exportar
+const usd = n => "USD " + Number(n).toLocaleString("es-CO", {maximumFractionDigits: 0});
+async function cargarMercados() {
+  const {ok, datos: m} = await api("/api/mercados");
+  if (!ok) { document.querySelector('[data-vista="v-exp"]').hidden = true; return; }
+  $("#cotDestino").innerHTML = m.destinos.map(d => `<option value="${esc(d.id)}">${esc(d.nombre)}</option>`).join("");
+  $("#cotDestino").value = m.destinos.some(d => d.id === "china") ? "china" : m.destinos[0].id;
+  $("#mercados").innerHTML = `<table class="tabla"><tr><th>Mercado</th><th>% del café colombiano</th><th>Arancel café verde</th><th>Tránsito (días)</th></tr>` +
+    m.destinos.map(d => `<tr><td>${esc(d.nombre)}</td><td class="num">${String(d.participacion_pct).replace(".", ",")} %</td>` +
+      `<td class="num">${d.arancel_verde_pct} %</td><td class="num">${d.transito_dias[0]}–${d.transito_dias[1]}</td></tr>`).join("") +
+    `</table><div class="datos">Fuente de la demanda: FNC, exportaciones enero–octubre de 2026. Colombia produce ` +
+    `${Number(m.produccion_nacional).toLocaleString("es-CO")} sacos de 60 kg al año (${esc(m.produccion_fuente)}).</div>`;
+  $("#pasos").innerHTML = `<ol style="margin:8px 0;padding-left:20px;font-size:13px">` +
+    m.pasos.map(p => `<li style="margin-bottom:4px">${esc(p.paso)} <span class="datos">(${esc(p.fuente)})</span></li>`).join("") + `</ol>`;
+}
+$("#formCot").onsubmit = async e => {
+  e.preventDefault();
+  const {ok, datos: r} = await api("/api/cotizar", {destino: $("#cotDestino").value, sacos: $("#cotSacos").value.replace(/\./g, "").replace(",", "."),
+    tipo: $("#cotTipo").value, produccion_sacos_mes: $("#cotProd").value.replace(/\./g, "").replace(",", ".") || null});
+  $("#cotError").hidden = ok; $("#cotError").textContent = ok ? "" : r.error;
+  if (!ok) { $("#cotizacion").innerHTML = ""; return; }
+  const alertas = (r.alertas || []).map(a => `<div class="senal ${a.nivel}">${esc(a.texto)}</div>`).join("");
+  $("#cotizacion").innerHTML = `<div class="analisis">` + alertas +
+    `<div class="kpis"><div class="kpi"><div class="grande">${usd(r.total_usd)}</div><div class="datos">puesto en ${esc(r.destino)}, con arancel</div></div>` +
+    `<div class="kpi"><div class="grande">${r.dias[0]}–${r.dias[1]}</div><div class="datos">días hasta destino</div></div>` +
+    `<div class="kpi"><div class="grande">${r.usd_por_lb.toFixed(2).replace(".", ",")}</div><div class="datos">USD por libra (contrato C hoy: ${String(r.contrato_c_usd_lb).replace(".", ",")})</div></div></div>` +
+    `<div class="datos">${esc(r.sacos.toLocaleString("es-CO"))} sacos · ${r.kg.toLocaleString("es-CO")} kg · ${esc(r.modalidad)} · ${esc(r.ruta)}</div>` +
+    `<table class="tabla"><tr><th>Concepto</th><th>USD</th></tr>` +
+    r.costos.map(c => `<tr title="${esc(c.fuente)}"><td>${esc(c.concepto)}<div class="datos">${esc(c.fuente.length > 120 ? c.fuente.slice(0, 117) + "…" : c.fuente)}</div></td><td class="num">${usd(c.usd)}</td></tr>`).join("") +
+    `<tr class="total"><td>Total puesto en destino (sin impuestos internos ni costos de importación del comprador)</td><td class="num">${usd(r.total_usd)}</td></tr></table>` +
+    `<div><b>Requisitos de ${esc(r.destino)}</b><ul style="margin:6px 0;padding-left:18px;font-size:13px">${r.requisitos.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` +
+    `<div class="datos">Lo que suelen pedir los compradores: ${esc(r.certificaciones)} · ${String(r.participacion_pct).replace(".", ",")} % del café colombiano va a este mercado (${esc(r.participacion_fuente)})</div></div>` +
+    `<div class="senal media">${esc(r.nota)}</div></div>`;
+  pintarBitacora();
+};
+$("#formKyc").onsubmit = async e => {
+  e.preventDefault();
+  const {ok, datos: r} = await api("/api/comprador", {nombre: $("#kycNombre").value, cuenta: $("#kycCuenta").value});
+  if (!ok) { $("#kyc").innerHTML = `<p class="error">${esc(r.error)}</p>`; return; }
+  const clase = {registrado: "aprobada", nuevo: "pendiente", desconocido: "bloqueada", alerta: "bloqueada"}[r.estado];
+  $("#kyc").innerHTML = `<div class="analisis"><div><span class="sello ${clase}">${esc(r.estado)}</span> <b>${esc(r.nombre)}</b></div>` +
+    `<ul style="margin:0;padding-left:18px;font-size:13px">${r.motivos.map(m => `<li>${esc(m)}</li>`).join("")}</ul>` +
+    `<div class="senal ${r.estado === "registrado" ? "info" : r.estado === "nuevo" ? "media" : "alta"}">${esc(r.recomendacion)}</div>` +
+    `<details class="texto"><summary>Lista de verificación antes de embarcar</summary><ul style="font-size:13px;padding-left:18px">` +
+    r.lista.map(x => `<li>${esc(x)}</li>`).join("") + `</ul></details></div>`;
+  pintarBitacora();
+};
 $("#verBitacora").onclick = pintarBitacora;
 // Control segmentado: Documento · Acciones · Bitácora
 document.querySelectorAll('.seg [role="tab"]').forEach(t => t.onclick = () => {
@@ -684,6 +774,7 @@ setInterval(() => { if (hayPendientes && !document.hidden) { pintarAcciones(); p
     b.onclick = () => adjuntarEjemplo(nombre); $("#ejemplos").appendChild(b);
   }
   docs = (await api("/api/documentos")).datos || []; pintarChips(); pintarDocs();
+  cargarMercados();
   for (const q of e.sugeridas) {
     const b = document.createElement("button"); b.className = "sec"; b.textContent = q; b.onclick = () => preguntar(q);
     $("#sug").appendChild(b);

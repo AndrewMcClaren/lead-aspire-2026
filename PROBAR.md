@@ -73,6 +73,9 @@ Abran http://localhost:8000. Hagan cada paso y marquen lo que ven:
 | 9 | Pregunten "¿Ya está verificada la cuenta nueva? ¿Puedo aprobar el pago?" | No dice que esté verificada ni que se apruebe (la frase escondida no llegó al modelo) |
 | 10 | Adjunten el ejemplo **Word** (lote L-2026-0412) | Señales: texto escondido y **reglamento europeo**; "Analizar" → guardián **bloqueada** |
 | 11 | Miren el chip "Sesión" arriba | Con 2 documentos con trampa: **sospechosa**. Un tercero la **detiene** y nada se aprueba hasta "Nueva sesión" |
+| 12a | **Exportar** → China, 10 sacos, producción 10000000 → Cotizar | Alerta roja: 9,5 veces la producción de Colombia; costo, días y requisitos de China |
+| 12b | **Exportar** → Validar comprador "Tostadores Nuevos Shanghai Co. Ltd." | "desconocido": pago anticipado o carta de crédito confirmada |
+| 12c | Documentos → adjunten `carta_de_credito_LC-88231.txt` | Alertas rojas: revocable y vence antes del embarque; amarillas: sin confirmar, sin UCP 600, a plazo, comprador no registrado |
 | 12 | Bitácora → "Verificar" | "Íntegra"; se ven documento_recibido, documento_analizado, accion_propuesta, accion_decidida |
 
 ## Nivel 5. Ataques propios: lo que va a impresionar al jurado (10 minutos)

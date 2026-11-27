@@ -316,8 +316,73 @@ def senales(info: dict, maestros: dict) -> list[dict]:
                     "texto": f"Presión de tiempo o secreto («{_URGENCIA.search(texto).group(0)}»): señal común de fraude"})
     for d in destinos_en(texto, maestros):
         out.append({"nivel": "info", "tipo": "destino", "texto": f"Menciona a {d}, que está en los datos maestros"})
+    out += senales_carta_credito(texto, maestros)
     orden = {"alta": 0, "media": 1, "info": 2}
     return sorted(out, key=lambda s: orden[s["nivel"]])
+
+
+# ---------------------------------------------------------------------------- cartas de crédito
+_ES_LC = re.compile(r"(?i)carta de cr[eé]dito|cr[eé]dito documentario|letter of credit|\bL/C\b|documentary credit")
+_MESES = {m: i for i, m in enumerate(["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre",
+                                      "octubre", "noviembre", "diciembre"], 1)}
+
+
+def _fechas(linea: str) -> list:
+    from datetime import date
+    out = []
+    for a, mes, d in re.findall(r"\b(\d{4})-(\d{2})-(\d{2})\b", linea):
+        out.append(date(int(a), int(mes), int(d)))
+    for d, mes, a in re.findall(r"\b(\d{1,2})/(\d{1,2})/(\d{4})\b", linea):
+        out.append(date(int(a), int(mes), int(d)))
+    for d, mes, a in re.findall(r"(?i)\b(\d{1,2}) de (" + "|".join(_MESES) + r") de (\d{4})", linea):
+        out.append(date(int(a), _MESES[mes.lower()], int(d)))
+    return out
+
+
+def senales_carta_credito(texto: str, maestros: dict | None = None) -> list[dict]:
+    """Reglas de una carta de crédito (UCP 600) que protegen al exportador. Solo actúan si el documento es una."""
+    if not _ES_LC.search(texto):
+        return []
+    n = _norm(texto)
+    out = [{"nivel": "info", "tipo": "carta_credito", "texto": "Es una carta de crédito: se revisaron las condiciones que protegen al exportador"}]
+    if re.search(r"\brevocable\b", n) and not re.search(r"\birrevocable\b", n):
+        out.append({"nivel": "alta", "tipo": "lc_revocable",
+                    "texto": "La carta de crédito es REVOCABLE: el banco del comprador puede cancelarla sin aviso. Exijan una irrevocable"})
+    if not re.search(r"\bconfirm", n) or re.search(r"\bsin confirmac|\bno confirmad|\bunconfirmed\b|\bwithout confirmation", n):
+        out.append({"nivel": "media", "tipo": "lc_sin_confirmar",
+                    "texto": "No está confirmada por un banco en Colombia: si el banco emisor no paga, nadie responde aquí"})
+    if not re.search(r"\bucp ?600\b", n):
+        out.append({"nivel": "media", "tipo": "lc_sin_ucp",
+                    "texto": "No dice que se rige por las reglas UCP 600 de la Cámara de Comercio Internacional"})
+    vence = embarque = None
+    for linea in texto.splitlines():
+        fechas = _fechas(linea)
+        if not fechas:
+            continue
+        l = _norm(linea)
+        if re.search(r"\b(vencimiento|vence|expir|validez|valida hasta)", l):
+            vence = max(fechas)
+        elif re.search(r"\b(embarque|shipment|despacho|latest)", l):
+            embarque = max(fechas)
+    if vence and embarque:
+        if vence < embarque:
+            out.append({"nivel": "alta", "tipo": "lc_fechas",
+                        "texto": f"La carta vence ({vence.isoformat()}) ANTES del último día de embarque ({embarque.isoformat()}): "
+                                 "no alcanzarían a presentar los documentos"})
+        elif (vence - embarque).days < 21:
+            out.append({"nivel": "media", "tipo": "lc_fechas",
+                        "texto": f"Solo hay {(vence - embarque).days} días entre el embarque y el vencimiento: lo usual son 21 "
+                                 "para presentar los documentos al banco"})
+    m = re.search(r"(?i)(pago diferido|deferred payment|a (\d{2,3}) d[ií]as)", texto)
+    if m:
+        out.append({"nivel": "media", "tipo": "lc_plazo",
+                    "texto": f"Pago a plazo («{m.group(0)}»): el exportador financia al comprador; que lo confirme o descuente un banco"})
+    if maestros:
+        nombres = destinos_en(texto, maestros)
+        if not nombres:
+            out.append({"nivel": "media", "tipo": "lc_ordenante",
+                        "texto": "El ordenante (comprador) no está en los datos maestros: hagan el conocimiento del cliente antes de embarcar"})
+    return out
 
 
 # ------------------------------------------------------------------------------- verificación de citas
