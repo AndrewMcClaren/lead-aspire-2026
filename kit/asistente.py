@@ -22,7 +22,7 @@ import time
 
 from . import privacidad
 from .cifras import Tabla, carpeta_datos
-from .documentos import cita_en, firma_numero, numeros_de
+from .documentos import cita_en, firma_numero, norm_cita, numeros_de
 
 NO_SE = "No tengo ese dato verificado."
 _NUMERO = re.compile(r"\d[\d.,]*")
@@ -164,6 +164,52 @@ def responder(pregunta: str, modelo, tabla: Tabla | None = None, documentos: lis
     return r
 
 
+def es_orden_para_la_ia(frase: str) -> bool:
+    """Una frase que le da instrucciones a la IA no es evidencia de nada: no se acepta como cita."""
+    from .firmas import buscar_firmas, severidad
+    return severidad(buscar_firmas(frase)) == "bloqueo"
+
+
+def _lineas(texto: str) -> list[str]:
+    return [x.strip() for x in re.split(r"(?<=[.!?;])\s+|\n", texto) if len(x.strip()) >= 6]
+
+
+def _linea_parecida(frase: str, textos: list[str]) -> tuple[int, str] | None:
+    """Si el modelo copió la frase con un cambio mínimo (una coma, una mayúscula, una palabra), la línea real del
+    documento que dice lo mismo: al menos 80 % de sus palabras y exactamente los mismos números. Se muestra la línea
+    real, no la versión del modelo."""
+    palabras = set(norm_cita(frase).split())
+    numeros = numeros_de(frase)
+    if len(palabras) < 3:
+        return None
+    mejor = None
+    for n, texto in enumerate(textos, 1):
+        for linea in _lineas(texto):
+            comunes = len(palabras & set(norm_cita(linea).split())) / len(palabras)
+            if comunes >= 0.8 and numeros <= numeros_de(linea) and (mejor is None or comunes > mejor[0]):
+                mejor = (comunes, n, linea[:400])
+    return (mejor[1], mejor[2]) if mejor else None
+
+
+def _citas_automaticas(texto: str, ya: list[dict], para_modelo: list[str], nombres: list[str], permitidos: list[str]) -> list[dict]:
+    """Números que el modelo tomó de un documento sin citarlos: si el número está escrito en un documento, el código
+    cita la línea donde aparece. Si no está en ningún documento, no se cita y la verificación de salida lo bloquea."""
+    refs = set().union(*(numeros_de(t) for t in permitidos + [c["frase"] for c in ya])) if (permitidos or ya) else set()
+    nuevas = []
+    for n in re.findall(r"\d[\d.,]*", re.sub(r"\{[a-zA-Z0-9_]+\}", "", texto)):
+        firma = firma_numero(n)
+        if firma & refs or re.fullmatch(r"(19|20)\d\d", n.rstrip(".,")):
+            continue
+        for d, doc in enumerate(para_modelo, 1):
+            linea = next((l for l in _lineas(doc) if firma & numeros_de(l) and not es_orden_para_la_ia(l)), None)
+            if linea:
+                nuevas.append({"doc": d, "nombre": nombres[d - 1] if d <= len(nombres) else f"documento {d}",
+                               "frase": linea[:400], "automatica": True})
+                refs |= numeros_de(linea)
+                break
+    return nuevas
+
+
 def _citas(salida: dict, para_modelo: list[str], nombres: list[str]) -> tuple[list[dict], list[str]]:
     """Comprueba cada cita contra el texto que leyó el modelo. Devuelve (citas comprobadas, problemas)."""
     buenas, problemas = [], []
@@ -180,8 +226,17 @@ def _citas(salida: dict, para_modelo: list[str], nombres: list[str]) -> tuple[li
             n = 0
         if not (1 <= n <= len(para_modelo) and cita_en(frase, para_modelo[n - 1])):
             n = next((i for i, t in enumerate(para_modelo, 1) if cita_en(frase, t)), 0)
+        ajustada = False
+        if not n:
+            parecida = _linea_parecida(frase, para_modelo)
+            if parecida:
+                (n, frase), ajustada = parecida, True
+        if n and es_orden_para_la_ia(frase):
+            problemas.append(f"El modelo citó una instrucción escondida para la IA como si fuera un dato: «{frase[:80]}»")
+            continue
         if n:
-            buenas.append({"doc": n, "nombre": nombres[n - 1] if n <= len(nombres) else f"documento {n}", "frase": frase})
+            buenas.append({"doc": n, "nombre": nombres[n - 1] if n <= len(nombres) else f"documento {n}", "frase": frase,
+                           **({"ajustada": True} if ajustada else {})})
         else:
             problemas.append(f"El modelo citó una frase que no está en ningún documento: «{frase[:80]}»")
     return buenas, problemas
@@ -214,6 +269,9 @@ def _responder(pregunta: str, modelo, tabla: Tabla, documentos: list[str], escud
 
     texto, usadas, desconocidas = tabla.poner_cifras(texto_modelo)
     citas, problemas = _citas(salida, para_modelo, nombres_modelo)
+    if para_modelo and not problemas:
+        base_permitida = [pregunta] + [f"{tabla.cifras[c].descripcion} {tabla.cifras[c].unidad}" for c in usadas] + nombres_modelo
+        citas += _citas_automaticas(texto_modelo, citas, para_modelo, nombres_modelo, base_permitida)
     if CANARIO.lower() in texto_modelo.lower():
         problemas.append("El modelo intentó revelar su configuración (apareció el canario)")
         capas.append("canario")

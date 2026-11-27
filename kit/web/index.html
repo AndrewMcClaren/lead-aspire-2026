@@ -366,7 +366,8 @@ async function preguntar(texto) {
     (r.capas || []).forEach(c => meta += `<span class="capa">${esc(c)}</span>`);
     let extra = "";
     if (r.citas && r.citas.length) extra += `<div class="citas">` + r.citas.map(c =>
-      `<div class="cita"><b>Cita comprobada</b> · ${esc(c.nombre)}<br>«${esc(c.frase)}»</div>`).join("") + `</div>`;
+      `<div class="cita"><b>${c.automatica ? "Línea del documento (citada por el código)" : c.ajustada ? "Cita comprobada (línea exacta del documento)" : "Cita comprobada"}</b>` +
+      ` · ${esc(c.nombre)}<br>«${esc(c.frase)}»</div>`).join("") + `</div>`;
     const nAdjuntos = docs.length;
     (r.documentos || []).forEach((d, i) => {
       if (i < nAdjuntos || (d.accion === "pasa" && !(d.motivos || []).length)) return;  // los adjuntos ya se vieron al subirlos
